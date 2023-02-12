@@ -1,0 +1,18 @@
+.background-image {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(80, 68, 18, 0.3)),
+    url("../../assets/background-image.webp") left 60% bottom 50%/cover no-repeat border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.img-logo-container {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(173, 168, 168); 
+  opacity: 70%;
+  width: 60vw;
+  border-radius: 25px;
+}

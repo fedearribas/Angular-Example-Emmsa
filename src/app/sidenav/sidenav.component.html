@@ -1,0 +1,30 @@
+<p-sidebar #sidebar class="sidenav" 
+        [(visible)]="displaySidebar" 
+        [position]="'left'" 
+        [showCloseIcon]="true"
+        (onHide)="onHide()">
+  <div class="flex flex-row align-items-center align-content-center">
+    <img class="mt-1 mr-1" src="assets/logo-xs.png" width="37" height="37" alt="logo" />
+    <h2> Siemens Gamesa</h2>
+  </div>
+  <ul class="sidebar-menu">
+    <li class="sidebar-menu-item">
+      <a routerLink="">
+        <i class="pi pi-fw pi-home"></i>
+        <span>Home</span>
+      </a>
+    </li>
+    <li class="sidebar-menu-item">
+      <a href="#">
+        <i class="pi pi-fw pi-check"></i>
+        <span>Projects</span>
+      </a>
+    </li>
+    <li class="sidebar-menu-item">
+      <a href="#">
+        <i class="pi pi-fw pi-chart-line"></i>
+        <span>Mika</span>
+      </a>
+    </li>
+  </ul>
+</p-sidebar>
