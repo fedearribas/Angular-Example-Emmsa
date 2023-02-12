@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { MainLayoutService } from '../main-layout.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,8 @@ import { MenuItem } from 'primeng/api';
 export class NavbarComponent {
 
   menuItems!: MenuItem[];
-  @Output() onToggleSidebar = new EventEmitter();
+
+  constructor(private layoutService: MainLayoutService) { }
 
   ngOnInit() {
     this.menuItems = [
@@ -17,7 +19,7 @@ export class NavbarComponent {
   }
 
   toggleSidebar() {
-    this.onToggleSidebar.emit();
+    this.layoutService.toggleSidebar();
   }
   
 }

@@ -1,9 +1,9 @@
 <div class="container">
 
-  <app-navbar (onToggleSidebar)="toggleSidebar()"></app-navbar>
+  <app-navbar></app-navbar>
 
   <div class="content-body">
-    <app-sidenav [displaySidebar]="displaySidebar" (closeSidebarEmitter)="toggleSidebar()"></app-sidenav>
+    <app-sidenav></app-sidenav>
     <main class="content">
       <router-outlet></router-outlet>
     </main>

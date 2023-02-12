@@ -1,5 +1,5 @@
 <p-sidebar #sidebar class="sidenav" 
-        [(visible)]="displaySidebar" 
+        [visible]="(displaySidebar$ | async)!" 
         [position]="'left'" 
         [showCloseIcon]="true"
         (onHide)="onHide()">
