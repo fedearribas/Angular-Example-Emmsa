@@ -16,3 +16,9 @@
   width: 60vw;
   border-radius: 25px;
 }
+
+@media only screen and (max-width: 768px) {
+  .img-logo-container {
+    width: 75vw;
+  }
+}
