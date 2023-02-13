@@ -17,5 +17,4 @@ export class SidenavComponent {
   onHide() {
     this.layoutService.toggleSidebar();
   }
-
 }

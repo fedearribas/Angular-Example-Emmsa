@@ -3,7 +3,7 @@
   position: absolute;
   font-size: 1.625rem;
   font-weight: bold;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   margin-left: 1rem;
 
   .first-part {
@@ -17,4 +17,8 @@
     text-decoration: underline;
     text-decoration-color: #5f9ab3;
   }
+}
+
+.right-menu-icon {
+  cursor: pointer;
 }

@@ -4,8 +4,8 @@
 
   <div class="content-body">
     <app-sidenav></app-sidenav>
-    <main class="content">
-      <router-outlet></router-outlet>
+    <main class="content"  [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
+      <router-outlet #o="outlet"></router-outlet>
     </main>
   </div>
 

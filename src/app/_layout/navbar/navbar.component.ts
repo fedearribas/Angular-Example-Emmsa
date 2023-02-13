@@ -9,17 +9,36 @@ import { MainLayoutService } from '../main-layout.service';
 })
 export class NavbarComponent {
 
-  menuItems!: MenuItem[];
+  currentTheme = 'light-theme';
 
+  items!: MenuItem[]; 
   constructor(private layoutService: MainLayoutService) { }
 
   ngOnInit() {
-    this.menuItems = [
+    this.items = [
+      {
+        label: this.currentTheme === 'dark-theme' ? 'Light theme' : 'Dark theme', icon: this.currentTheme === 'dark-theme' ? 'pi pi-fw pi-sun' : 'pi pi-fw pi-moon', command: (event) => {
+          this.switchTheme();
+          event.item.label = this.currentTheme === 'light-theme' ? 'Dark theme' : 'Light theme';
+          event.item.icon = this.currentTheme === 'light-theme' ? 'pi pi-fw pi-moon' : 'pi pi-fw pi-sun';
+        }
+      }
     ];
+  
   }
 
   toggleSidebar() {
     this.layoutService.toggleSidebar();
   }
-  
+
+  switchTheme() {
+    if (this.currentTheme === 'light-theme')
+    this.currentTheme = 'dark-theme';
+    else
+    this.currentTheme = 'light-theme';
+    this.layoutService.switchTheme(this.currentTheme);
+    
+  }
+
+
 }
