@@ -27,7 +27,8 @@
   </p-accordion>
 
 
-  <p-table id="grdProject" styleClass="p-datatable-gridlines" [value]="projects" [tableStyle]="{'min-width': '50rem'}">
+  <p-table id="grdProject" styleClass="p-datatable-gridlines" 
+      [value]="projects" [tableStyle]="{'min-width': '50rem', 'white-space': 'nowrap'}">
     <ng-template pTemplate="header" style="background: red;">
         <tr>
             <th>Code</th>
@@ -49,9 +50,9 @@
             <td>{{project.contractStageName}}</td>
             <td>{{project.contractScopeName}}</td>
             <td>{{project.ProductLineName}}</td>
-            <td>{{project.projectFrom}}</td>
+            <td>{{project.projectFrom | date:'MM/YYYY'}} - {{project.projectTo | date:'MM/YYYY'}}</td>
             <td>{{project.projectState}}</td>
-            <td>{{project.validFrom}}</td>
+            <td>{{project.validFrom | date:'MM/YYYY'}} - {{project.validTo | date:'MM/YYYY'}}</td>
         </tr>
     </ng-template>
 </p-table>

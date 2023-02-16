@@ -27,5 +27,6 @@ export interface Project {
   fiscalYearFromId: number;
   periodFromId: number;
   validFrom: Date;
+  validTo: Date;
   customerTypeId: number;
 }

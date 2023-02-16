@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+	font-size: 14px;
+}
+
 body {
   background-color: var(--surface-a);
   font-family: var(--font-family);

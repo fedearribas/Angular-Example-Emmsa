@@ -42,6 +42,7 @@ export class ProjectReportComponent implements OnInit {
       fiscalYearFromId: 1,
       periodFromId: 1,
       validFrom: new Date(),
+      validTo: new Date(),
       customerTypeId: 1,
     }
   ];
