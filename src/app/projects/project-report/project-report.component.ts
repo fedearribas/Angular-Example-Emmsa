@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Message } from 'primeng/api';
 import { catchError, EMPTY, Observable } from 'rxjs';
+import { ComboService } from 'src/app/combo.service';
 import { DropdownModel } from 'src/app/_shared/models/dropdown-model';
 import { Project, ProjectForGrid } from '../project';
 import { ProjectService } from '../project.service';
@@ -12,29 +13,23 @@ import { ProjectService } from '../project.service';
 })
 export class ProjectReportComponent implements OnInit {
 
-  countries!: DropdownModel[];
-  selectedCountry!: DropdownModel;
+  countries$!: Observable<DropdownModel[]>;
+  selectedCountryId!: number;
   name!: string;
   messages!: Message[];
 
   projects$!: Observable<ProjectForGrid[]>;
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService,
+    private comboService: ComboService) { }
 
   ngOnInit(): void {
-    this.countries = [
-      { code: 1, name: 'Argentina' },
-      { code: 2, name: 'Chile' },
-      { code: 3, name: 'Bolivia' },
-      { code: 4, name: 'Brazil' },
-      { code: 5, name: 'Uruguay' }
-    ];
-
+    this.countries$ = this.comboService.getCountries();
     this.getProjects();
   }
 
   getProjects() {
-    this.projects$ = this.projectService.getProjects(this.selectedCountry?.code, this.name)
+    this.projects$ = this.projectService.getProjects(this.selectedCountryId, this.name)
     .pipe(
       catchError(err => {
         this.messages = [

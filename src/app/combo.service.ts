@@ -1,28 +1,30 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Project, ProjectForGrid } from './project';
-import { catchError, Observable, tap, throwError } from 'rxjs';
-import { Constants } from '../constants';
+import { Injectable } from '@angular/core';
+import { catchError, Observable, throwError } from 'rxjs';
+import { Constants } from './constants';
+import { DropdownModel } from './_shared/models/dropdown-model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectService {
+export class ComboService {
 
-  private projectUrl = `${Constants.apiRoot}/Project/Project`;
+  private comboUrl = `${Constants.apiRoot}/Combo`;
 
   constructor(private http: HttpClient) { }
 
-  getProjects(countryId: number, codeName: string): Observable<ProjectForGrid[]> {
-    const url = `${this.projectUrl}/GetProjects`;
+  getCountries(fiscalYearId?: number, periodId?: number, isBudget?: boolean): Observable<DropdownModel[]> {
+    const url = `${this.comboUrl}/GetCountry`;
     let queryParams = new HttpParams();
 
-    if (countryId)
-      queryParams = queryParams.append("countryId", countryId);
-    if (codeName)
-      queryParams = queryParams.append("codeName", codeName);
+    if (fiscalYearId)
+      queryParams = queryParams.append("fiscalYearId", fiscalYearId);
+    if (periodId)
+      queryParams = queryParams.append("periodId", periodId);
+    if (isBudget)
+      queryParams = queryParams.append("isBudget", isBudget);
 
-    return this.http.get<ProjectForGrid[]>(url, { params: queryParams })
+    return this.http.get<DropdownModel[]>(url, { params: queryParams })
       .pipe(
         catchError(this.handleError)
       );
