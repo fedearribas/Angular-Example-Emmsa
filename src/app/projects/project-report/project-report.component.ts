@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Message } from 'primeng/api';
+import { catchError, EMPTY, Observable } from 'rxjs';
 import { DropdownModel } from 'src/app/_shared/models/dropdown-model';
-import { Project } from '../project';
+import { Project, ProjectForGrid } from '../project';
+import { ProjectService } from '../project.service';
 
 @Component({
   selector: 'app-project-report',
@@ -12,42 +15,11 @@ export class ProjectReportComponent implements OnInit {
   countries!: DropdownModel[];
   selectedCountry!: DropdownModel;
   name!: string;
-  projects: Project[] = [
-    {
-      id: 1,
-      code: 'test',
-      name: 'test',
-      contractScopeId: 1,
-      contractStageId: 1,
-      projectManagerId: 1,
-      commercialProjectManagerId: 1,
-      productLineId: 11,
-      contractScopeName: 'test',
-      contractStageName: 'test',
-      ProjectMananagerName: 'test',
-      ProductLineName: 'test',
-      countryId: 1,
-      countryName: 'test',
-      wtgUnits: 2,
-      projectFrom: new Date(),
-      projectTo: new Date(),
-      projectState: 'test',
-      preliminaryAcceptanceCertificate: new Date(),
-      finalAcceptanceCertificate: new Date(),
-      pocPercent: 1,
-      billingPercent: 1,
-      bieCieValue: 1,
-      contractPercent: 1,
-      projectStatusId: 1,
-      fiscalYearFromId: 1,
-      periodFromId: 1,
-      validFrom: new Date(),
-      validTo: new Date(),
-      customerTypeId: 1,
-    }
-  ];
+  messages!: Message[];
 
-  constructor() { }
+  projects$!: Observable<ProjectForGrid[]>;
+
+  constructor(private projectService: ProjectService) { }
 
   ngOnInit(): void {
     this.countries = [
@@ -57,6 +29,24 @@ export class ProjectReportComponent implements OnInit {
       { code: 4, name: 'Brazil' },
       { code: 5, name: 'Uruguay' }
     ];
+
+    this.getProjects();
+  }
+
+  getProjects() {
+    this.projects$ = this.projectService.getProjects(this.selectedCountry?.code, this.name)
+    .pipe(
+      catchError(err => {
+        this.messages = [
+          { severity: 'error', summary: 'Error', detail: err }
+        ];
+        return EMPTY;
+      })
+    );
+  }
+
+  refresh() {
+    this.getProjects();
   }
 
 }

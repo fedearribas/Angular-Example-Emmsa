@@ -14,7 +14,9 @@ import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { ToolbarModule } from 'primeng/toolbar';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import {MenuModule} from 'primeng/menu';
+import { MenuModule } from 'primeng/menu';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -23,6 +25,7 @@ import { SidenavComponent } from './_layout/sidenav/sidenav.component';
 import { FooterComponent } from './_layout/footer/footer.component';
 import { ProjectReportComponent } from './projects/project-report/project-report.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -37,6 +40,7 @@ import { FormsModule } from '@angular/forms';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'projects', component: ProjectReportComponent }
@@ -52,7 +56,9 @@ import { FormsModule } from '@angular/forms';
     TableModule,
     ToolbarModule,
     InputSwitchModule,
-    MenuModule
+    MenuModule,
+    MessagesModule,
+    MessageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

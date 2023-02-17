@@ -30,3 +30,22 @@ export interface Project {
   validTo: Date;
   customerTypeId: number;
 }
+
+export interface ProjectForGrid {
+  id: number;
+  detailId: number;
+  code: string;
+  name: string;
+  contractStageName: string;
+  contractScopeName: string;
+  productLineName: string;
+  countryName: string;
+  wtgUnits: string;
+  planningHorizon: string;
+  projectState: string;
+  countryId: number;
+  validFrom: Date;
+  ValidTo: Date;
+  validity: string;
+  hasLog: boolean;
+}
