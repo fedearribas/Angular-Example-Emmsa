@@ -29,7 +29,7 @@ export class ProjectReportComponent implements OnInit {
   }
 
   getProjects() {
-    this.projects$ = this.projectService.getProjects(this.selectedCountryId, this.name)
+    this.projects$ = this.projectService.getProjectsWithLogs(this.selectedCountryId, this.name)
     .pipe(
       catchError(err => {
         this.messages = [

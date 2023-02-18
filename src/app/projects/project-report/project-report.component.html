@@ -16,7 +16,7 @@
         <div class="field sm:col-12 md:col-3">
           <label for="country" class="font-bold">Country</label>
           <p-dropdown id="country" [options]="(countries$ | async)!" [(ngModel)]="selectedCountryId" placeholder="All"
-            optionValue="id" optionLabel="text" styleClass="w-full"></p-dropdown>
+            optionValue="Id" optionLabel="Text" styleClass="w-full"></p-dropdown>
         </div>
 
         <div class="field sm:col-12 md:col-3">
@@ -28,11 +28,13 @@
   </p-accordion>
 
   <div *ngIf="projects$ | async as projects" class="mt-2">
-    <p-table id="grdProject" styleClass="p-datatable-gridlines" [value]="projects"
-      [paginator]="true" [rows]="15" [showCurrentPageReport]="true"
-      [tableStyle]="{'min-width': '50rem', 'white-space': 'nowrap'}">
+
+    <!-- main grid -->
+    <p-table id="grdProject" styleClass="p-datatable-gridlines" [value]="projects" dataKey="Id" [paginator]="true"
+      [rows]="15" [showCurrentPageReport]="true" [tableStyle]="{'min-width': '50rem', 'white-space': 'nowrap'}">
       <ng-template pTemplate="header" style="background: red;">
         <tr>
+          <th style="width: 3rem"></th>
           <th>Code</th>
           <th>Name</th>
           <th>WTG units</th>
@@ -44,22 +46,66 @@
           <th>Valid dates</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-project>
+      <ng-template pTemplate="body" let-project let-expanded="expanded">
         <tr>
-          <td>{{project.code}}</td>
-          <td>{{project.name}}</td>
-          <td class="text-right">{{project.wtgUnits}}</td>
-          <td>{{project.contractStageName}}</td>
-          <td>{{project.contractScopeName}}</td>
-          <td>{{project.productLineName}}</td>
-          <td class="text-center">{{project.planningHorizon}}</td>
-          <td>{{project.projectState}}</td>
-          <td class="text-center">{{project.validity}}</td>
+          <td>
+            <button type="button" pButton pRipple [pRowToggler]="project" *ngIf="project.HasLog"
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+          </td>
+          <td>{{project.Code}}</td>
+          <td>{{project.Name}}</td>
+          <td class="text-right">{{project.WTGUnits}}</td>
+          <td>{{project.ContractStageName}}</td>
+          <td>{{project.ContractScopeName}}</td>
+          <td>{{project.ProductLineName}}</td>
+          <td class="text-center">{{project.PlanningHorizon}}</td>
+          <td>{{project.ProjectState}}</td>
+          <td class="text-center">{{project.Validity}}</td>
         </tr>
       </ng-template>
-    </p-table>
-  </div>
-  
-  <p-messages *ngIf="messages && messages.length > 0" [(value)]="messages"></p-messages>
+
+      <!-- nested grid -->
+      <ng-template pTemplate="rowexpansion" let-project>
+        <tr>
+          <td colspan="10">
+            <div class="pl-7">
+              <p-table [value]="project.Logs" dataKey="Id">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>WTG units</th>
+                    <th>Contract stage</th>
+                    <th>Contract scope</th>
+                    <th>Product line</th>
+                    <th>Planning horizon</th>
+                    <th>Project state</th>
+                    <th>Valid dates</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-log>
+                  <tr>
+                    <td>{{log.Code}}</td>
+                    <td>{{log.Name}}</td>
+                    <td class="text-right">{{log.WTGUnits}}</td>
+                    <td>{{log.ContractStageName}}</td>
+                    <td>{{log.ContractScopeName}}</td>
+                    <td>{{log.ProductLineName}}</td>
+                    <td class="text-center">{{log.PlanningHorizon}}</td>
+                    <td>{{log.ProjectState}}</td>
+                    <td class="text-center">{{log.Validity}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+  </p-table>
+</div>
+
+<p-messages *ngIf="messages && messages.length > 0" [(value)]="messages"></p-messages>
 
 </div>

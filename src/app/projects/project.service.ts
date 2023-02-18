@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Project, ProjectForGrid } from './project';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, forkJoin, map, mergeMap, Observable, switchMap, tap, throwError } from 'rxjs';
 import { Constants } from '../constants';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class ProjectService {
 
   constructor(private http: HttpClient) { }
 
-  getProjects(countryId: number, codeName: string): Observable<ProjectForGrid[]> {
+  private getProjects(countryId?: number, codeName?: string): Observable<ProjectForGrid[]> {
     const url = `${this.projectUrl}/GetProjects`;
     let queryParams = new HttpParams();
 
@@ -28,16 +28,39 @@ export class ProjectService {
       );
   }
 
+  private getProjectLogs(projectId: number, detailId: number) {
+    const url = `${this.projectUrl}/GetProjectLogs`;
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("projectId", projectId);
+    queryParams = queryParams.append("detailId", detailId);
+
+    return this.http.get<ProjectForGrid[]>(url, { params: queryParams })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getProjectsWithLogs(countryId?: number, codeName?: string): Observable<ProjectForGrid[]> {
+    return this.getProjects(countryId, codeName).pipe(
+      mergeMap(projects => {
+        const projectObs = projects.map(project => {
+          return this.getProjectLogs(project.Id, project.DetailId).pipe(
+            map(logs => {
+              project.Logs = logs;
+              return project;
+            })
+          );
+        });
+        return forkJoin(projectObs);
+      })
+    );
+  }
+
   private handleError(err: any): Observable<never> {
-    // in a real world app, we may send the server to some remote logging infrastructure
-    // instead of just logging it to the console
     let errorMessage: string;
     if (err.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
       errorMessage = `An error occurred: ${err.error.message}`;
     } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
       errorMessage = `Backend returned code ${err.status}: ${err.message}`;
     }
     console.error(err);

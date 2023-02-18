@@ -10,7 +10,10 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     RouterModule.forChild([
-      { path: 'projects', component: ProjectReportComponent }
+      {
+        path: 'projects',
+        component: ProjectReportComponent
+      }
     ]),
     SharedModule,
     PrimengModule
