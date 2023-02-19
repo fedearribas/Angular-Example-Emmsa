@@ -10,8 +10,8 @@ export class MainLayoutService {
   private displaySidebarSubject = new BehaviorSubject<boolean>(false);
   displaySidebar$ = this.displaySidebarSubject.asObservable();
 
-  private storedThemeSetting: boolean = JSON.parse(localStorage.getItem('theme') ?? 'false');
-  private isDarkThemeSubject = new BehaviorSubject<boolean>(this.storedThemeSetting);
+  private isDarkThemeStoredSetting: boolean = JSON.parse(localStorage.getItem('dark-theme') ?? 'false');
+  private isDarkThemeSubject = new BehaviorSubject<boolean>(this.isDarkThemeStoredSetting);
   isDarkTheme$ = this.isDarkThemeSubject.asObservable();
 
   constructor(@Inject(DOCUMENT) private document: Document) { }
@@ -26,7 +26,7 @@ export class MainLayoutService {
 
     if (themeChanged) {
       this.isDarkThemeSubject.next(isDarkTheme);
-      localStorage.setItem('theme', JSON.stringify(isDarkTheme));
+      localStorage.setItem('dark-theme', JSON.stringify(isDarkTheme));
     }
   }
 
