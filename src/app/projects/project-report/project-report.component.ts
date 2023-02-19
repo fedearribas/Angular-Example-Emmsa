@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Message } from 'primeng/api';
 import { catchError, EMPTY, Observable } from 'rxjs';
 import { ComboService } from 'src/app/combo.service';
+import { MainLayoutService } from 'src/app/_layout/main-layout.service';
 import { DropdownModel } from 'src/app/_shared/models/dropdown-model';
 import { Project, ProjectForGrid } from '../project';
 import { ProjectService } from '../project.service';
@@ -17,15 +18,32 @@ export class ProjectReportComponent implements OnInit {
   selectedCountryId!: number;
   name!: string;
   messages!: Message[];
-
+  isDarkTheme!: boolean;
   projects$!: Observable<ProjectForGrid[]>;
 
+  validHistoryClassName = 'validHistoryLog';
+  invalidHistoryClassName = 'invalidHistoryLog';
+
   constructor(private projectService: ProjectService,
-    private comboService: ComboService) { }
+    private comboService: ComboService,
+    private layoutService: MainLayoutService) { }
 
   ngOnInit(): void {
     this.countries$ = this.comboService.getCountries();
     this.getProjects();
+
+    this.layoutService.isDarkTheme$.subscribe(
+      isDarkTheme => {
+        if (isDarkTheme) {
+          this.validHistoryClassName = 'validHistoryLogDarkTheme';
+          this.invalidHistoryClassName = 'invalidHistoryLogDarkTheme';
+        }
+        else {
+          this.validHistoryClassName = 'validHistoryLog';
+          this.invalidHistoryClassName = 'invalidHistoryLog';
+        }
+      }
+    );
   }
 
   getProjects() {

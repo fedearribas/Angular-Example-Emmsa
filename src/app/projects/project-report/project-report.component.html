@@ -34,7 +34,7 @@
       [rows]="15" [showCurrentPageReport]="true" [tableStyle]="{'min-width': '50rem', 'white-space': 'nowrap'}">
       <ng-template pTemplate="header" style="background: red;">
         <tr>
-          <th style="width: 3rem"></th>
+          <th style="width: 0.5rem"></th>
           <th>Code</th>
           <th>Name</th>
           <th>WTG units</th>
@@ -49,7 +49,7 @@
       <ng-template pTemplate="body" let-project let-expanded="expanded">
         <tr>
           <td>
-            <button type="button" pButton pRipple [pRowToggler]="project" *ngIf="project.HasLog"
+            <button id="expand-button" type="button" pButton pRipple [pRowToggler]="project" *ngIf="project.HasLog"
               class="p-button-text p-button-rounded p-button-plain"
               [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
           </td>
@@ -69,7 +69,7 @@
       <ng-template pTemplate="rowexpansion" let-project>
         <tr>
           <td colspan="10">
-            <div class="pl-7">
+            <div class="pl-5">
               <p-table [value]="project.Logs" dataKey="Id">
                 <ng-template pTemplate="header">
                   <tr>
@@ -85,7 +85,7 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-log>
-                  <tr>
+                  <tr [ngClass]="[log.ValidFrom < log.ValidTo ? validHistoryClassName : invalidHistoryClassName ]">
                     <td>{{log.Code}}</td>
                     <td>{{log.Name}}</td>
                     <td class="text-right">{{log.WTGUnits}}</td>
