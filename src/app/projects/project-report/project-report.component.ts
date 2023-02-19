@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Message } from 'primeng/api';
-import { catchError, EMPTY, Observable } from 'rxjs';
+import { catchError, EMPTY, Observable, Subscription } from 'rxjs';
 import { ComboService } from 'src/app/combo.service';
 import { MainLayoutService } from 'src/app/_layout/main-layout.service';
 import { DropdownModel } from 'src/app/_shared/models/dropdown-model';
-import { Project, ProjectForGrid } from '../project';
+import { ProjectForGrid } from '../project';
 import { ProjectService } from '../project.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { ProjectService } from '../project.service';
   templateUrl: './project-report.component.html',
   styleUrls: ['./project-report.component.scss']
 })
-export class ProjectReportComponent implements OnInit {
+export class ProjectReportComponent implements OnInit, OnDestroy {
 
   countries$!: Observable<DropdownModel[]>;
   selectedCountryId!: number;
@@ -20,6 +20,7 @@ export class ProjectReportComponent implements OnInit {
   messages!: Message[];
   isDarkTheme!: boolean;
   projects$!: Observable<ProjectForGrid[]>;
+  sub!: Subscription;
 
   validHistoryClassName = 'validHistoryLog';
   invalidHistoryClassName = 'invalidHistoryLog';
@@ -32,7 +33,7 @@ export class ProjectReportComponent implements OnInit {
     this.countries$ = this.comboService.getCountries();
     this.getProjects();
 
-    this.layoutService.isDarkTheme$.subscribe(
+    this.sub = this.layoutService.isDarkTheme$.subscribe(
       isDarkTheme => {
         if (isDarkTheme) {
           this.validHistoryClassName = 'validHistoryLogDarkTheme';
@@ -60,6 +61,14 @@ export class ProjectReportComponent implements OnInit {
 
   refresh() {
     this.getProjects();
+  }
+
+  create() {
+    
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
 }

@@ -7,32 +7,43 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MainLayoutService {
 
-  private displaySidebar = new BehaviorSubject<boolean>(false);
-  displaySidebar$ = this.displaySidebar.asObservable();
+  private displaySidebarSubject = new BehaviorSubject<boolean>(false);
+  displaySidebar$ = this.displaySidebarSubject.asObservable();
 
-  private isDarkTheme = new BehaviorSubject<boolean>(false);
-  isDarkTheme$ = this.isDarkTheme.asObservable();
+  private storedThemeSetting: boolean = JSON.parse(localStorage.getItem('theme') ?? 'false');
+  private isDarkThemeSubject = new BehaviorSubject<boolean>(this.storedThemeSetting);
+  isDarkTheme$ = this.isDarkThemeSubject.asObservable();
 
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
   toggleSidebar() {
-    this.displaySidebar.next(!this.displaySidebar.value);
+    this.displaySidebarSubject.next(!this.displaySidebarSubject.value);
   }
 
   switchTheme() {
+    let isDarkTheme = !this.isDarkThemeSubject.value;
+    const themeChanged = this.setTheme(isDarkTheme);
+
+    if (themeChanged) {
+      this.isDarkThemeSubject.next(isDarkTheme);
+      localStorage.setItem('theme', JSON.stringify(isDarkTheme));
+    }
+  }
+
+  setTheme(isDarkTheme: boolean) {
     let themeLink = this.document.getElementById('app-theme') as HTMLLinkElement;
     const lightThemeCss = 'light-theme';
     const darkThemeCss = 'dark-theme';
 
     if (themeLink) {
-      let isDarkTheme = !this.isDarkTheme.value;
       if (isDarkTheme)
         themeLink.href = darkThemeCss + '.css';
       else
         themeLink.href = lightThemeCss + '.css';
 
-      this.isDarkTheme.next(isDarkTheme);
+      return true;
     }
+    return false;
   }
 
 }

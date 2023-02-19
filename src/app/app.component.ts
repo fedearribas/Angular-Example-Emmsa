@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { fadeAnimation } from './app.animation';
+import { MainLayoutService } from './_layout/main-layout.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +13,14 @@ import { fadeAnimation } from './app.animation';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'MikaNet';
   showFooter = false;
-  sub!: Subscription;
+  routeSub!: Subscription;
+  themeSub!: Subscription;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private layoutService: MainLayoutService) { }
 
   ngOnInit(): void {
-    this.sub = this.router.events.subscribe((e) => {
+    this.routeSub = this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         if (e.url === '/')
           this.showFooter = true;
@@ -25,10 +28,15 @@ export class AppComponent implements OnInit, OnDestroy {
           this.showFooter = false;
       }
     })
+
+    this.themeSub = this.layoutService.isDarkTheme$.subscribe(
+      theme => this.layoutService.setTheme(theme)
+    );
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.routeSub.unsubscribe();
+    this.themeSub.unsubscribe();
   }
 
 }
