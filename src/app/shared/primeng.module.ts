@@ -14,6 +14,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { MenuModule } from 'primeng/menu';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   declarations: [],
@@ -31,7 +32,8 @@ import { MessageModule } from 'primeng/message';
     InputSwitchModule,
     MenuModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    DividerModule
   ]
 })
 export class PrimengModule { }
