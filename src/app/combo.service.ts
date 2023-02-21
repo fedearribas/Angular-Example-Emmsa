@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Constants } from './constants';
-import { DropdownModel } from './_shared/models/dropdown-model';
+import { DropdownModel } from './shared/models/dropdown-model';
 
 @Injectable({
   providedIn: 'root'

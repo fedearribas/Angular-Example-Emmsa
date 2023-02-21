@@ -1,27 +1,30 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Message } from 'primeng/api';
-import { catchError, EMPTY, Observable, Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { catchError, ignoreElements, of, Subscription } from 'rxjs';
 import { ComboService } from 'src/app/combo.service';
 import { MainLayoutService } from 'src/app/_layout/main-layout.service';
-import { DropdownModel } from 'src/app/_shared/models/dropdown-model';
-import { ProjectForGrid } from '../project';
 import { ProjectService } from '../project.service';
+import { ProjectFilters } from './project-filters';
 
 @Component({
   selector: 'app-project-report',
   templateUrl: './project-report.component.html',
-  styleUrls: ['./project-report.component.scss']
+  styleUrls: ['./project-report.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectReportComponent implements OnInit, OnDestroy {
-
-  countries$!: Observable<DropdownModel[]>;
-  selectedCountryId!: number;
-  name!: string;
-  messages!: Message[];
+  selectedCountryId?: number;
+  name?: string;
   isDarkTheme!: boolean;
-  projects$!: Observable<ProjectForGrid[]>;
-  sub!: Subscription;
+  filtersSub!: Subscription;
 
+  countries$ = this.comboService.getCountries();
+  projects$ = this.projectService.projects$;
+  projectsError$ = this.projects$.pipe(
+    ignoreElements(),
+    catchError((err: string) => of(err))
+  );
+
+  // these should be observables
   validHistoryClassName = 'validHistoryLog';
   invalidHistoryClassName = 'invalidHistoryLog';
 
@@ -30,10 +33,15 @@ export class ProjectReportComponent implements OnInit, OnDestroy {
     private layoutService: MainLayoutService) { }
 
   ngOnInit(): void {
-    this.countries$ = this.comboService.getCountries();
-    this.getProjects();
 
-    this.sub = this.layoutService.isDarkTheme$.subscribe(
+    this.filtersSub = this.projectService.filters$.subscribe(
+      filters => {
+        this.selectedCountryId = filters.countryId;
+        this.name = filters.codeName;
+      });
+
+    // this logic should be on service
+    this.layoutService.isDarkTheme$.subscribe(
       isDarkTheme => {
         if (isDarkTheme) {
           this.validHistoryClassName = 'validHistoryLogDarkTheme';
@@ -47,28 +55,16 @@ export class ProjectReportComponent implements OnInit, OnDestroy {
     );
   }
 
-  getProjects() {
-    this.projects$ = this.projectService.getProjectsWithLogs(this.selectedCountryId, this.name)
-    .pipe(
-      catchError(err => {
-        this.messages = [
-          { severity: 'error', summary: 'Error', detail: err }
-        ];
-        return EMPTY;
-      })
-    );
-  }
-
   refresh() {
-    this.getProjects();
-  }
-
-  create() {
-    
+    const filters: ProjectFilters = {
+      countryId: this.selectedCountryId,
+      codeName: this.name
+    };
+    this.projectService.updateFilters(filters);
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.filtersSub.unsubscribe();
   }
 
 }

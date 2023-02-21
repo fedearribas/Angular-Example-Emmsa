@@ -107,6 +107,12 @@
   </p-table>
 </div>
 
-<p-messages *ngIf="messages && messages.length > 0" [(value)]="messages"></p-messages>
+<div *ngIf="projectsError$ | async as message">
+  <p-messages severity="error" [closable]="true">
+    <ng-template pTemplate>
+        {{ message }}
+    </ng-template>
+  </p-messages>
+</div>
 
 </div>

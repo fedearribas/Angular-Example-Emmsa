@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Project, ProjectForGrid } from './project';
-import { catchError, forkJoin, map, mergeMap, Observable, switchMap, tap, throwError } from 'rxjs';
+import { ProjectForGrid } from './project';
+import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { Constants } from '../constants';
+import { ProjectFilters } from './project-report/project-filters';
 
 @Injectable({
   providedIn: 'root'
@@ -10,23 +11,43 @@ import { Constants } from '../constants';
 export class ProjectService {
 
   private projectUrl = `${Constants.apiRoot}/Project/Project`;
+  private initialFilters: ProjectFilters = {};
+  private filtersSubject = new BehaviorSubject<ProjectFilters>(this.initialFilters);
+  filters$ = this.filtersSubject.asObservable();
 
+  projects$ = this.filters$.pipe(
+    // flat filters and project streams into one observable
+    switchMap(filters => {
+      const url = `${this.projectUrl}/GetProjects`;
+      let queryParams = new HttpParams();
+      if (filters.countryId)
+        queryParams = queryParams.append("countryId", filters.countryId);
+      if (filters.codeName)
+        queryParams = queryParams.append("codeName", filters.codeName);
+
+      return this.http.get<ProjectForGrid[]>(url, { params: queryParams }).pipe(
+        // flat project and projectLogs streams into one observable
+        switchMap(projects => {
+          if (projects.length === 0)
+            return of([]);
+
+          // joined project and projectLogs sreams
+          return forkJoin(projects.map(project => {
+            return this.getProjectLogs(project.Id, project.DetailId).pipe(
+              map(logs => {
+                project.Logs = logs;
+                return project;
+              })
+            );
+          }));
+
+        })
+      )
+    }),
+    catchError(this.handleError)
+  );
+  
   constructor(private http: HttpClient) { }
-
-  private getProjects(countryId?: number, codeName?: string): Observable<ProjectForGrid[]> {
-    const url = `${this.projectUrl}/GetProjects`;
-    let queryParams = new HttpParams();
-
-    if (countryId)
-      queryParams = queryParams.append("countryId", countryId);
-    if (codeName)
-      queryParams = queryParams.append("codeName", codeName);
-
-    return this.http.get<ProjectForGrid[]>(url, { params: queryParams })
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
 
   private getProjectLogs(projectId: number, detailId: number) {
     const url = `${this.projectUrl}/GetProjectLogs`;
@@ -40,20 +61,8 @@ export class ProjectService {
       );
   }
 
-  getProjectsWithLogs(countryId?: number, codeName?: string): Observable<ProjectForGrid[]> {
-    return this.getProjects(countryId, codeName).pipe(
-      mergeMap(projects => {
-        const projectObs = projects.map(project => {
-          return this.getProjectLogs(project.Id, project.DetailId).pipe(
-            map(logs => {
-              project.Logs = logs;
-              return project;
-            })
-          );
-        });
-        return forkJoin(projectObs);
-      })
-    );
+  updateFilters(filters: ProjectFilters): void {
+    this.filtersSubject.next(filters);
   }
 
   private handleError(err: any): Observable<never> {
