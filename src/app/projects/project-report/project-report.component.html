@@ -33,7 +33,7 @@
     <!-- main grid -->
     <p-table id="grdProject" styleClass="p-datatable-gridlines" [value]="projects" dataKey="Id" [paginator]="true"
       [rows]="15" [showCurrentPageReport]="true" [tableStyle]="{'min-width': '50rem', 'white-space': 'nowrap'}">
-      <ng-template pTemplate="header" style="background: red;">
+      <ng-template pTemplate="header">
         <tr>
           <th style="width: 0.5rem"></th>
           <th>Code</th>
@@ -104,15 +104,15 @@
         </tr>
       </ng-template>
 
-  </p-table>
-</div>
+    </p-table>
+  </div>
 
-<div *ngIf="projectsError$ | async as message">
-  <p-messages severity="error" [closable]="true">
-    <ng-template pTemplate>
-        {{ message }}
-    </ng-template>
-  </p-messages>
-</div>
+  <div *ngIf="projectsError$ | async as message">
+    <p-messages severity="error" [closable]="true">
+      <ng-template pTemplate>
+          {{ message }}
+      </ng-template>
+    </p-messages>
+  </div>
 
 </div>
