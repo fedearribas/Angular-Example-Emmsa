@@ -1,10 +1,12 @@
 <kendo-drawer-container>
 
   <!-- Sidebar -->
-  <kendo-drawer #drawer [items]="items" [mini]="true" mode="push" [(expanded)]="expanded">
+  <kendo-drawer class="drawer" #drawer [items]="menuItems" [mini]="menuMini" [mode]="menuMode" [(expanded)]="expanded">
+
     <ng-template kendoDrawerHeaderTemplate>
-      <div style="text-align: center;">
+      <div class="sidebar-header">
         <a routerLink=""><img src="assets/logo-xs.png" height="50" alt="logo" /></a>
+        <span *ngIf="expanded" class="fs-4 fw-bold">Siemens</span>
       </div>
     </ng-template>
 
