@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { PrimengModule } from '../shared/primeng.module';
 import { SharedModule } from '../shared/shared.module';
 import { ProjectReportComponent } from './project-report/project-report.component';
 import { RouterModule } from '@angular/router';
 import { ProjectFormComponent } from './project-form/project-form.component';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { ProjectFormComponent } from './project-form/project-form.component';
       }
     ]),
     SharedModule,
-    PrimengModule
+    GridModule
   ]
 })
 export class ProjectModule { }

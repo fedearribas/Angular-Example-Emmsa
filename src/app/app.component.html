@@ -1,14 +1,49 @@
-<div class="container">
+<kendo-drawer-container>
 
-  <app-navbar></app-navbar>
+  <!-- Sidebar -->
+  <kendo-drawer #drawer [items]="items" [mini]="true" mode="push" [(expanded)]="expanded">
+    <ng-template kendoDrawerHeaderTemplate>
+      <div style="text-align: center;">
+        <a routerLink=""><img src="assets/logo-xs.png" height="50" alt="logo" /></a>
+      </div>
+    </ng-template>
 
-  <div class="content-body">
-    <app-sidenav></app-sidenav>
-    <main class="content"  [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
-      <router-outlet #o="outlet"></router-outlet>
-    </main>
-  </div>
+    <ng-template kendoDrawerItemTemplate let-item>
+      <div class="k-drawer-link" [routerLink]="item.path">
+        <i class="k-icon {{item.icon}}"></i>
+        <span class="k-item-text">{{ item.text }}</span>
+      </div>
+    </ng-template>
+  </kendo-drawer>
 
-  <app-footer *ngIf="showFooter"></app-footer>
-  
-</div>
+  <kendo-drawer-content>
+    <div class="flex-container">
+      
+      <!-- Navbar -->
+      <header class="custom-toolbar">
+        <button kendoButton icon="menu" fillMode="flat" (click)="drawer.toggle()"></button>
+        <span class="appname">
+          <span class="first-part">Mika</span>
+          <span class="last-part">NET</span>
+        </span>
+
+        <div class="right-section ms-auto align-self-center">
+          <span>Arribas, Federico</span>
+          <i class="k-icon k-i-more-vertical ms-1 cursor-pointer"></i>
+        </div>
+      </header>
+
+      <!-- Main content -->
+      <div class="content-body">
+        <main class="content" [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
+          <router-outlet #o="outlet"></router-outlet>
+        </main>
+      </div>
+
+      <!-- Footer -->
+      <app-footer *ngIf="showFooter"></app-footer>
+
+    </div>
+
+  </kendo-drawer-content>
+</kendo-drawer-container>
