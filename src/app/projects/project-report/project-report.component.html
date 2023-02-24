@@ -1,118 +1,52 @@
 <div class="main-content">
-<!-- 
-  <p-toolbar styleClass="mb-2 p-2">
-    <ng-template pTemplate="left">
-      <i class="pi pi-check"></i><span class="report-title ml-2">Projects</span>
-    </ng-template>
-    <ng-template pTemplate="right">
-      <button pButton icon="pi pi-refresh" type="button" label="Refresh" (click)="refresh()"></button>
-      <button class="p-button-secondary ml-2" pButton icon="pi pi-plus" type="button" label="New" routerLink="new"></button>
-    </ng-template>
 
-  </p-toolbar>
+  <div class="report-toolbar">
+    <span class="report-title"> <i class="k-icon k-i-check"></i> Projects</span>
 
-  <p-accordion>
-    <p-accordionTab header="Filters" [selected]="true">
-      <div class="formgrid grid">
-        <div class="field sm:col-12 md:col-3">
-          <label for="country" class="font-bold">Country</label>
-          <p-dropdown id="country" [options]="(countries$ | async)!" [(ngModel)]="selectedCountryId" placeholder="All"
-            optionValue="Id" optionLabel="Text" styleClass="w-full"></p-dropdown>
-        </div>
-
-        <div class="field sm:col-12 md:col-3">
-          <label for="name" class="font-bold">Code / Name</label>
-          <input id="name" type="text" class="w-full" pInputText [(ngModel)]="name" autocomplete="off" />
-        </div>
-      </div>
-    </p-accordionTab>
-  </p-accordion>
-
-  <div *ngIf="projects$ | async as projects" class="mt-2">
-
-    
-    <p-table id="grdProject" styleClass="p-datatable-gridlines" [value]="projects" dataKey="Id" [paginator]="true"
-      [rows]="15" [showCurrentPageReport]="true" [tableStyle]="{'min-width': '50rem', 'white-space': 'nowrap'}">
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 0.5rem"></th>
-          <th>Code</th>
-          <th>Name</th>
-          <th>WTG units</th>
-          <th>Contract stage</th>
-          <th>Contract scope</th>
-          <th>Product line</th>
-          <th>Planning horizon</th>
-          <th>Project state</th>
-          <th>Valid dates</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-project let-expanded="expanded">
-        <tr>
-          <td>
-            <button id="expand-button" type="button" pButton pRipple [pRowToggler]="project" *ngIf="project.HasLog"
-              class="p-button-text p-button-rounded p-button-plain"
-              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-          </td>
-          <td>{{project.Code}}</td>
-          <td>{{project.Name}}</td>
-          <td class="text-right">{{project.WTGUnits}}</td>
-          <td>{{project.ContractStageName}}</td>
-          <td>{{project.ContractScopeName}}</td>
-          <td>{{project.ProductLineName}}</td>
-          <td class="text-center">{{project.PlanningHorizon}}</td>
-          <td>{{project.ProjectState}}</td>
-          <td class="text-center">{{project.Validity}}</td>
-        </tr>
-      </ng-template>
-
-
-      <ng-template pTemplate="rowexpansion" let-project>
-        <tr>
-          <td colspan="10">
-            <div class="pl-5">
-              <p-table [value]="project.Logs" dataKey="Id">
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th>Code</th>
-                    <th>Name</th>
-                    <th>WTG units</th>
-                    <th>Contract stage</th>
-                    <th>Contract scope</th>
-                    <th>Product line</th>
-                    <th>Planning horizon</th>
-                    <th>Project state</th>
-                    <th>Valid dates</th>
-                  </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-log>
-                  <tr [ngClass]="[log.ValidFrom < log.ValidTo ? validHistoryClassName : invalidHistoryClassName ]">
-                    <td>{{log.Code}}</td>
-                    <td>{{log.Name}}</td>
-                    <td class="text-right">{{log.WTGUnits}}</td>
-                    <td>{{log.ContractStageName}}</td>
-                    <td>{{log.ContractScopeName}}</td>
-                    <td>{{log.ProductLineName}}</td>
-                    <td class="text-center">{{log.PlanningHorizon}}</td>
-                    <td>{{log.ProjectState}}</td>
-                    <td class="text-center">{{log.Validity}}</td>
-                  </tr>
-                </ng-template>
-              </p-table>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-
-    </p-table>
+    <div class="right-section ms-auto">
+      <button kendoButton icon="refresh" themeColor="primary" (click)="refresh()">Refresh</button>
+      <button kendoButton icon="plus" themeColor="secondary" class="ms-1">New</button>
+    </div>
   </div>
 
-  <div *ngIf="projectsError$ | async as message">
-    <p-messages severity="error" [closable]="true">
-      <ng-template pTemplate>
-          {{ message }}
-      </ng-template>
-    </p-messages>
-  </div> -->
+  <kendo-expansionpanel [expanded]="true" class="mt-2">
+    <ng-template kendoExpansionPanelTitleDirective>
+      <div class="header-content d-flex align-items-center">
+        <kendo-icon name="filter"></kendo-icon>
+        <span class="ms-1"> Filters</span>
+      </div>
+    </ng-template>
+
+    <div class="row">
+
+      <div class="col-md-3">
+        <kendo-label class="k-form fw-semibold" text="Country" [for]="input"></kendo-label>
+        <kendo-dropdownlist valueField="Id" textField="Text" [defaultItem]="cboDefaultItem" [data]="countries$ | async"
+          [(ngModel)]="selectedCountry"> </kendo-dropdownlist>
+      </div>
+
+      <div class="col-md-3">
+        <kendo-label class="k-form fw-semibold" text="Name" [for]="input"></kendo-label>
+        <input #input kendoTextBox [ngClass]="name" class="w-100" />
+      </div>
+
+    </div>
+
+  </kendo-expansionpanel>
+
+  <div id="grdProjects" class="mt-2">
+    <kendo-grid [data]="projects$ | async" [pageable]="true" [pageSize]="15">
+      <kendo-grid-column field="Code" title="Code"> </kendo-grid-column>
+      <kendo-grid-column field="Name" title="Name"> </kendo-grid-column>
+      <kendo-grid-column field="WTGUnits" title="WTG units"> </kendo-grid-column>
+      <kendo-grid-column field="ContractStageName" title="Contract stage"> </kendo-grid-column>
+      <kendo-grid-column field="ContractScopeName" title="Contract scope"> </kendo-grid-column>
+      <kendo-grid-column field="ProductLineName" title="Product line" [style]="{'white-space': 'nowrap'}">
+      </kendo-grid-column>
+      <kendo-grid-column field="PlanningHorizon" title="Planning horizon"> </kendo-grid-column>
+      <kendo-grid-column field="ProjectState" title="Project state"> </kendo-grid-column>
+      <kendo-grid-column field="Validity" title="Validity dates"> </kendo-grid-column>
+    </kendo-grid>
+  </div>
 
 </div>

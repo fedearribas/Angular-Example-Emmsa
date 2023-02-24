@@ -4,6 +4,12 @@ import { ProjectReportComponent } from './project-report/project-report.componen
 import { RouterModule } from '@angular/router';
 import { ProjectFormComponent } from './project-form/project-form.component';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { ButtonModule } from '@progress/kendo-angular-buttons';
+import { LayoutModule } from '@progress/kendo-angular-layout';
+import { IconModule } from '@progress/kendo-angular-icons';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { LabelModule } from '@progress/kendo-angular-label';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 @NgModule({
   declarations: [
@@ -26,6 +32,12 @@ import { GridModule } from '@progress/kendo-angular-grid';
       }
     ]),
     SharedModule,
+    LayoutModule,
+    IconModule,
+    ButtonModule,
+    InputsModule,
+    LabelModule,
+    DropDownsModule,
     GridModule
   ]
 })

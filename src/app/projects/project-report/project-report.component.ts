@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { DropDownFillMode } from '@progress/kendo-angular-dropdowns';
+import { GridSize } from '@progress/kendo-angular-grid';
+import { State } from '@progress/kendo-data-query';
 import { catchError, ignoreElements, of, Subscription } from 'rxjs';
 import { ComboService } from 'src/app/combo.service';
+import { DropdownModel } from 'src/app/shared/models/dropdown-model';
 import { MainLayoutService } from 'src/app/_layout/main-layout.service';
 import { ProjectService } from '../project.service';
 import { ProjectFilters } from './project-filters';
@@ -12,8 +16,11 @@ import { ProjectFilters } from './project-filters';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectReportComponent implements OnInit, OnDestroy {
-  selectedCountryId?: number;
+  cboDefaultItem: DropdownModel = { Text: 'All' };
+  selectedCountry = this.cboDefaultItem;
   name?: string;
+
+  
   isDarkTheme!: boolean;
   filtersSub!: Subscription;
 
@@ -36,7 +43,7 @@ export class ProjectReportComponent implements OnInit, OnDestroy {
 
     this.filtersSub = this.projectService.filters$.subscribe(
       filters => {
-        this.selectedCountryId = filters.countryId;
+        this.selectedCountry.Id = filters.countryId;
         this.name = filters.codeName;
       });
 
@@ -57,7 +64,7 @@ export class ProjectReportComponent implements OnInit, OnDestroy {
 
   refresh() {
     const filters: ProjectFilters = {
-      countryId: this.selectedCountryId,
+      countryId: this.selectedCountry?.Id,
       codeName: this.name
     };
     this.projectService.updateFilters(filters);
