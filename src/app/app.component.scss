@@ -4,50 +4,6 @@
   height: 100vh;
 }
 
-// drawer
-.drawer {
-  background-color: var(--bs-gray-100);
-}
-
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--bs-gray-100);
-}
-
-
-// toolbar
-.custom-toolbar {
-  display: flex;
-  width: 100%;
-  background-color: var(--bs-gray-100);
-  border-bottom: inset;
-  border-bottom-width: 1px;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  color: var(--bs-gray-600);
-}
-
-.appname {
-  font-size: 1.625rem;
-  font-weight: bold;
-  align-self: center;
-  margin-left: 1rem;
-
-  .first-part {
-    color: #0f5366;
-    text-decoration: underline;
-    text-decoration-color: #0f5366;
-  }
-
-  .last-part {
-    color: #5f9ab3;
-    text-decoration: underline;
-    text-decoration-color: #5f9ab3;
-  }
-}
-
 // content
 .content-body {
   flex-grow: 1;
@@ -62,7 +18,10 @@
 
 // footer
 app-footer,
-.custom-toolbar {
+app-navbar {
   flex: 0 0 50px;
 }
 
+#main {
+  transition: margin-left .5s;
+}

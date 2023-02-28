@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DropDownFillMode } from '@progress/kendo-angular-dropdowns';
-import { GridSize } from '@progress/kendo-angular-grid';
+import { GridComponent, GridSize } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
-import { catchError, ignoreElements, of, Subscription } from 'rxjs';
+import { catchError, ignoreElements, of, Subscription, take } from 'rxjs';
 import { ComboService } from 'src/app/combo.service';
 import { DropdownModel } from 'src/app/shared/models/dropdown-model';
 import { MainLayoutService } from 'src/app/_layout/main-layout.service';
+import { ProjectForGrid } from '../project';
 import { ProjectService } from '../project.service';
 import { ProjectFilters } from './project-filters';
 
@@ -15,10 +16,13 @@ import { ProjectFilters } from './project-filters';
   styleUrls: ['./project-report.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectReportComponent implements OnInit, OnDestroy {
+export class ProjectReportComponent implements OnInit, OnDestroy, AfterViewInit {
   cboDefaultItem: DropdownModel = { Text: 'All' };
   selectedCountry = this.cboDefaultItem;
   name?: string;
+
+  @ViewChild(GridComponent)
+  grid!: GridComponent;
 
   
   isDarkTheme!: boolean;
@@ -37,7 +41,8 @@ export class ProjectReportComponent implements OnInit, OnDestroy {
 
   constructor(private projectService: ProjectService,
     private comboService: ComboService,
-    private layoutService: MainLayoutService) { }
+    private layoutService: MainLayoutService,
+    private ngZone: NgZone) { }
 
   ngOnInit(): void {
 
@@ -62,12 +67,34 @@ export class ProjectReportComponent implements OnInit, OnDestroy {
     );
   }
 
+  public ngAfterViewInit(): void {
+    this.fitColumns();
+  }
+
   refresh() {
     const filters: ProjectFilters = {
       countryId: this.selectedCountry?.Id,
       codeName: this.name
     };
     this.projectService.updateFilters(filters);
+  }
+
+  public onDataStateChange(): void {
+    this.fitColumns();
+  }
+  
+
+
+  private fitColumns(): void {
+    // this.ngZone.onStable
+    //   .asObservable()
+    //   .pipe(take(1))
+    //   .subscribe(() => {
+    //      for (var i = 0; i < this.grid.columns.length; i++) {
+    //         this.grid.autoFitColumn(this.grid.columns.get(i)!);
+    // }
+    //     //this.grid.autoFitColumns();
+    //   });
   }
 
   ngOnDestroy(): void {

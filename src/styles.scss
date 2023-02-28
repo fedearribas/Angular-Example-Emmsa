@@ -1,3 +1,8 @@
+body {
+  font-family: Roboto, sans-serif;
+}
+
+
 .main-content {
   padding: 0.5rem;
 }
@@ -22,18 +27,7 @@
   cursor: pointer;
 }
 
-kendo-expansionpanel {
-  border-radius: 0.25rem;
-
-  .k-expander-header {
-    padding: 0.5rem;
-    background-color: var(--bs-gray-100);
-  }
-
-  .k-expander-content {
-    padding: 1rem;
-  }
-}
+//Kendo overrides
 
 .k-table-md {
   font-size: 0.875rem;
@@ -47,5 +41,18 @@ kendo-expansionpanel {
 .k-pager-numbers {
   .k-button-md {
     font-size: 0.75rem;
+  }
+}
+
+kendo-expansionpanel {
+  border-radius: 0.25rem;
+
+  .k-expander-header {
+    padding: 0.5rem;
+    background-color: var(--bs-gray-100);
+  }
+
+  .k-expander-content {
+    padding: 1rem;
   }
 }
