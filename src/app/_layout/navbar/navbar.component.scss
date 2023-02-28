@@ -1,12 +1,14 @@
+@import "../../../sass_variables.scss";
+
 .toolbar {
   display: flex;
   width: 100%;
-  background-color: var(--bs-gray-100);
+  background-color: $base-bg-color;
   border-bottom: inset;
   border-bottom-width: 1px;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  color: var(--bs-gray-600);
+  color: $base-color;
   height: 50px;
 }
 

@@ -1,18 +1,16 @@
-<app-sidebar></app-sidebar>
+<app-sidebar #sidebar></app-sidebar>
 
-<div id="main">
-  <div class="flex-container">
+<div class="overlay-shadow" *ngIf="(isSidebarExpanded$ | async) && overlaySidebar" (click)="closeSidebar()"></div>
 
-    <app-navbar></app-navbar>
+<div #main class="main-container">
+  <app-navbar></app-navbar>
 
-    <div class="content-body">
-      <main class="content" [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
-        <router-outlet #o="outlet"></router-outlet>
-      </main>
-    </div>
-
-    <app-footer *ngIf="showFooter"></app-footer>
-
+  <div class="content-container">
+    <main class="content" [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
+      <router-outlet #o="outlet"></router-outlet>
+    </main>
   </div>
-</div>
 
+  <app-footer *ngIf="showFooter"></app-footer>
+
+</div>
