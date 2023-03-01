@@ -33,44 +33,31 @@
     </div>
 
   </kendo-expansionpanel>
-
   
-
-  
-    <kendo-grid  #grid [data]="projects$ | async" [pageable]="true" class="mt-2"
-        
-        [pageSize]="15" [resizable]="true">
-
-      <ng-template kendoGridToolbarTemplate>
-        
-        <button kendoButton (click)="grid.autoFitColumns()">
-            Auto-fit all columns
-        </button>
-    </ng-template>
+    <kendo-grid  #grid [data]="(projects$ | async)" [pageable]="true" class="mt-2"
+        [pageSize]="15" [resizable]="true" (dataStateChange)="onDataStateChange($event)">
 
       <kendo-grid-column [width]="200" field="Code" title="Code"></kendo-grid-column>
       <kendo-grid-column [width]="200" field="Name" title="Name"></kendo-grid-column>
       <kendo-grid-column [width]="200" field="WTGUnits" title="WTG units"> </kendo-grid-column>
       <kendo-grid-column [width]="200" field="ContractStageName" title="Contract stage"></kendo-grid-column>
-      <kendo-grid-column [width]="50" field="ContractScopeName" title="Contract scope"></kendo-grid-column>
+      <kendo-grid-column [width]="200" field="ContractScopeName" title="Contract scope"></kendo-grid-column>
       <kendo-grid-column [width]="300" field="ProductLineName" title="Product line" [style]="{'white-space': 'nowrap'}"></kendo-grid-column>
-      <kendo-grid-column [width]="300" field="ProductLineName" title="Product line" [style]="{'white-space': 'nowrap'}"></kendo-grid-column>
-      <kendo-grid-column [width]="300" field="ProductLineName" title="Product line" [style]="{'white-space': 'nowrap'}"></kendo-grid-column>
-      <kendo-grid-column [width]="50" field="PlanningHorizon" title="Planning horizon"></kendo-grid-column>
-      <kendo-grid-column [width]="50" field="ProjectState" title="Project state"></kendo-grid-column>
-      <kendo-grid-column [width]="50" field="Validity" title="Validity dates"></kendo-grid-column>
+      <kendo-grid-column [width]="200" field="PlanningHorizon" title="Planning horizon"></kendo-grid-column>
+      <kendo-grid-column [width]="200" field="ProjectState" title="Project state"></kendo-grid-column>
+      <kendo-grid-column [width]="200" field="Validity" title="Validity dates"></kendo-grid-column>
 
-      <div *kendoGridDetailTemplate="let dataItem">
-        <kendo-grid [data]="projects$ | async" [pageable]="true" [pageSize]="15">
-          <kendo-grid-column field="Code" title="Code"></kendo-grid-column>
-          <kendo-grid-column field="Name" title="Name"></kendo-grid-column>
-          <kendo-grid-column field="WTGUnits" title="WTG units"> </kendo-grid-column>
-          <kendo-grid-column field="ContractStageName" title="Contract stage"></kendo-grid-column>
-          <kendo-grid-column field="ContractScopeName" title="Contract scope"></kendo-grid-column>
-          <kendo-grid-column field="ProductLineName" title="Product line" [style]="{'white-space': 'nowrap'}"></kendo-grid-column>
-          <kendo-grid-column field="PlanningHorizon" title="Planning horizon"></kendo-grid-column>
-          <kendo-grid-column field="ProjectState" title="Project state"></kendo-grid-column>
-          <kendo-grid-column field="Validity" title="Validity dates"></kendo-grid-column>
+      <div *kendoGridDetailTemplate="let dataItem; showIf: showDetailGrid">
+        <kendo-grid #gridDetail [data]="dataItem.Logs" [pageable]="true" [pageSize]="15" [rowClass]="rowClassCallback">
+          <kendo-grid-column [width]="200" field="Code" title="Code"></kendo-grid-column>
+          <kendo-grid-column [width]="200" field="Name" title="Name"></kendo-grid-column>
+          <kendo-grid-column [width]="200" field="WTGUnits" title="WTG units"> </kendo-grid-column>
+          <kendo-grid-column [width]="200" field="ContractStageName" title="Contract stage"></kendo-grid-column>
+          <kendo-grid-column [width]="200" field="ContractScopeName" title="Contract scope"></kendo-grid-column>
+          <kendo-grid-column [width]="300" field="ProductLineName" title="Product line" [style]="{'white-space': 'nowrap'}"></kendo-grid-column>
+          <kendo-grid-column [width]="200" field="PlanningHorizon" title="Planning horizon"></kendo-grid-column>
+          <kendo-grid-column [width]="200" field="ProjectState" title="Project state"></kendo-grid-column>
+          <kendo-grid-column [width]="200" field="Validity" title="Validity dates"></kendo-grid-column>
         </kendo-grid>
       </div>
     </kendo-grid>

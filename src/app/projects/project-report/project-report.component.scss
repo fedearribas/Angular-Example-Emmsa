@@ -1,31 +1,17 @@
-tr {
-  td, th {
-    padding: 0.5rem 0.5rem;
-  }
+// tr.invalidLog,
+// tr.k-alt.invalidLog {
+//   background-color: #ffba80;
+// }
+
+// tr.validLog,
+// tr.k-alt.validLog {
+//   background-color: #b2f699;
+// }
+
+.invalidLog {
+  background-color: #ffba80;
 }
 
-#expand-button {
-  height: 1.5rem;
-  width: 1.5rem;
+.validLog {
+  background-color: #b2f699;
 }
-
-#grdProject ::ng-deep .p-paginator {
-  padding: 0.143rem;
-}
-
-// #grdProject ::ng-deep .validHistoryLog {
-//   background-color:  var(--green-200);
-// }
-
-// #grdProject ::ng-deep .invalidHistoryLog {
-//   background-color: var(--red-200);
-// }
-
-// #grdProject ::ng-deep .validHistoryLogDarkTheme {
-//   background-color:  var(--green-600);
-// }
-
-// #grdProject ::ng-deep .invalidHistoryLogDarkTheme {
-//   background-color: var(--red-600);
-// }
-

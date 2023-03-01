@@ -3,12 +3,15 @@
 .toolbar {
   display: flex;
   width: 100%;
-  background-color: $base-bg-color;
+  //background-color: $base-bg-color;
+  background-color: $kendo-base-bg;
   border-bottom: inset;
   border-bottom-width: 1px;
+  border-color: $kendo-base-border;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  color: $base-color;
+  //color: $base-color;
+  color: $kendo-base-text;
   height: 50px;
 }
 

@@ -1,7 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DropDownFillMode } from '@progress/kendo-angular-dropdowns';
-import { GridComponent, GridSize } from '@progress/kendo-angular-grid';
-import { State } from '@progress/kendo-data-query';
+import { AfterContentChecked, ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { DataStateChangeEvent, GridComponent, GridSize, RowClassArgs } from '@progress/kendo-angular-grid';
 import { catchError, ignoreElements, of, Subscription, take } from 'rxjs';
 import { ComboService } from 'src/app/combo.service';
 import { DropdownModel } from 'src/app/shared/models/dropdown-model';
@@ -16,15 +14,13 @@ import { ProjectFilters } from './project-filters';
   styleUrls: ['./project-report.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectReportComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentChecked {
   cboDefaultItem: DropdownModel = { Text: 'All' };
   selectedCountry = this.cboDefaultItem;
   name?: string;
 
-  @ViewChild(GridComponent)
-  grid!: GridComponent;
+  @ViewChild(GridComponent) grid!: GridComponent;
 
-  
   isDarkTheme!: boolean;
   filtersSub!: Subscription;
 
@@ -67,7 +63,7 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterViewInit 
     );
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterContentChecked(): void {
     this.fitColumns();
   }
 
@@ -79,22 +75,29 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterViewInit 
     this.projectService.updateFilters(filters);
   }
 
-  public onDataStateChange(): void {
+  onDataStateChange(state: DataStateChangeEvent): void {
     this.fitColumns();
   }
-  
 
+  rowClassCallback = (context: RowClassArgs) => {
+    if (context.dataItem.ValidFrom >  context.dataItem.ValidTo) {
+      return { invalidLog: true };
+    } else {
+      return { validLog: true };
+    }
+  }
+
+  public showDetailGrid(dataItem: ProjectForGrid): boolean {
+    return dataItem.HasLog;
+  }
 
   private fitColumns(): void {
-    // this.ngZone.onStable
-    //   .asObservable()
-    //   .pipe(take(1))
-    //   .subscribe(() => {
-    //      for (var i = 0; i < this.grid.columns.length; i++) {
-    //         this.grid.autoFitColumn(this.grid.columns.get(i)!);
-    // }
-    //     //this.grid.autoFitColumns();
-    //   });
+    this.ngZone.onStable
+      .asObservable()
+      .pipe(take(1))
+      .subscribe(() => {
+        this.grid.autoFitColumns();
+      });
   }
 
   ngOnDestroy(): void {

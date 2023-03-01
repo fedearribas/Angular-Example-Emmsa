@@ -1,7 +1,11 @@
+@import "../../../sass_variables.scss";
+
 footer {
   display: flex;
   justify-content: space-between;
-  background-color: var(--bs-gray-100);
+  //background-color: var(--bs-gray-100);
+  background-color: $kendo-base-bg;
+  color: $kendo-base-text;
   flex-wrap: wrap;
   padding-left: 1rem;
   padding-right: 1rem;
