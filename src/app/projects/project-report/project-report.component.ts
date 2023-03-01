@@ -1,9 +1,8 @@
 import { AfterContentChecked, ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DataStateChangeEvent, GridComponent, GridSize, RowClassArgs } from '@progress/kendo-angular-grid';
+import { DataStateChangeEvent, GridComponent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { catchError, ignoreElements, of, Subscription, take } from 'rxjs';
 import { ComboService } from 'src/app/combo.service';
 import { DropdownModel } from 'src/app/shared/models/dropdown-model';
-import { MainLayoutService } from 'src/app/_layout/main-layout.service';
 import { ProjectForGrid } from '../project';
 import { ProjectService } from '../project.service';
 import { ProjectFilters } from './project-filters';
@@ -20,8 +19,6 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentCh
   name?: string;
 
   @ViewChild(GridComponent) grid!: GridComponent;
-
-  isDarkTheme!: boolean;
   filtersSub!: Subscription;
 
   countries$ = this.comboService.getCountries();
@@ -37,7 +34,6 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentCh
 
   constructor(private projectService: ProjectService,
     private comboService: ComboService,
-    private layoutService: MainLayoutService,
     private ngZone: NgZone) { }
 
   ngOnInit(): void {
@@ -47,20 +43,6 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentCh
         this.selectedCountry.Id = filters.countryId;
         this.name = filters.codeName;
       });
-
-    // this logic should be on service
-    this.layoutService.isDarkTheme$.subscribe(
-      isDarkTheme => {
-        if (isDarkTheme) {
-          this.validHistoryClassName = 'validHistoryLogDarkTheme';
-          this.invalidHistoryClassName = 'invalidHistoryLogDarkTheme';
-        }
-        else {
-          this.validHistoryClassName = 'validHistoryLog';
-          this.invalidHistoryClassName = 'invalidHistoryLog';
-        }
-      }
-    );
   }
 
   ngAfterContentChecked(): void {

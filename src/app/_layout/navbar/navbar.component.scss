@@ -1,17 +1,13 @@
-@import "../../../sass_variables.scss";
-
 .toolbar {
   display: flex;
   width: 100%;
-  //background-color: $base-bg-color;
-  background-color: $kendo-base-bg;
+  background-color: var(--base-bg);
   border-bottom: inset;
   border-bottom-width: 1px;
-  border-color: $kendo-base-border;
+  border-color: var(--base-border);
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  //color: $base-color;
-  color: $kendo-base-text;
+  color: var(--base-text);
   height: 50px;
 }
 
@@ -32,4 +28,25 @@
     text-decoration: underline;
     text-decoration-color: #5f9ab3;
   }
+}
+
+.dropdown {
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--base-bg);
+  right: 0;
+  min-width: 160px;
+  border: 1px solid var(--base-border);
+  padding: 0.5rem;
+  z-index: 1;
+  vertical-align: middle;
+}
+
+.item-icon {
+  font-size: 1rem;
+  vertical-align: middle;
 }

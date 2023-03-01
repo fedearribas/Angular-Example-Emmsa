@@ -1,19 +1,12 @@
-@import "../../../sass_variables.scss";
-
 footer {
   display: flex;
   justify-content: space-between;
-  //background-color: var(--bs-gray-100);
-  background-color: $kendo-base-bg;
-  color: $kendo-base-text;
+  background-color: var(--base-bg);
+  color: var(--base-text);
   flex-wrap: wrap;
   padding-left: 1rem;
   padding-right: 1rem;
   font-size: 0.9rem;
-}
-
-a {
-  color: var(--text-color);
 }
 
 .copyright {
@@ -25,6 +18,7 @@ a:visited,
 a:hover,
 a:active {
   text-decoration: none;
+  color: var(--base-text);
 }
 
 ul {

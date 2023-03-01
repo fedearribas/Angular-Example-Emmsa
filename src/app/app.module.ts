@@ -16,6 +16,8 @@ import { IconsModule } from '@progress/kendo-angular-icons';
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { NavbarComponent } from './_layout/navbar/navbar.component';
 import { SidebarComponent } from './_layout/sidebar/sidebar.component';
+import { MenuModule } from '@progress/kendo-angular-menu';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { SidebarComponent } from './_layout/sidebar/sidebar.component';
     LayoutModule,
     IndicatorsModule,
     IconsModule,
-    ButtonsModule
+    ButtonsModule,
+    MenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

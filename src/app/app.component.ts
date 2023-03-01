@@ -5,6 +5,7 @@ import { fadeAnimation } from './app.animation';
 import { MainLayoutService } from './_layout/main-layout.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { SidebarComponent } from './_layout/sidebar/sidebar.component';
+import { ThemeService } from './theme.service';
 
 const expandedSidebarWidth = 250;
 const miniSidebarWidth = 50;
@@ -19,12 +20,10 @@ const hiddenSidebarWidth = 0;
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   title = 'MikaNet';
   showFooter = false;
-  isDarkTheme!: boolean;
   overlaySidebar!: boolean;
   showMiniSidebar!: boolean;
   isSidebarExpanded$ = this.layoutService.displaySidebar$;
   routeSub!: Subscription;
-  themeSub!: Subscription;
   displaySidebarSub!: Subscription;
   breakpointObserverSub!: Subscription;
   showMiniSidebarSub!: Subscription;
@@ -36,7 +35,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private router: Router,
     private breakpointObserver: BreakpointObserver,
     private layoutService: MainLayoutService,
-    private renderer: Renderer2) { }
+    private renderer: Renderer2,
+    private themeService: ThemeService) { }
 
   openSidebar() {
     this.renderer.setStyle(this.sidebarComponent.sidebar.nativeElement, 'width', `${expandedSidebarWidth}px`);
@@ -76,6 +76,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.themeService.apply();
+    
     this.routeSub = this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         if (e.url === '/')
@@ -84,13 +87,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
           this.showFooter = false;
       }
     });
-
-    this.themeSub = this.layoutService.isDarkTheme$.subscribe(
-      value => {
-        this.layoutService.setTheme(value);
-        this.isDarkTheme = value;
-      }
-    );
   }
 
   ngAfterViewInit(): void {
@@ -122,7 +118,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSub.unsubscribe();
-    this.themeSub.unsubscribe();
     this.breakpointObserverSub.unsubscribe();
     this.displaySidebarSub.unsubscribe();
     this.showMiniSidebarSub.unsubscribe();

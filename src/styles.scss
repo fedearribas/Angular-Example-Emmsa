@@ -1,8 +1,6 @@
-@import "sass_variables.scss";
-
 body {
-  font-family: Roboto, sans-serif;
-  background-color: $kendo-app-bg;
+  font-family: Roboto, sans-serif !important;
+  background-color: var(--app-bg) !important;
 }
 
 .main-content {
@@ -15,13 +13,10 @@ body {
   width: 100%;
   height: 3.125rem;
   padding: 1rem;
-  //border: 1px solid var(--bs-gray-200);
-  border: 1px solid $kendo-base-border;
+  border: 1px solid var(--base-border);
   border-radius: 0.25rem;
-  //background-color: $base-bg-color;
-  background-color: $kendo-base-bg;
-  //color: $base-color;
-  color: $kendo-base-text;
+  background-color: var(--base-bg);
+  color: var(--base-text);
 }
 
 .report-title {
@@ -34,51 +29,49 @@ body {
 
 //Kendo overrides
 
-.k-table-md {
-  font-size: 0.875rem;
-}
+// .k-table-md {
+//   font-size: 0.875rem;
+// }
 
-.k-grid-md .k-table-th > .k-cell-inner > .k-link {
-  padding: 0.75rem 1.5rem;
-}
+// .k-grid-md .k-table-th > .k-cell-inner > .k-link {
+//   padding: 0.75rem 1.5rem;
+// }
 
-.k-grid-md .k-table-th {
-  padding: 0.625rem 1.5rem;
-}
+// .k-grid-md .k-table-th {
+//   padding: 0.625rem 1.5rem;
+// }
 
 
 .k-pager {
-  font-size: 0.75rem;
-  padding-block: 0rem;
+  font-size: 0.75rem !important;
+  padding-block: 0rem !important;
 }
 
 .k-pager-numbers {
   .k-button-md {
-    font-size: 0.75rem;
+    font-size: 0.6rem !important;
   }
 }
 
 kendo-expansionpanel {
   border-radius: 0.25rem;
-  border-color: $kendo-base-border !important;
-  background-color: $kendo-base-bg !important;
+  border-color: var(--base-border) !important;
+  background-color: var(--base-bg) !important;
 
   .k-expander-header {
     padding: 0.5rem;
-    //background-color: $base-bg-color;
-    background-color: $kendo-base-bg;
-    color: $kendo-base-text;
+    background-color: var(--base-bg);
+    color: var(--base-text);
   }
 
   .k-expander-header:hover {
-    //background-color: $base-bg-color;
-    background-color: $kendo-hover-bg;
-    color: $kendo-hover-text;
+    background-color: var(--hover-bg);
+    color: var(--hover-text);
   }
 
   .k-expander-content {
     padding: 1rem;
-    background-color: $kendo-app-bg;
-    color: $kendo-base-text;
+    background-color: var(--app-bg);
+    color: var(--base-text);
   }
 }

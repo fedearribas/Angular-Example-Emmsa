@@ -8,7 +8,7 @@
           [ngClass]="{'selected': item.selected}"
           (click)="onMenuItemClick(item)" 
           *ngFor="let item of menuItems">
-      <span><i class="k-icon {{item.icon}}"></i><span *ngIf="isSidebarExpanded$ | async"> {{item.text}}</span></span>
+      <span><i class="k-icon {{item.icon}}"></i><span class="item-text" *ngIf="isSidebarExpanded$ | async"> {{item.text}}</span></span>
     </div>
   </div>
 

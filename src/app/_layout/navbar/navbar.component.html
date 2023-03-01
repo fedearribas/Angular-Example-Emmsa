@@ -7,6 +7,14 @@
 
   <div class="right-section ms-auto align-self-center">
     <span>Arribas, Federico</span>
-    <i class="k-icon k-i-more-vertical ms-1 cursor-pointer"></i>
+    <div class="dropdown">
+      <i id="menu-icon" class="k-icon k-i-more-vertical ms-1 cursor-pointer" (click)="toggleMenu()"></i>
+      <div #menuContent class="dropdown-content">
+        <div class="cursor-pointer" (click)="toggleTheme()">
+          <span class="item-icon material-symbols-outlined">{{themeIcon}}</span><span> {{themeText}}</span>
+        </div>
+        
+      </div>
+    </div>
   </div>
 </header>
