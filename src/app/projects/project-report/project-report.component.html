@@ -20,22 +20,22 @@
     <div class="row">
 
       <div class="col-md-3">
-        <kendo-label class="k-form fw-semibold" text="Country" [for]="input"></kendo-label>
-        <kendo-dropdownlist valueField="Id" textField="Text" [defaultItem]="cboDefaultItem" [data]="countries$ | async"
+        <kendo-label class="k-form fw-semibold" text="Country" [for]="cboCountry"></kendo-label>
+        <kendo-dropdownlist #cboCountry valueField="Id" textField="Text" [defaultItem]="cboDefaultItem" [data]="countries$ | async"
           [(ngModel)]="selectedCountry"> </kendo-dropdownlist>
       </div>
 
       <div class="col-md-3">
-        <kendo-label class="k-form fw-semibold" text="Name" [for]="input"></kendo-label>
-        <input #input kendoTextBox [ngClass]="name" class="w-100" />
+        <kendo-label class="k-form fw-semibold" text="Name" [for]="txtName"></kendo-label>
+        <input #txtName kendoTextBox [ngClass]="name" class="w-100" />
       </div>
 
     </div>
 
   </kendo-expansionpanel>
   
-  <div id="grdProjects">
-    <kendo-grid  #grid [data]="(projects$ | async)" [pageable]="true" class="mt-2"
+  <div id="grdProjects" *ngIf="projects$ | async as projects">
+    <kendo-grid  #grid [data]="projects" [pageable]="true" class="mt-2"
         [pageSize]="15" [resizable]="true" (dataStateChange)="onDataStateChange($event)">
 
       <kendo-grid-column [width]="200" field="Code" title="Code"></kendo-grid-column>
@@ -62,6 +62,11 @@
         </kendo-grid>
       </div>
     </kendo-grid>
+  </div>
+
+  <div class="alert alert-danger alert-dismissible fade show mt-2" *ngIf="projectsError$ | async as errorMessage" role="alert">
+    <span>{{errorMessage}}</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 
 </div>
