@@ -28,10 +28,6 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentCh
     catchError((err: string) => of(err))
   );
 
-  // these should be observables
-  validHistoryClassName = 'validHistoryLog';
-  invalidHistoryClassName = 'invalidHistoryLog';
-
   constructor(private projectService: ProjectService,
     private comboService: ComboService,
     private ngZone: NgZone) { }

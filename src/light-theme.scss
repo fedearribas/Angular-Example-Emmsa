@@ -5,6 +5,7 @@ $theme-type: light;
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 :root {
+  // base colors
   color-scheme: light;
   --app-bg: #{$kendo-app-bg};
   --base-bg: var(--bs-gray-100);
@@ -17,4 +18,8 @@ $theme-type: light;
   --hover-text: #{$kendo-hover-text};
   --selected-text: #{$kendo-selected-text};
   --base-border: #{$kendo-base-border};
+  //------------------------
+  // specific colors
+  --grid-success-record: var(--mat-green-300);
+  --grid-error-record: var(--mat-red-300);
 }

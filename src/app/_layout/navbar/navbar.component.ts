@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { fromEvent, Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ThemeService } from 'src/app/theme.service';
 import { MainLayoutService } from '../main-layout.service';
 
@@ -14,22 +14,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
   themeText = '';
   themeIcon = '';
   menuOpened = false;
-  clickOutsideMenu$!: Observable<Event>;
-  clickOutsideMenuSub!: Subscription;
   isDarkModeSub!: Subscription;
 
   @ViewChild('menuContent') menuContent!: ElementRef;
+  @ViewChild('menuButton') menuButton!: ElementRef;
 
   constructor(private layoutService: MainLayoutService,
     private themeService: ThemeService,
     private renderer: Renderer2) { }
 
   ngOnInit(): void {
-    this.clickOutsideMenu$ = fromEvent(window, 'click');
-    this.clickOutsideMenuSub = this.clickOutsideMenu$.subscribe(e => {
+    this.renderer.listen('window', 'click', (e: Event) => {
       e.preventDefault();
-      const element = <HTMLElement>e.target;
-      if (element && element.id !== 'menu-icon' && !element.classList.contains('dropdown-content'))
+      if (e.target && e.target !== this.menuContent.nativeElement && e.target !== this.menuButton.nativeElement)
         this.closeMenu();
     });
 
@@ -38,8 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         this.themeText = this.themeText = 'Light mode';
         this.themeIcon = 'light_mode';
       }
-      else
-      {
+      else {
         this.themeText = this.themeText = 'Dark mode';
         this.themeIcon = 'dark_mode';
       }
@@ -73,7 +69,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.clickOutsideMenuSub.unsubscribe();
     this.isDarkModeSub.unsubscribe();
   }
 

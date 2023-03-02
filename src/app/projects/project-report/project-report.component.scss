@@ -1,17 +1,9 @@
-// tr.invalidLog,
-// tr.k-alt.invalidLog {
-//   background-color: #ffba80;
-// }
-
-// tr.validLog,
-// tr.k-alt.validLog {
-//   background-color: #b2f699;
-// }
-
-.invalidLog {
-  background-color: #ffba80;
+#grdProjects ::ng-deep tr.invalidLog,
+tr.k-alt.invalidLog {
+  background-color: var(--grid-error-record);
 }
 
-.validLog {
-  background-color: #b2f699;
+#grdProjects ::ng-deep tr.validLog,
+tr.k-alt.validLog {
+  background-color: var(--grid-success-record);
 }

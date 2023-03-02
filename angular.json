@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/material-color-palette.scss",
               "src/styles.scss",
               {
                 "input": "src/light-theme.scss",
