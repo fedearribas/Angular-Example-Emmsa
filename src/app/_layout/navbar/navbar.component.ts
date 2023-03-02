@@ -27,6 +27,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.clickOutsideMenu$ = fromEvent(window, 'click');
     this.clickOutsideMenuSub = this.clickOutsideMenu$.subscribe(e => {
+      e.preventDefault();
       const element = <HTMLElement>e.target;
       if (element && element.id !== 'menu-icon' && !element.classList.contains('dropdown-content'))
         this.closeMenu();

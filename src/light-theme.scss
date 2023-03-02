@@ -5,10 +5,11 @@ $theme-type: light;
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 :root {
+  color-scheme: light;
   --app-bg: #{$kendo-app-bg};
-  //--base-bg: #{$kendo-base-bg};
   --base-bg: var(--bs-gray-100);
   --hover-bg: #{$kendo-hover-bg};
+  --hover-bg-solid: #eeeff0;
   --selected-bg: #{$kendo-selected-bg};
   --selected-hover-bg: #{k-color-darken($kendo-selected-bg, 7.5%)};
   --app-text: #{$kendo-app-text};

@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { sidebarTextAnimation } from 'src/app/app.animation';
 import { MenuItem } from 'src/app/menuItem';
 import { MainLayoutService } from '../main-layout.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
+  animations: [sidebarTextAnimation]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
@@ -34,7 +36,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
     this.router.navigate([item.path]);
   }
-
+  
   ngOnInit(): void {
     this.menuItems = [
       { text: 'Home', icon: 'k-i-home', path: '' },
@@ -46,8 +48,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
       if (e instanceof NavigationEnd) {
         const url = e.url;
         let selectedItem = this.menuItems.find(x => x.path === url || (url === '/' && x.path === ''));
-        if (selectedItem)
+        if (selectedItem) {
+          this.menuItems.map(x => x.selected = false);
           selectedItem.selected = true;
+        }
       }
     });
   }

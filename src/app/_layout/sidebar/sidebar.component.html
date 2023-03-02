@@ -4,11 +4,14 @@
     <span *ngIf="isSidebarExpanded$ | async" class="fs-4 fw-bold">Siemens</span>
   </div>
   <div class="menu-items mt-4">
-    <div class="menu-item cursor-pointer mb-1" 
-          [ngClass]="{'selected': item.selected}"
-          (click)="onMenuItemClick(item)" 
-          *ngFor="let item of menuItems">
-      <span><i class="k-icon {{item.icon}}"></i><span class="item-text" *ngIf="isSidebarExpanded$ | async"> {{item.text}}</span></span>
+    <div class="menu-item cursor-pointer mb-1" [ngClass]="{'selected': item.selected}" (click)="onMenuItemClick(item)"
+      *ngFor="let item of menuItems">
+      <span class="text-nowrap">
+        <i class="k-icon {{item.icon}}"></i>
+        <span class="item-text" [@sidebarTextAnimation]="(isSidebarExpanded$ | async) ? 'open': 'close'">
+          {{item.text}}</span>
+      </span>
+
     </div>
   </div>
 

@@ -1,12 +1,15 @@
 $theme-type: dark;
+
 @import "./sass_variables.scss";
 @import "../node_modules/@progress/kendo-theme-material/scss/all.scss";
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 :root {
+  color-scheme: dark;
   --app-bg: #{$kendo-app-bg};
   --base-bg: #{$kendo-base-bg};
   --hover-bg: #{$kendo-hover-bg};
+  --hover-bg-solid: #323232;
   --selected-bg: #{$kendo-selected-bg};
   --selected-hover-bg: #{k-color-darken($kendo-selected-bg, 7.5%)};
   --app-text: #{$kendo-app-text};
