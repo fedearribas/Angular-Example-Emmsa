@@ -27,7 +27,7 @@
 
       <div class="col-md-3">
         <kendo-label class="k-form fw-semibold" text="Name" [for]="txtName"></kendo-label>
-        <input #txtName kendoTextBox [ngClass]="name" class="w-100" />
+        <input #txtName kendoTextBox [(ngModel)]="name" class="w-100" />
       </div>
 
     </div>
