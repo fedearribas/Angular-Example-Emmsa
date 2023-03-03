@@ -147,6 +147,7 @@ export class ThemeService implements OnDestroy {
       this.renderer.addClass(this.document.body, ThemeService.LIGHT_MODE_CSS_CLASS_NAME);
       this.setKendoUiControlsMode('light-theme.css');
     }
+    this.isDarkThemeSubject.next(darkMode);
   }
 
   /** Apply the theme mode stored in the settings. */
@@ -209,7 +210,6 @@ export class ThemeService implements OnDestroy {
     this.stopSystemModeSynchronization();
     this.settings.darkMode = darkMode;
     this.setLocalStorageItem(ThemeService.SETTINGS_KEY, this.settings);
-    this.isDarkThemeSubject.next(darkMode);
   }
 
   //** Apply light mode. */
