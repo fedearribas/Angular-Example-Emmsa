@@ -11,7 +11,8 @@
       <i #menuButton class="menu-button k-icon k-i-more-vertical ms-1 cursor-pointer" (click)="toggleMenu()"></i>
       <div #menuContent class="dropdown-content">
         <div class="cursor-pointer" (click)="toggleTheme()">
-          <span class="item-icon material-symbols-outlined">{{themeIcon}}</span><span> {{themeText}}</span>
+          <i [class]=themeIcon></i>
+          <span> {{themeText}}</span>
         </div>
         
       </div>

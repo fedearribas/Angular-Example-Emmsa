@@ -74,7 +74,8 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentCh
       .asObservable()
       .pipe(take(1))
       .subscribe(() => {
-        this.grid.autoFitColumns();
+        if (this.grid)
+          this.grid.autoFitColumns();
       });
   }
 

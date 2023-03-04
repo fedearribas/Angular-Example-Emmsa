@@ -45,10 +45,10 @@
 
       <kendo-grid-column [width]="200" field="Code" title="Code"></kendo-grid-column>
       <kendo-grid-column [width]="200" field="Name" title="Name"></kendo-grid-column>
-      <kendo-grid-column [width]="200" field="WTGUnits" title="WTG units"> </kendo-grid-column>
+      <kendo-grid-column [width]="200" field="WTGUnits" title="WTG units" class="text-end"> </kendo-grid-column>
       <kendo-grid-column [width]="200" field="ContractStageName" title="Contract stage"></kendo-grid-column>
       <kendo-grid-column [width]="200" field="ContractScopeName" title="Contract scope"></kendo-grid-column>
-      <kendo-grid-column [width]="300" field="ProductLineName" title="Product line" [style]="{'white-space': 'nowrap'}"></kendo-grid-column>
+      <kendo-grid-column [width]="300" field="ProductLineName" title="Product line" class="text-nowrap"></kendo-grid-column>
       <kendo-grid-column [width]="200" field="PlanningHorizon" title="Planning horizon"></kendo-grid-column>
       <kendo-grid-column [width]="200" field="ProjectState" title="Project state"></kendo-grid-column>
       <kendo-grid-column [width]="200" field="Validity" title="Validity dates"></kendo-grid-column>
@@ -57,10 +57,10 @@
         <kendo-grid #gridDetail [data]="dataItem.Logs" [pageable]="true" [pageSize]="15" [rowClass]="rowClassCallback">
           <kendo-grid-column [width]="200" field="Code" title="Code"></kendo-grid-column>
           <kendo-grid-column [width]="200" field="Name" title="Name"></kendo-grid-column>
-          <kendo-grid-column [width]="200" field="WTGUnits" title="WTG units"> </kendo-grid-column>
+          <kendo-grid-column [width]="115" field="WTGUnits" title="WTG units" class="text-end"> </kendo-grid-column>
           <kendo-grid-column [width]="200" field="ContractStageName" title="Contract stage"></kendo-grid-column>
           <kendo-grid-column [width]="200" field="ContractScopeName" title="Contract scope"></kendo-grid-column>
-          <kendo-grid-column [width]="300" field="ProductLineName" title="Product line" [style]="{'white-space': 'nowrap'}"></kendo-grid-column>
+          <kendo-grid-column [width]="300" field="ProductLineName" title="Product line" class="text-nowrap"></kendo-grid-column>
           <kendo-grid-column [width]="200" field="PlanningHorizon" title="Planning horizon"></kendo-grid-column>
           <kendo-grid-column [width]="200" field="ProjectState" title="Project state"></kendo-grid-column>
           <kendo-grid-column [width]="200" field="Validity" title="Validity dates"></kendo-grid-column>

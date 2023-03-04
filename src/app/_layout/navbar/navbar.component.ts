@@ -33,11 +33,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.isDarkModeSub = this.themeService.isDarkTheme$.subscribe(isDarkTheme => {
       if (isDarkTheme) {
         this.themeText = this.themeText = 'Light mode';
-        this.themeIcon = 'light_mode';
+        this.themeIcon = 'fa-solid fa-sun';
       }
       else {
         this.themeText = this.themeText = 'Dark mode';
-        this.themeIcon = 'dark_mode';
+        this.themeIcon = 'fa-solid fa-moon';
       }
     });
   }
