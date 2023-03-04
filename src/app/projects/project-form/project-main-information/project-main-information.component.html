@@ -1,0 +1,64 @@
+<div [formGroup]="formGroup">
+<div class="row">
+  <div class="col-md-6">
+    <kendo-formfield>
+      <kendo-label class="k-form fw-semibold" text="Code" [for]="txtCode"></kendo-label>
+      <input #txtCode kendoTextBox class="w-100" formControlName="code" />
+      <kendo-formerror>Code is required</kendo-formerror>
+    </kendo-formfield>
+  </div>
+
+  <div class="col-md-6">
+    <kendo-formfield>
+      <kendo-label class="k-form fw-semibold" text="Name" [for]="txtName"></kendo-label>
+      <input #txtName kendoTextBox class="w-100" formControlName="name" />
+      <kendo-formerror>Name is required</kendo-formerror>
+    </kendo-formfield>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col-md-12">
+    <kendo-formfield>
+      <kendo-label class="k-form fw-semibold" text="Country" [for]="cboCountry"></kendo-label>
+      <kendo-dropdownlist #cboCountry valueField="Id" textField="Text" [defaultItem]="cboDefaultItem"
+        formControlName="countryId" [data]="countries$ | async">
+      </kendo-dropdownlist>
+      <kendo-formerror>Country is required</kendo-formerror>
+    </kendo-formfield>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col-md-6">
+    <kendo-formfield>
+      <kendo-label class="k-form fw-semibold" text="Project from" [for]="txtProjectFrom"></kendo-label>
+      <kendo-datepicker #txtProjectFrom format="dd - MMMM - yyyy" formControlName="projectFrom"
+        activeView="year" bottomView="year">
+      </kendo-datepicker>
+      <kendo-formerror>Project from is required</kendo-formerror>
+    </kendo-formfield>
+  </div>
+
+  <div class="col-md-6">
+    <kendo-formfield>
+      <kendo-label class="k-form fw-semibold" text="Project to" [for]="txtProjectTo"></kendo-label>
+      <kendo-datepicker #txtProjectTo format="dd - MMMM - yyyy" formControlName="projectTo"
+        activeView="year" bottomView="year">
+      </kendo-datepicker>
+      <kendo-formerror>Project to is required</kendo-formerror>
+    </kendo-formfield>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col-md-6">
+    <kendo-formfield>
+      <kendo-label class="k-form fw-semibold" text="WTG units" [for]="txtWTGUnits"></kendo-label>
+      <kendo-numerictextbox #txtWTGUnits [min]="0" [max]="100" formControlName="wtgUnits">
+      </kendo-numerictextbox>
+      <kendo-formerror>WTG units is required</kendo-formerror>
+    </kendo-formfield>
+  </div>
+</div>
+</div>

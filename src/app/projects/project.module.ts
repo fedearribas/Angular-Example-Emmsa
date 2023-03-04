@@ -10,13 +10,20 @@ import { IconModule } from '@progress/kendo-angular-icons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { DateInputsModule } from "@progress/kendo-angular-dateinputs";
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProjectMainInformationComponent } from './project-form/project-main-information/project-main-information.component';
+import { ProjectAdditionalInformationComponent } from './project-form/project-additional-information/project-additional-information.component';
 
 @NgModule({
   declarations: [
     ProjectReportComponent,
-    ProjectFormComponent
+    ProjectFormComponent,
+    ProjectMainInformationComponent,
+    ProjectAdditionalInformationComponent
   ],
   imports: [
+    ReactiveFormsModule,
     RouterModule.forChild([
       {
         path: 'projects',
@@ -38,7 +45,8 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
     InputsModule,
     LabelModule,
     DropDownsModule,
-    GridModule
+    GridModule,
+    DateInputsModule
   ]
 })
 export class ProjectModule { }
