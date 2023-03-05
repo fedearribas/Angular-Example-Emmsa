@@ -11,7 +11,10 @@ import { ProjectFilters } from './project-report/project-filters';
 export class ProjectService {
 
   private projectUrl = `${Constants.apiRoot}/Project/Project`;
-  private initialFilters: ProjectFilters = {};
+  private initialFilters: ProjectFilters = {
+    countryId: null,
+    codeName: ''
+  };
   private filtersSubject = new BehaviorSubject<ProjectFilters>(this.initialFilters);
   filters$ = this.filtersSubject.asObservable();
 

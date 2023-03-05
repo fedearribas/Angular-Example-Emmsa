@@ -2,7 +2,6 @@ import { AfterContentChecked, ChangeDetectionStrategy, Component, NgZone, OnDest
 import { DataStateChangeEvent, GridComponent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { catchError, ignoreElements, of, Subscription, take } from 'rxjs';
 import { ComboService } from 'src/app/combo.service';
-import { DropdownModel } from 'src/app/shared/models/dropdown-model';
 import { ProjectForGrid } from '../project';
 import { ProjectService } from '../project.service';
 import { ProjectFilters } from './project-filters';
@@ -14,9 +13,9 @@ import { ProjectFilters } from './project-filters';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentChecked {
-  cboDefaultItem: DropdownModel = { Text: 'All' };
+  cboDefaultItem = this.comboService.selectAllItemValue;
   selectedCountry = this.cboDefaultItem;
-  name?: string;
+  name!: string;
 
   @ViewChild(GridComponent) grid!: GridComponent;
   filtersSub!: Subscription;

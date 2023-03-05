@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StepperComponent } from '@progress/kendo-angular-layout';
 import { ProjectService } from '../project.service';
 
 @Component({
@@ -8,17 +9,12 @@ import { ProjectService } from '../project.service';
   styleUrls: ['./project-form.component.scss']
 })
 export class ProjectFormComponent implements OnInit {
-
+  @ViewChild('stepper', { static: true })
+  public stepper!: StepperComponent;
   projectForm!: FormGroup;
-
   currentStepIndex = 0;
   isLinear = true;
-  steps = [
-    { label: "Main information" },
-    { label: "Additional information" },
-    { label: "Contract price" },
-    { label: "Attachements", optional: true }
-  ];
+  steps!: any[];
 
   constructor(private projectService: ProjectService,
     private formBuilder: FormBuilder) { }
@@ -28,12 +24,34 @@ export class ProjectFormComponent implements OnInit {
       mainInformation: this.formBuilder.group({
         code: ['', Validators.required],
         name: ['', Validators.required],
-        countryId: [{}, Validators.required],
+        countryId: [null, Validators.required],
         projectFrom: ['', Validators.required],
         projectTo: ['', Validators.required],
         wtgUnits: ['', Validators.required]
+      }),
+      additionalInformation: this.formBuilder.group({
+        contractScopeId: [null, Validators.required],
+        contractStageId: [null, Validators.required],
+        productLineId: [null, Validators.required],
+        customerTypeId: [null, Validators.required],
+        projectManagerId: [null, Validators.required],
+        commercialProjectManagerId: [null, Validators.required],
+        preliminaryAcceptanceCertificate: [''],
+        finalAcceptanceCertificate: ['']
       })
     });
+
+    this.steps = [
+      { label: "Main information" },
+      { label: "Additional information" },
+      { label: "Contract price", optional: true },
+      { label: "Attachements", optional: true }
+    ];
+  }
+
+  isFormGroupValid(name: string): boolean {
+    const formGroup = this.getFromGroup(name);
+    return formGroup.valid;
   }
 
   getFromGroup(name: string): FormGroup {
@@ -43,6 +61,9 @@ export class ProjectFormComponent implements OnInit {
 
   public next(): void {
     this.currentStepIndex += 1;
+    this.steps[0].isValid = this.isFormGroupValid('mainInformation');
+    this.steps[1].isValid = this.isFormGroupValid('additionalInformation');
+    this.stepper.validateSteps();
   }
 
   public prev(): void {

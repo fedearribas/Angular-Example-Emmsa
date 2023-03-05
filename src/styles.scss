@@ -29,10 +29,6 @@ body {
 
 //Kendo overrides
 
-// .k-table-md {
-//   font-size: 0.875rem;
-// }
-
 .k-pager {
   font-size: 0.75rem !important;
   padding-block: 0rem !important;
@@ -65,4 +61,12 @@ kendo-expansionpanel {
     background-color: var(--app-bg);
     color: var(--base-text);
   }
+}
+
+kendo-card {
+  background-color: var(--card-bg) !important;
+}
+
+.k-step-label, .k-step-text {
+  max-width: 9.375rem !important;
 }

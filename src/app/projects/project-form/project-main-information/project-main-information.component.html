@@ -21,7 +21,7 @@
   <div class="col-md-12">
     <kendo-formfield>
       <kendo-label class="k-form fw-semibold" text="Country" [for]="cboCountry"></kendo-label>
-      <kendo-dropdownlist #cboCountry valueField="Id" textField="Text" [defaultItem]="cboDefaultItem"
+      <kendo-dropdownlist #cboCountry valueField="Id" textField="Text" [valuePrimitive]="true" [defaultItem]="cboDefaultItem" 
         formControlName="countryId" [data]="countries$ | async">
       </kendo-dropdownlist>
       <kendo-formerror>Country is required</kendo-formerror>

@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ComboService } from 'src/app/combo.service';
+import { DropdownModel } from 'src/app/shared/models/dropdown-model';
 
 @Component({
   selector: 'app-project-additional-information',
@@ -7,4 +10,14 @@ import { Component } from '@angular/core';
 })
 export class ProjectAdditionalInformationComponent {
 
+  @Input() public formGroup!: FormGroup;
+  cboDefaultItem = this.comboService.chooseOneItemValue;
+  contractScope$ = this.comboService.getContractScope();
+  contractStage$ = this.comboService.getContractStage();
+  productLine$ = this.comboService.getProductLine();
+  customerType$ = this.comboService.getCustomerType();
+  projectManager$ = this.comboService.getProjectManager();
+  commercialProjectManager$ = this.comboService.getCommercialProjectManager();
+  
+  constructor(private comboService: ComboService) {}
 }

@@ -1,4 +1,4 @@
 export interface ProjectFilters {
-  countryId?: number;
-  codeName?: string;
+  countryId: number | null;
+  codeName: string;
 }

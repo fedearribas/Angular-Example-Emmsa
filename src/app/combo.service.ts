@@ -11,6 +11,14 @@ export class ComboService {
 
   private comboUrl = `${Constants.apiRoot}/Combo`;
 
+  get chooseOneItemValue(): DropdownModel {
+    return { Id: null, Text: 'Choose one item...' };
+  }
+
+  get selectAllItemValue(): DropdownModel {
+    return { Id: null, Text: 'All' };
+  }
+
   constructor(private http: HttpClient) { }
 
   getCountries(fiscalYearId?: number, periodId?: number, isBudget?: boolean): Observable<DropdownModel[]> {
@@ -25,6 +33,64 @@ export class ComboService {
       queryParams = queryParams.append("isBudget", isBudget);
 
     return this.http.get<DropdownModel[]>(url, { params: queryParams })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getContractScope(): Observable<DropdownModel[]> {
+    const url = `${this.comboUrl}/GetContractScope`;
+
+    return this.http.get<DropdownModel[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getContractStage(projectId?: number): Observable<DropdownModel[]> {
+    const url = `${this.comboUrl}/GetContractStage`;
+    let queryParams = new HttpParams();
+
+    if (projectId)
+      queryParams = queryParams.append("projectId", projectId);
+
+    return this.http.get<DropdownModel[]>(url, { params: queryParams })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getProductLine(): Observable<DropdownModel[]> {
+    const url = `${this.comboUrl}/GetProductLine`;
+
+    return this.http.get<DropdownModel[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getCustomerType(): Observable<DropdownModel[]> {
+    const url = `${this.comboUrl}/GetCustomerType`;
+
+    return this.http.get<DropdownModel[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getProjectManager(): Observable<DropdownModel[]> {
+    const url = `${this.comboUrl}/GetProjectManager`;
+
+    return this.http.get<DropdownModel[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getCommercialProjectManager(): Observable<DropdownModel[]> {
+    const url = `${this.comboUrl}/GetCommercialProjectManager`;
+
+    return this.http.get<DropdownModel[]>(url)
       .pipe(
         catchError(this.handleError)
       );

@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ComboService } from 'src/app/combo.service';
-import { DropdownModel } from 'src/app/shared/models/dropdown-model';
 
 @Component({
   selector: 'app-project-main-information',
@@ -11,7 +10,7 @@ import { DropdownModel } from 'src/app/shared/models/dropdown-model';
 export class ProjectMainInformationComponent {
 
   @Input() public formGroup!: FormGroup;
-  cboDefaultItem: DropdownModel = { Text: 'Choose one item...' };
+  cboDefaultItem = this.comboService.chooseOneItemValue;
   countries$ = this.comboService.getCountries();
 
   constructor(private comboService: ComboService) {}
