@@ -20,13 +20,17 @@ export class ProjectFormComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+
+    const projectFrom = new Date();
+    const projectTo = new Date(new Date(projectFrom).setMonth(projectFrom.getMonth() + 1));
+
     this.projectForm = this.formBuilder.group({
       mainInformation: this.formBuilder.group({
         code: ['', Validators.required],
         name: ['', Validators.required],
         countryId: [null, Validators.required],
-        projectFrom: ['', Validators.required],
-        projectTo: ['', Validators.required],
+        projectFrom: [projectFrom, Validators.required],
+        projectTo: [projectTo, Validators.required],
         wtgUnits: ['', Validators.required]
       }),
       additionalInformation: this.formBuilder.group({
@@ -60,10 +64,26 @@ export class ProjectFormComponent implements OnInit {
   }
 
   public next(): void {
-    this.currentStepIndex += 1;
+
     this.steps[0].isValid = this.isFormGroupValid('mainInformation');
     this.steps[1].isValid = this.isFormGroupValid('additionalInformation');
+
+    let currentFormGroup = this.getFormGroupByIndex();
+    currentFormGroup?.markAllAsTouched();
+
+    this.currentStepIndex += 1;
     this.stepper.validateSteps();
+
+  }
+
+  private getFormGroupByIndex() {
+    let formGroup;
+    if (this.currentStepIndex === 0)
+      formGroup = this.getFromGroup('mainInformation');
+    if (this.currentStepIndex === 1)
+      formGroup = this.getFromGroup('additionalInformation');
+
+    return formGroup;
   }
 
   public prev(): void {
