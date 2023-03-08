@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { ProjectForGrid } from './project';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Project, ProjectForGrid } from './project';
 import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { Constants } from '../constants';
 import { ProjectFilters } from './project-report/project-filters';
@@ -18,8 +18,12 @@ export class ProjectService {
   private filtersSubject = new BehaviorSubject<ProjectFilters>(this.initialFilters);
   filters$ = this.filtersSubject.asObservable();
 
+  private isLoadingGridSubject = new BehaviorSubject<boolean>(false);
+  isLoadingGrid$ = this.isLoadingGridSubject.asObservable();
+
   projects$ = this.filters$.pipe(
     // flat filters and project streams into one observable
+    tap(() => this.isLoadingGridSubject.next(true)),
     switchMap(filters => {
       const url = `${this.projectUrl}/GetProjects`;
       let queryParams = new HttpParams();
@@ -44,13 +48,28 @@ export class ProjectService {
             );
           }));
 
-        })
+        }),
+        tap( () => this.isLoadingGridSubject.next(false))
       )
     }),
     catchError(this.handleError)
   );
-  
+
   constructor(private http: HttpClient) { }
+
+  updateFilters(filters: ProjectFilters): void {
+    this.filtersSubject.next(filters);
+  }
+
+  createProject(project: Project) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.projectUrl}/New`;
+    return this.http.post<Project>(url, JSON.stringify(project), { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
 
   private getProjectLogs(projectId: number, detailId: number) {
     const url = `${this.projectUrl}/GetProjectLogs`;
@@ -62,10 +81,6 @@ export class ProjectService {
       .pipe(
         catchError(this.handleError)
       );
-  }
-
-  updateFilters(filters: ProjectFilters): void {
-    this.filtersSubject.next(filters);
   }
 
   private handleError(err: any): Observable<never> {

@@ -16,6 +16,7 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentCh
   cboDefaultItem = this.comboService.selectAllItemValue;
   selectedCountry = this.cboDefaultItem;
   name!: string;
+  loading$ = this.projectService.isLoadingGrid$;
 
   @ViewChild(GridComponent) grid!: GridComponent;
   filtersSub!: Subscription;

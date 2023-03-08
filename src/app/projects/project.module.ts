@@ -14,6 +14,7 @@ import { DateInputsModule } from "@progress/kendo-angular-dateinputs";
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProjectMainInformationComponent } from './project-form/project-main-information/project-main-information.component';
 import { ProjectAdditionalInformationComponent } from './project-form/project-additional-information/project-additional-information.component';
+import { IndicatorsModule } from "@progress/kendo-angular-indicators";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ProjectAdditionalInformationComponent } from './project-form/project-ad
     LabelModule,
     DropDownsModule,
     GridModule,
-    DateInputsModule
+    DateInputsModule,
+    IndicatorsModule
   ]
 })
 export class ProjectModule { }

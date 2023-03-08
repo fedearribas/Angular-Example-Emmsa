@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { StepperComponent } from '@progress/kendo-angular-layout';
+import { NotificationService } from '@progress/kendo-angular-notification';
+import { Project } from '../project';
 import { ProjectService } from '../project.service';
 
 @Component({
@@ -15,9 +18,12 @@ export class ProjectFormComponent implements OnInit {
   currentStepIndex = 0;
   isLinear = true;
   steps!: any[];
+  errorMessage!: string;
 
   constructor(private projectService: ProjectService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
 
@@ -26,22 +32,22 @@ export class ProjectFormComponent implements OnInit {
 
     this.projectForm = this.formBuilder.group({
       mainInformation: this.formBuilder.group({
-        code: ['', Validators.required],
-        name: ['', Validators.required],
-        countryId: [null, Validators.required],
-        projectFrom: [projectFrom, Validators.required],
-        projectTo: [projectTo, Validators.required],
-        wtgUnits: ['', Validators.required]
+        Code: ['', Validators.required],
+        Name: ['', Validators.required],
+        CountryId: [null, Validators.required],
+        ProjectFrom: [projectFrom, Validators.required],
+        ProjectTo: [projectTo, Validators.required],
+        WTGUnits: ['', Validators.required]
       }),
       additionalInformation: this.formBuilder.group({
-        contractScopeId: [null, Validators.required],
-        contractStageId: [null, Validators.required],
-        productLineId: [null, Validators.required],
-        customerTypeId: [null, Validators.required],
-        projectManagerId: [null, Validators.required],
-        commercialProjectManagerId: [null, Validators.required],
-        preliminaryAcceptanceCertificate: [''],
-        finalAcceptanceCertificate: ['']
+        ContractScopeId: [null, Validators.required],
+        ContractStageId: [null, Validators.required],
+        ProductLineId: [null, Validators.required],
+        CustomerTypeId: [null, Validators.required],
+        ProjectManagerId: [null, Validators.required],
+        CommercialProjectManagerId: [null, Validators.required],
+        PreliminaryAcceptanceCertificate: [''],
+        FinalAcceptanceCertificate: ['']
       })
     });
 
@@ -90,8 +96,41 @@ export class ProjectFormComponent implements OnInit {
     this.currentStepIndex -= 1;
   }
 
-  public submit(): void {
+  public submit() {
+    if (!this.projectForm.valid) {
+      this.projectForm.markAllAsTouched();
+      this.stepper.validateSteps();
 
+      this.notificationService.show({
+        content: "The form has some invalid data. Please check",
+        cssClass: "button-notification",
+        animation: { type: "slide", duration: 400 },
+        position: { horizontal: "center", vertical: "bottom" },
+        type: { style: "error", icon: true },
+        closable: true
+      });
+    }
+    else {
+      const project = { ...this.projectForm?.get('mainInformation')?.value, ...this.projectForm?.get('additionalInformation')?.value };
+      this.projectService.createProject(project)
+        .subscribe({
+          next: () => this.onSaveComplete(),
+          error: err => this.errorMessage = err
+        });
+    }
+  }
+
+  onSaveComplete(): void {
+    this.projectForm.reset();
+    this.notificationService.show({
+      content: "Success!",
+      cssClass: "button-notification",
+      animation: { type: "slide", duration: 400 },
+      position: { horizontal: "center", vertical: "bottom" },
+      type: { style: "success", icon: true },
+      closable: true
+    });
+    this.router.navigate(['/projects']);
   }
 
 }

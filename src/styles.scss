@@ -70,3 +70,22 @@ kendo-card {
 .k-step-label, .k-step-text {
   max-width: 9.375rem !important;
 }
+
+.k-notification-error {
+  color: white;
+  background-color: var(--mat-red-700);
+  border-color: var(--mat-red-700);
+}
+
+.k-notification-success {
+  color:white;
+  background-color: var(--mat-green);
+  border-color: var(--mat-green);
+}
+
+.loading-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

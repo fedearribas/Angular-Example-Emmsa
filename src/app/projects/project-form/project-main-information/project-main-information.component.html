@@ -3,7 +3,7 @@
   <div class="col-md-6">
     <kendo-formfield>
       <kendo-label class="k-form fw-semibold" text="Code" [for]="txtCode"></kendo-label>
-      <input #txtCode kendoTextBox class="w-100" formControlName="code" />
+      <input #txtCode kendoTextBox class="w-100" formControlName="Code" />
       <kendo-formerror>Code is required</kendo-formerror>
     </kendo-formfield>
   </div>
@@ -11,7 +11,7 @@
   <div class="col-md-6">
     <kendo-formfield>
       <kendo-label class="k-form fw-semibold" text="Name" [for]="txtName"></kendo-label>
-      <input #txtName kendoTextBox class="w-100" formControlName="name" />
+      <input #txtName kendoTextBox class="w-100" formControlName="Name" />
       <kendo-formerror>Name is required</kendo-formerror>
     </kendo-formfield>
   </div>
@@ -22,7 +22,7 @@
     <kendo-formfield>
       <kendo-label class="k-form fw-semibold" text="Country" [for]="cboCountry"></kendo-label>
       <kendo-dropdownlist #cboCountry valueField="Id" textField="Text" [valuePrimitive]="true" [defaultItem]="cboDefaultItem" 
-        formControlName="countryId" [data]="countries$ | async">
+        formControlName="CountryId" [data]="countries$ | async">
       </kendo-dropdownlist>
       <kendo-formerror>Country is required</kendo-formerror>
     </kendo-formfield>
@@ -33,7 +33,7 @@
   <div class="col-md-6">
     <kendo-formfield>
       <kendo-label class="k-form fw-semibold" text="Project from" [for]="txtProjectFrom"></kendo-label>
-      <kendo-datepicker #txtProjectFrom format="dd - MMMM - yyyy" formControlName="projectFrom"
+      <kendo-datepicker #txtProjectFrom format="dd - MMMM - yyyy" formControlName="ProjectFrom"
         activeView="year" bottomView="year">
       </kendo-datepicker>
       <kendo-formerror>Project from is required</kendo-formerror>
@@ -43,7 +43,7 @@
   <div class="col-md-6">
     <kendo-formfield>
       <kendo-label class="k-form fw-semibold" text="Project to" [for]="txtProjectTo"></kendo-label>
-      <kendo-datepicker #txtProjectTo format="dd - MMMM - yyyy" formControlName="projectTo"
+      <kendo-datepicker #txtProjectTo format="dd - MMMM - yyyy" formControlName="ProjectTo"
         activeView="year" bottomView="year">
       </kendo-datepicker>
       <kendo-formerror>Project to is required</kendo-formerror>
@@ -55,7 +55,7 @@
   <div class="col-md-6">
     <kendo-formfield>
       <kendo-label class="k-form fw-semibold" text="WTG units" [for]="txtWTGUnits"></kendo-label>
-      <kendo-numerictextbox #txtWTGUnits [min]="0" [max]="100" formControlName="wtgUnits">
+      <kendo-numerictextbox #txtWTGUnits [min]="0" [max]="100" formControlName="WTGUnits">
       </kendo-numerictextbox>
       <kendo-formerror>WTG units is required</kendo-formerror>
     </kendo-formfield>
