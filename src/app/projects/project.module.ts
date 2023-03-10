@@ -17,13 +17,17 @@ import { ProjectAdditionalInformationComponent } from './project-form/project-ad
 import { IndicatorsModule } from "@progress/kendo-angular-indicators";
 import { ProjectFormGuard } from './project-form/project-form.guard';
 import { DialogsModule } from "@progress/kendo-angular-dialog";
+import { ProjectContractPriceComponent } from './project-form/project-contract-price/project-contract-price.component';
+import { ProjectMainDataComponent } from './project-main-data/project-main-data.component';
 
 @NgModule({
   declarations: [
     ProjectReportComponent,
     ProjectFormComponent,
     ProjectMainInformationComponent,
-    ProjectAdditionalInformationComponent
+    ProjectAdditionalInformationComponent,
+    ProjectContractPriceComponent,
+    ProjectMainDataComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -41,6 +45,10 @@ import { DialogsModule } from "@progress/kendo-angular-dialog";
         path: 'projects/:id',
         component: ProjectFormComponent,
         canDeactivate: [ProjectFormGuard]
+      },
+      {
+        path: 'projects/contractPrice/:id',
+        component: ProjectContractPriceComponent
       }
     ]),
     SharedModule,

@@ -46,6 +46,7 @@
         <kendo-grid-column>
         <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
           <button kendoButton icon="track-changes" themeColor="primary" [routerLink]="['/projects', dataItem.Id]" title="Edit"></button>
+          <button class="ms-1" kendoButton icon="search" themeColor="secondary" [routerLink]="['/projects/contractPrice', dataItem.Id]" title="Contract price"></button>
         </ng-template>
       </kendo-grid-column>
 

@@ -9,7 +9,8 @@ export interface Project {
   ProductLineId: number;
   ContractScopeName: string;
   ContractStageName: string;
-  ProjectMananagerName: string;
+  ProjectManagerName: string;
+  CommercialProjectManagerName: string;
   ProductLineName: string;
   CountryId: number;
   CountryName: string;
@@ -19,7 +20,7 @@ export interface Project {
   ProjectState: string;
   PreliminaryAcceptanceCertificate: Date;
   FinalAcceptanceCertificate: Date;
-  PocPercent: number;
+  PoCPercent: number;
   BillingPercent: number;
   BieCieValue: number;
   ContractPercent: number;

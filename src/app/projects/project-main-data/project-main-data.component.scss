@@ -1,0 +1,44 @@
+.container {
+  text-align: center;
+}
+
+.info-row {
+  font-size: small;
+  margin-top: 0.75rem;
+}
+
+.info-text-wrapper{
+  margin-right: 3rem;
+}
+
+.text-description {
+  color: var(--info-text-color);
+}
+
+@media only screen and (max-width: 1200px) {
+  .project-dates-wrapper {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .project-dates-wrapper, .project-wtg-wrapper {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .info-text-wrapper{
+    display: block;
+  }
+  .container {
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 680px) {
+  .project-dates-wrapper, .project-wtg-wrapper, .project-country-wrapper {
+    display: none;
+  }
+}
+

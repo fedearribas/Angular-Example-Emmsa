@@ -1,0 +1,85 @@
+<kendo-expansionpanel [expanded]="expanded" class="mt-2" *ngIf="project$ | async as project">
+  <ng-template kendoExpansionPanelTitleDirective>
+    <div class="header-content d-flex align-items-center m-auto">
+      <span class="project-name-wrapper">
+        Project name:
+        <span class="fw-semibold">{{project.Name}}</span>
+      </span>
+      <span class="project-code-wrapper ms-5">
+        Code:
+        <span class="fw-semibold">{{project.Code}}</span>
+      </span>
+      <span class="project-country-wrapper ms-5">
+        <i class="fas fa-map-marked-alt fa-lg" style="color: var(--mat-green-700);"></i>
+        Installed in: <span class="fw-semibold">{{project.CountryName}}</span>
+      </span>
+      <span class="project-wtg-wrapper ms-5">
+        <i class="fas fa-fan fa-lg" style="color: var(--mat-light-blue-700);"></i>
+        <span class="fw-semibold"> {{project.WTGUnits}}</span> WTG units</span>
+      <span class="project-dates-wrapper ms-5">
+        <i class="fas fa-calendar-alt fa-lg" style="color: var(--mat-red-300);"></i>
+        Planning horizon from <span class="fw-semibold">{{project.ProjectFrom | date:'MM/yyyy'}}</span>
+        to <span class="fw-semibold">{{project.ProjectTo | date:'MM/yyyy'}}</span>
+      </span>
+    </div>
+  </ng-template>
+
+  <div class="container">
+    <div class="info-row">
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">Contract scope:</span>
+        <span class="fw-semibold text-description ms-1">{{project.ContractScopeName}}</span>
+      </span>
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">Contract stage:</span>
+        <span class="fw-semibold text-description ms-1">{{project.ContractStageName}}</span>
+      </span>
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">Preliminary acceptance certificate:</span>
+        <span class="fw-semibold text-description ms-1" *ngIf="project.PreliminaryAcceptanceCertificate">{{project.PreliminaryAcceptanceCertificate}}</span>
+        <span class="fw-semibold text-description ms-1" *ngIf="!project.PreliminaryAcceptanceCertificate">N/A</span>
+      </span>
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">Final acceptance certificate:</span>
+        <span class="fw-semibold text-description ms-1" *ngIf="project.FinalAcceptanceCertificate">{{project.FinalAcceptanceCertificate}}</span>
+        <span class="fw-semibold text-description ms-1" *ngIf="!project.FinalAcceptanceCertificate">N/A</span>
+      </span>
+    </div>
+
+    <div class="info-row">
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">Project manager:</span>
+        <span class="fw-semibold text-description ms-1">{{project.ProjectManagerName}}</span>
+      </span>
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">Commercial project manager:</span>
+        <span class="fw-semibold text-description ms-1">{{project.CommercialProjectManagerName}}</span>
+      </span>
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">Product line:</span>
+        <span class="fw-semibold text-description ms-1">{{project.ProductLineName}}</span>
+      </span>
+    </div>
+
+
+    <div class="info-row" *ngIf="project.ContractStageId === 3">
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">PoC %:</span>
+        <span class="fw-semibold text-description ms-1">{{project.PoCPercent | percent: '.2'}}</span>
+      </span>
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">Contract %:</span>
+        <span class="fw-semibold text-description ms-1">{{project.ContractPercent | percent: '.2'}}</span>
+      </span>
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">Billing %:</span>
+        <span class="fw-semibold text-description ms-1">{{project.BillingPercent | percent: '.2'}}</span>
+      </span>
+      <span class="info-text-wrapper">
+        <span class="fw-semibold">BIE / CIE:</span>
+        <span class="fw-semibold text-description ms-1">{{project.BieCieValue | percent: '.2'}}</span>
+      </span>
+    </div>
+  </div>
+
+</kendo-expansionpanel>
