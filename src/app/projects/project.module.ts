@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProjectMainInformationComponent } from './project-form/project-main-information/project-main-information.component';
 import { ProjectAdditionalInformationComponent } from './project-form/project-additional-information/project-additional-information.component';
 import { IndicatorsModule } from "@progress/kendo-angular-indicators";
+import { ProjectFormGuard } from './project-form/project-form.guard';
+import { DialogsModule } from "@progress/kendo-angular-dialog";
 
 @NgModule({
   declarations: [
@@ -32,11 +34,13 @@ import { IndicatorsModule } from "@progress/kendo-angular-indicators";
       },
       {
         path: 'projects/new', 
-        component: ProjectFormComponent
+        component: ProjectFormComponent,
+        canDeactivate: [ProjectFormGuard]
       },
       {
         path: 'projects/:id',
-        component: ProjectFormComponent
+        component: ProjectFormComponent,
+        canDeactivate: [ProjectFormGuard]
       }
     ]),
     SharedModule,
@@ -48,7 +52,8 @@ import { IndicatorsModule } from "@progress/kendo-angular-indicators";
     DropDownsModule,
     GridModule,
     DateInputsModule,
-    IndicatorsModule
+    IndicatorsModule,
+    DialogsModule
   ]
 })
 export class ProjectModule { }

@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DialogCloseResult, DialogRef, DialogResult, DialogService } from '@progress/kendo-angular-dialog';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { Project } from '../project';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { ProjectService } from '../project.service';
 
 @Component({
@@ -19,13 +20,25 @@ export class ProjectFormComponent implements OnInit {
   isLinear = true;
   steps!: any[];
   errorMessage!: string;
+  title!: string;
+
+  discardChangesDialogOpened = false;
+
+  discardChangesSubject!: Subject<boolean>;
+
+  get isDirty(): boolean {
+    return this.projectForm.touched;
+  }
 
   constructor(private projectService: ProjectService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private notificationService: NotificationService) { }
+    private route: ActivatedRoute,
+    private notificationService: NotificationService,
+    private dialogService: DialogService) { }
 
   ngOnInit(): void {
+    this.title = 'New project';
 
     const projectFrom = new Date();
     const projectTo = new Date(new Date(projectFrom).setMonth(projectFrom.getMonth() + 1));
@@ -50,6 +63,18 @@ export class ProjectFormComponent implements OnInit {
         FinalAcceptanceCertificate: ['']
       })
     });
+
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (id) {
+      this.projectService.getProject(id).subscribe({
+        next: project => {
+          this.title = `Editing project: ${project.Code} - ${project.Name}`;
+          this.getFromGroup('mainInformation').patchValue(project);
+          this.getFromGroup('additionalInformation').patchValue(project);
+        },
+        error: err => this.errorMessage = err
+      });
+    }
 
     this.steps = [
       { label: "Main information" },
@@ -96,6 +121,16 @@ export class ProjectFormComponent implements OnInit {
     this.currentStepIndex -= 1;
   }
 
+  closeDiscardDialog() {
+    this.discardChangesDialogOpened = false;
+    this.discardChangesSubject.next(false);
+  }
+  
+  discardChanges() {
+    this.discardChangesDialogOpened = false;
+    this.discardChangesSubject.next(true);
+  }
+  
   public submit() {
     if (!this.projectForm.valid) {
       this.projectForm.markAllAsTouched();

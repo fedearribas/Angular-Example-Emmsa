@@ -49,7 +49,7 @@ export class ProjectService {
           }));
 
         }),
-        tap( () => this.isLoadingGridSubject.next(false))
+        tap(() => this.isLoadingGridSubject.next(false))
       )
     }),
     catchError(this.handleError)
@@ -70,6 +70,23 @@ export class ProjectService {
       );
   }
 
+  getProject(id: number): Observable<Project> {
+    const url = `${this.projectUrl}/GetProject`;
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("id", id);
+    return this.http.get<Project>(url, { params: queryParams })
+      .pipe(
+        tap(data => {
+          data.ProjectFrom = new Date(data.ProjectFrom);
+          data.ProjectTo = new Date(data.ProjectTo);
+          if (data.PreliminaryAcceptanceCertificate)
+            data.PreliminaryAcceptanceCertificate = new Date(data.PreliminaryAcceptanceCertificate);
+          if (data.FinalAcceptanceCertificate)
+            data.FinalAcceptanceCertificate = new Date(data.FinalAcceptanceCertificate);
+        }),
+        catchError(this.handleError)
+      );
+  }
 
   private getProjectLogs(projectId: number, detailId: number) {
     const url = `${this.projectUrl}/GetProjectLogs`;

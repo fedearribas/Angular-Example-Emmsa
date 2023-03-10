@@ -27,7 +27,16 @@ body {
   cursor: pointer;
 }
 
+// ------------------------------------
 //Kendo overrides
+
+// ------ Grid ------
+
+kendo-grid {
+  .k-button {
+    padding: 0.25rem !important;
+  }
+}
 
 .k-pager {
   font-size: 0.75rem !important;
@@ -39,6 +48,9 @@ body {
     font-size: 0.6rem !important;
   }
 }
+
+// ------------------------------------
+// ------ Expansion panel ------
 
 kendo-expansionpanel {
   border-radius: 0.25rem;
@@ -63,13 +75,22 @@ kendo-expansionpanel {
   }
 }
 
+// ------------------------------------
+// ------ Card ------
+
 kendo-card {
   background-color: var(--card-bg) !important;
 }
 
+// ------------------------------------
+// ------ Stepper ------
+
 .k-step-label, .k-step-text {
   max-width: 9.375rem !important;
 }
+
+// ------------------------------------
+// ------ Notifications ------
 
 .k-notification-error {
   color: white;
@@ -82,7 +103,8 @@ kendo-card {
   background-color: var(--mat-green);
   border-color: var(--mat-green);
 }
-
+// ------------------------------------
+// ------ Loader ------
 .loading-container {
   height: 100%;
   display: flex;

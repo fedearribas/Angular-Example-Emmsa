@@ -43,6 +43,12 @@
     <kendo-grid  #grid [data]="projects$ | async" [pageable]="true" class="mt-2"  [loading]="(loading$ | async)!"
         [pageSize]="15" [resizable]="true" (dataStateChange)="onDataStateChange($event)">
 
+        <kendo-grid-column>
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+          <button kendoButton icon="track-changes" themeColor="primary" [routerLink]="['/projects', dataItem.Id]" title="Edit"></button>
+        </ng-template>
+      </kendo-grid-column>
+
       <kendo-grid-column [width]="200" field="Code" title="Code"></kendo-grid-column>
       <kendo-grid-column [width]="200" field="Name" title="Name"></kendo-grid-column>
       <kendo-grid-column [width]="200" field="WTGUnits" title="WTG units" class="text-end"> </kendo-grid-column>
