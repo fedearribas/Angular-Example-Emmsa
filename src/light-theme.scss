@@ -20,7 +20,7 @@ $theme-type: light;
   --base-border: #{$kendo-base-border};
   //------------------------
   // specific colors
-  --grid-success-record: var(--mat-green-300);
-  --grid-error-record: var(--mat-red-300);
+  --grid-success-record: var(--mat-green-100);
+  --grid-error-record: var(--mat-red-100);
   --card-bg: var(--app-bg);
 }

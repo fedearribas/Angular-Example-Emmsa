@@ -136,7 +136,7 @@ export class ProjectFormComponent implements OnInit {
       this.stepper.validateSteps();
 
       this.notificationService.show({
-        content: "The form has some invalid data. Please check",
+        content: "The form has invalid data. Please check.",
         cssClass: "button-notification",
         animation: { type: "slide", duration: 400 },
         position: { horizontal: "center", vertical: "bottom" },
