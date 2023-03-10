@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DialogCloseResult, DialogRef, DialogResult, DialogService } from '@progress/kendo-angular-dialog';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ProjectService } from '../project.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-project-form',
@@ -21,6 +21,7 @@ export class ProjectFormComponent implements OnInit {
   steps!: any[];
   errorMessage!: string;
   title!: string;
+  isEditMode = false;
 
   discardChangesDialogOpened = false;
 
@@ -34,11 +35,18 @@ export class ProjectFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private notificationService: NotificationService,
-    private dialogService: DialogService) { }
+    private location: Location,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.title = 'New project';
+
+     this.steps = [
+      { label: "Main information" },
+      { label: "Additional information" },
+      { label: "Contract price", optional: true, disabled: true },
+      { label: "Attachements", optional: true, disabled: true }
+    ];
 
     const projectFrom = new Date();
     const projectTo = new Date(new Date(projectFrom).setMonth(projectFrom.getMonth() + 1));
@@ -68,20 +76,21 @@ export class ProjectFormComponent implements OnInit {
     if (id) {
       this.projectService.getProject(id).subscribe({
         next: project => {
+          this.isEditMode = true;
           this.title = `Editing project: ${project.Code} - ${project.Name}`;
           this.getFromGroup('mainInformation').patchValue(project);
           this.getFromGroup('additionalInformation').patchValue(project);
+          this.steps[2].disabled = false;
+          this.steps[3].disabled = false;
         },
         error: err => this.errorMessage = err
       });
     }
-
-    this.steps = [
-      { label: "Main information" },
-      { label: "Additional information" },
-      { label: "Contract price", optional: true },
-      { label: "Attachements", optional: true }
-    ];
+    const state = <any>this.location.getState();
+    const stepIndex = state.currentStepIndex;
+    if (stepIndex)
+      this.currentStepIndex = stepIndex;
+   
   }
 
   isFormGroupValid(name: string): boolean {
@@ -107,6 +116,10 @@ export class ProjectFormComponent implements OnInit {
 
   }
 
+  public prev(): void {
+    this.currentStepIndex -= 1;
+  }
+
   private getFormGroupByIndex() {
     let formGroup;
     if (this.currentStepIndex === 0)
@@ -115,20 +128,6 @@ export class ProjectFormComponent implements OnInit {
       formGroup = this.getFromGroup('additionalInformation');
 
     return formGroup;
-  }
-
-  public prev(): void {
-    this.currentStepIndex -= 1;
-  }
-
-  closeDiscardDialog() {
-    this.discardChangesDialogOpened = false;
-    this.discardChangesSubject.next(false);
-  }
-  
-  discardChanges() {
-    this.discardChangesDialogOpened = false;
-    this.discardChangesSubject.next(true);
   }
   
   public submit() {
@@ -149,13 +148,13 @@ export class ProjectFormComponent implements OnInit {
       const project = { ...this.projectForm?.get('mainInformation')?.value, ...this.projectForm?.get('additionalInformation')?.value };
       this.projectService.createProject(project)
         .subscribe({
-          next: () => this.onSaveComplete(),
+          next: id => this.onSaveComplete(id),
           error: err => this.errorMessage = err
         });
     }
   }
 
-  onSaveComplete(): void {
+  onSaveComplete(id: number): void {
     this.projectForm.reset();
     this.notificationService.show({
       content: "Success!",
@@ -163,9 +162,19 @@ export class ProjectFormComponent implements OnInit {
       animation: { type: "slide", duration: 400 },
       position: { horizontal: "center", vertical: "bottom" },
       type: { style: "success", icon: true },
-      closable: true
+      hideAfter: 2000
     });
-    this.router.navigate(['/projects']);
+    this.router.navigate(['/projects', id], { state: { currentStepIndex: 1 } });
+  }
+
+  closeDiscardDialog() {
+    this.discardChangesDialogOpened = false;
+    this.discardChangesSubject.next(false);
+  }
+  
+  discardChanges() {
+    this.discardChangesDialogOpened = false;
+    this.discardChangesSubject.next(true);
   }
 
 }

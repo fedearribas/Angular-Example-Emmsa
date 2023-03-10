@@ -64,7 +64,7 @@ export class ProjectService {
   createProject(project: Project) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.projectUrl}/New`;
-    return this.http.post<Project>(url, JSON.stringify(project), { headers })
+    return this.http.post<number>(url, JSON.stringify(project), { headers })
       .pipe(
         catchError(this.handleError)
       );

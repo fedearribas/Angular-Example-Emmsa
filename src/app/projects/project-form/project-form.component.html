@@ -34,7 +34,7 @@
               <button kendoButton icon="arrow-chevron-left" (click)="prev()"
                 *ngIf="currentStepIndex !== 0">Previous</button>
               <button kendoButton icon="arrow-chevron-right" themeColor="primary" class="ms-2" (click)="next()"
-                *ngIf="currentStepIndex < 3">Next</button>
+                *ngIf="currentStepIndex < (isEditMode ? 3 : 1)">Next</button>
               <button kendoButton icon="save" themeColor="secondary" class="ms-2" (click)="submit()"
                 *ngIf="currentStepIndex > 0">Submit</button>
             </div>
