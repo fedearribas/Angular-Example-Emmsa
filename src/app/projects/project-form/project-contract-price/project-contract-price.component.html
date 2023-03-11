@@ -17,6 +17,37 @@
 
       <div class="container">
 
+        <div id="grdContractPrice">
+          <kendo-grid [data]="gridData$ | async" [group]="group" class="mt-3">
+            <kendo-grid-column [width]="200" field="ServiceTypeName" title="Service type"
+              [hidden]="true"></kendo-grid-column>
+            <kendo-grid-column [width]="200" field="CurrencyName" title="Currency" [hidden]="true"></kendo-grid-column>
+            <kendo-grid-column [width]="200" field="ApplyByWTG" title="Apply by WTG">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{ dataItem.ApplyByWTG ? 'Yes' : 'No' }}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column [width]="200" field="Period" title="Period"></kendo-grid-column>
+            <kendo-grid-column [width]="200" field="Price" title="Price">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                {{ dataItem.Price | currency }}
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column [width]="300" field="Total" title="Total">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{ dataItem.Total | currency }}</span>
+              </ng-template>
+              <ng-template kendoGridGroupHeaderColumnTemplate let-aggregates="aggregates">
+                <span> Sum: {{ aggregates.Total.sum | currency }} </span>
+              </ng-template>
+
+              <ng-template kendoGridFooterTemplate>
+                <span *ngIf="totalSumFooter && totalSumFooter['Total']"> Sum: {{totalSumFooter["Total"].sum | currency }} </span>
+              </ng-template>
+            </kendo-grid-column>
+          </kendo-grid>
+        </div>
+
         <span class="k-form-separator mt-5"></span>
         <div class="d-flex justify-content-between">
           <span class="align-self-center">Step {{ currentStepIndex + 1 }} of {{steps.length}}</span>

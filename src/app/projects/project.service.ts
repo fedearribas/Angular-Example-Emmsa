@@ -4,6 +4,7 @@ import { Project, ProjectForGrid } from './project';
 import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { Constants } from '../constants';
 import { ProjectFilters } from './project-report/project-filters';
+import { ProjectContractPrice } from './project-form/project-contract-price/project-contract-price';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,8 @@ import { ProjectFilters } from './project-report/project-filters';
 export class ProjectService {
 
   private projectUrl = `${Constants.apiRoot}/Project/Project`;
+  private contractPriceUrl = `${Constants.apiRoot}/Project/ContractPrice`;
+
   private initialFilters: ProjectFilters = {
     countryId: null,
     codeName: ''
@@ -138,6 +141,16 @@ export class ProjectService {
     queryParams = queryParams.append("detailId", detailId);
 
     return this.http.get<ProjectForGrid[]>(url, { params: queryParams })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getContractPriceList(projectId: number): Observable<ProjectContractPrice[]> {
+    const url = `${this.contractPriceUrl}/GetContractPriceByProject`;
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("projectId", projectId);
+    return this.http.get<ProjectContractPrice[]>(url, { params: queryParams })
       .pipe(
         catchError(this.handleError)
       );
