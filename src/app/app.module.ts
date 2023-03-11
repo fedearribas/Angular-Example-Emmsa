@@ -6,30 +6,14 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { FooterComponent } from './_layout/footer/footer.component';
 
 import { ProjectModule } from './projects/project.module';
-import { NavigationModule } from '@progress/kendo-angular-navigation';
-import { LayoutModule } from '@progress/kendo-angular-layout';
-import { IndicatorsModule } from '@progress/kendo-angular-indicators';
-import { IconsModule } from '@progress/kendo-angular-icons';
-import { ButtonsModule } from '@progress/kendo-angular-buttons';
-import { NavbarComponent } from './_layout/navbar/navbar.component';
-import { SidebarComponent } from './_layout/sidebar/sidebar.component';
-import { MenuModule } from '@progress/kendo-angular-menu';
-import { NotificationModule } from '@progress/kendo-angular-notification';
-import { DropdownMenuComponent } from './shared/dropdown-menu/dropdown-menu.component';
-
-
+import { AppLayoutModule } from './_layout/app-layout.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    FooterComponent,
-    NavbarComponent,
-    SidebarComponent,
-    DropdownMenuComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -40,13 +24,7 @@ import { DropdownMenuComponent } from './shared/dropdown-menu/dropdown-menu.comp
       { path: '**', redirectTo: '', pathMatch: 'full' }
     ]),
     ProjectModule,
-    NavigationModule,
-    LayoutModule,
-    IndicatorsModule,
-    IconsModule,
-    ButtonsModule,
-    MenuModule,
-    NotificationModule
+    AppLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

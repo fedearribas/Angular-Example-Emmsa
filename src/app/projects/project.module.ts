@@ -19,6 +19,7 @@ import { ProjectFormGuard } from './project-form/project-form.guard';
 import { DialogsModule } from "@progress/kendo-angular-dialog";
 import { ProjectContractPriceComponent } from './project-form/project-contract-price/project-contract-price.component';
 import { ProjectMainDataComponent } from './project-main-data/project-main-data.component';
+import { NotificationModule } from '@progress/kendo-angular-notification';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ProjectMainDataComponent } from './project-main-data/project-main-data.
     GridModule,
     DateInputsModule,
     IndicatorsModule,
-    DialogsModule
+    DialogsModule,
+    NotificationModule
   ]
 })
 export class ProjectModule { }
