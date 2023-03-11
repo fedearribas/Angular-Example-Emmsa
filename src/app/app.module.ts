@@ -18,6 +18,7 @@ import { NavbarComponent } from './_layout/navbar/navbar.component';
 import { SidebarComponent } from './_layout/sidebar/sidebar.component';
 import { MenuModule } from '@progress/kendo-angular-menu';
 import { NotificationModule } from '@progress/kendo-angular-notification';
+import { DropdownMenuComponent } from './shared/dropdown-menu/dropdown-menu.component';
 
 
 
@@ -27,7 +28,8 @@ import { NotificationModule } from '@progress/kendo-angular-notification';
     HomeComponent,
     FooterComponent,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    DropdownMenuComponent,
   ],
   imports: [
     BrowserModule,

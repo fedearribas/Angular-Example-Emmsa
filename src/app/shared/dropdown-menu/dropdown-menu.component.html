@@ -1,0 +1,11 @@
+<div class="dropdown">
+  <i #menuButton class="menu-button k-icon k-i-more-vertical ms-1 cursor-pointer" (click)="toggleMenu()"></i>
+  <div #menuContent class="dropdown-content">
+    
+    <div class="dropdown-menu-item cursor-pointer ps-1" *ngFor="let item of items" (click)="item.action()">
+      <i class="{{ getValueAsObservable(item.icon) | async }}"></i>
+      <span> {{ getValueAsObservable(item.text) | async }}</span>
+    </div>
+
+  </div>
+</div>

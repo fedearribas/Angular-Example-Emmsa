@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Constants } from './constants';
-import { DropdownModel } from './shared/models/dropdown-model';
+import { DropDownListItem } from './shared/models/dropdownlist-item';
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +11,17 @@ export class ComboService {
 
   private comboUrl = `${Constants.apiRoot}/Combo`;
 
-  get chooseOneItemValue(): DropdownModel {
+  get chooseOneItemValue(): DropDownListItem {
     return { Id: null, Text: 'Choose one item...' };
   }
 
-  get selectAllItemValue(): DropdownModel {
+  get selectAllItemValue(): DropDownListItem {
     return { Id: null, Text: 'All' };
   }
 
   constructor(private http: HttpClient) { }
 
-  getCountries(fiscalYearId?: number, periodId?: number, isBudget?: boolean): Observable<DropdownModel[]> {
+  getCountries(fiscalYearId?: number, periodId?: number, isBudget?: boolean): Observable<DropDownListItem[]> {
     const url = `${this.comboUrl}/GetCountry`;
     let queryParams = new HttpParams();
 
@@ -32,65 +32,65 @@ export class ComboService {
     if (isBudget)
       queryParams = queryParams.append("isBudget", isBudget);
 
-    return this.http.get<DropdownModel[]>(url, { params: queryParams })
+    return this.http.get<DropDownListItem[]>(url, { params: queryParams })
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getContractScope(): Observable<DropdownModel[]> {
+  getContractScope(): Observable<DropDownListItem[]> {
     const url = `${this.comboUrl}/GetContractScope`;
 
-    return this.http.get<DropdownModel[]>(url)
+    return this.http.get<DropDownListItem[]>(url)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getContractStage(projectId?: number): Observable<DropdownModel[]> {
+  getContractStage(projectId?: number): Observable<DropDownListItem[]> {
     const url = `${this.comboUrl}/GetContractStage`;
     let queryParams = new HttpParams();
 
     if (projectId)
       queryParams = queryParams.append("projectId", projectId);
 
-    return this.http.get<DropdownModel[]>(url, { params: queryParams })
+    return this.http.get<DropDownListItem[]>(url, { params: queryParams })
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getProductLine(): Observable<DropdownModel[]> {
+  getProductLine(): Observable<DropDownListItem[]> {
     const url = `${this.comboUrl}/GetProductLine`;
 
-    return this.http.get<DropdownModel[]>(url)
+    return this.http.get<DropDownListItem[]>(url)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getCustomerType(): Observable<DropdownModel[]> {
+  getCustomerType(): Observable<DropDownListItem[]> {
     const url = `${this.comboUrl}/GetCustomerType`;
 
-    return this.http.get<DropdownModel[]>(url)
+    return this.http.get<DropDownListItem[]>(url)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getProjectManager(): Observable<DropdownModel<string>[]> {
+  getProjectManager(): Observable<DropDownListItem<string>[]> {
     const url = `${this.comboUrl}/GetProjectManager`;
 
-    return this.http.get<DropdownModel<string>[]>(url)
+    return this.http.get<DropDownListItem<string>[]>(url)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getCommercialProjectManager(): Observable<DropdownModel<string>[]> {
+  getCommercialProjectManager(): Observable<DropDownListItem<string>[]> {
     const url = `${this.comboUrl}/GetCommercialProjectManager`;
 
-    return this.http.get<DropdownModel<string>[]>(url)
+    return this.http.get<DropDownListItem<string>[]>(url)
       .pipe(
         catchError(this.handleError)
       );

@@ -1,0 +1,29 @@
+.dropdown {
+  display: inline-block;
+}
+
+.dropdown-content {
+  font-size: 0.95rem;
+  display: none;
+  position: absolute;
+  background-color: var(--base-bg);
+  right: 0;
+  min-width: 160px;
+  border: 1px solid var(--base-border);
+  padding: 0.5rem;
+  z-index: 4;
+  vertical-align: middle;
+}
+
+.dropdown-content:hover {
+  background-color: var(--hover-bg-solid);
+}
+
+.item-icon {
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+.menu-button:hover {
+  color: var(--bs-gray-500);
+}
