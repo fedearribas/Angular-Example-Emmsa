@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, first, Subject, Subscription, take } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { sidebarTextAnimation } from 'src/app/app.animation';
 import { MenuItem } from 'src/app/menuItem';
 import { MainLayoutService } from '../main-layout.service';
@@ -39,17 +39,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   onMenuItemClick(item: MenuItem) {
-
-    let items = this.menuItemsValue;
-    items.map(x => x.selected = false);
-    let selectedItem = items.find(x => x.path == item.path);
-    if (selectedItem)
-      selectedItem.selected = true;
-
-    this.menuItemsSubject.next(items);
-
     this.closeSidebar();
-
     this.router.navigate([item.path]);
   }
 
@@ -61,11 +51,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
         let items = this.menuItemsValue;
         
         let selectedItem = items.find(x => x.path === url || (url === '/' && x.path === ''));
+        if (!selectedItem) {
+          if (url.includes('/projects/'))
+            selectedItem = items.find(x => x.text === 'Projects');
+        }
         if (selectedItem) {
           items.map(x => x.selected = false);
           selectedItem.selected = true;
           this.menuItemsSubject.next(items);
-          this.routeSub.unsubscribe();
         }
       }
     });
