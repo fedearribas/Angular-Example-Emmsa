@@ -70,6 +70,15 @@ export class ProjectService {
       );
   }
 
+  updateProject(project: Project) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.projectUrl}/Edit`;
+    return this.http.post(url, JSON.stringify(project), { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   getProject(id: number): Observable<Project> {
     const url = `${this.projectUrl}/GetProject`;
     let queryParams = new HttpParams();

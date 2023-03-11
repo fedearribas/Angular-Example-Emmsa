@@ -6,6 +6,32 @@
     </div>
   </div>
 
- <app-project-main-data [project$]="project$" [expanded]="true"></app-project-main-data>
+  <app-project-main-data [project$]="project$" [expanded]="true"></app-project-main-data>
+
+  <kendo-card width="100%" class="mt-2">
+
+    <kendo-card-body>
+
+      <kendo-stepper #stepper [steps]="steps" stepType="full" [(currentStep)]="currentStepIndex" [linear]="isLinear">
+      </kendo-stepper>
+
+      <div class="container">
+
+        <span class="k-form-separator mt-5"></span>
+        <div class="d-flex justify-content-between">
+          <span class="align-self-center">Step {{ currentStepIndex + 1 }} of {{steps.length}}</span>
+          <div class="mt-2">
+            <button kendoButton icon="arrow-chevron-left" (click)="prev()"
+              *ngIf="currentStepIndex !== 0">Previous</button>
+            <button kendoButton icon="arrow-chevron-right" themeColor="primary" class="ms-2" (click)="next()"
+              *ngIf="currentStepIndex < steps.length - 1">Next</button>
+          </div>
+        </div>
+
+
+      </div>
+
+    </kendo-card-body>
+  </kendo-card>
 
 </div>

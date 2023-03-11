@@ -78,19 +78,19 @@ export class ComboService {
       );
   }
 
-  getProjectManager(): Observable<DropdownModel[]> {
+  getProjectManager(): Observable<DropdownModel<string>[]> {
     const url = `${this.comboUrl}/GetProjectManager`;
 
-    return this.http.get<DropdownModel[]>(url)
+    return this.http.get<DropdownModel<string>[]>(url)
       .pipe(
         catchError(this.handleError)
       );
   }
 
-  getCommercialProjectManager(): Observable<DropdownModel[]> {
+  getCommercialProjectManager(): Observable<DropdownModel<string>[]> {
     const url = `${this.comboUrl}/GetCommercialProjectManager`;
 
-    return this.http.get<DropdownModel[]>(url)
+    return this.http.get<DropdownModel<string>[]>(url)
       .pipe(
         catchError(this.handleError)
       );

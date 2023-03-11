@@ -25,7 +25,7 @@
           <app-project-main-information *ngIf="currentStepIndex === 0"
             [formGroup]="getFromGroup('mainInformation')"></app-project-main-information>
           <app-project-additional-information *ngIf="currentStepIndex === 1"
-            [formGroup]="getFromGroup('additionalInformation')"></app-project-additional-information>
+            [formGroup]="getFromGroup('additionalInformation')" [isEditMode]="isEditMode"></app-project-additional-information>
 
           <span class="k-form-separator mt-5"></span>
           <div class="d-flex justify-content-between">
@@ -34,7 +34,7 @@
               <button kendoButton icon="arrow-chevron-left" (click)="prev()"
                 *ngIf="currentStepIndex !== 0">Previous</button>
               <button kendoButton icon="arrow-chevron-right" themeColor="primary" class="ms-2" (click)="next()"
-                *ngIf="currentStepIndex < (isEditMode ? 3 : 1)">Next</button>
+                *ngIf="currentStepIndex < 1">Next</button>
               <button kendoButton icon="save" themeColor="secondary" class="ms-2" (click)="submit()"
                 *ngIf="currentStepIndex > 0">Submit</button>
             </div>

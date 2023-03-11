@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { ComboService } from 'src/app/combo.service';
 import { DropdownModel } from 'src/app/shared/models/dropdown-model';
 
@@ -10,7 +11,9 @@ import { DropdownModel } from 'src/app/shared/models/dropdown-model';
 })
 export class ProjectAdditionalInformationComponent {
 
-  @Input() public formGroup!: FormGroup;
+  @Input() formGroup!: FormGroup;
+  @Input() isEditMode!: boolean;
+  
   cboDefaultItem = this.comboService.chooseOneItemValue;
   contractScope$ = this.comboService.getContractScope();
   contractStage$ = this.comboService.getContractStage();

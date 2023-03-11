@@ -4,8 +4,8 @@ export interface Project {
   Name: string;
   ContractScopeId: number;
   ContractStageId: number;
-  ProjectManagerId: number;
-  CommercialProjectManagerId: number;
+  ProjectManagerId: string;
+  CommercialProjectManagerId: string;
   ProductLineId: number;
   ContractScopeName: string;
   ContractStageName: string;

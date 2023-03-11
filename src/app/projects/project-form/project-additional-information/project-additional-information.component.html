@@ -3,30 +3,30 @@
     <div class="col-md-6">
       <kendo-formfield>
         <kendo-label class="k-form fw-semibold" text="Contract scope" [for]="cboContractScope"></kendo-label>
-        <kendo-dropdownlist #cboContractScope valueField="Id" textField="Text" [valuePrimitive]="true" [defaultItem]="cboDefaultItem"
-          formControlName="ContractScopeId" [data]="contractScope$ | async">
+        <kendo-dropdownlist #cboContractScope valueField="Id" textField="Text" [valuePrimitive]="true"
+          [defaultItem]="cboDefaultItem" formControlName="ContractScopeId" [data]="contractScope$ | async">
         </kendo-dropdownlist>
         <kendo-formerror>Contract scope is required</kendo-formerror>
       </kendo-formfield>
     </div>
-  
+
     <div class="col-md-6">
       <kendo-formfield>
         <kendo-label class="k-form fw-semibold" text="Contract scope" [for]="cboContractStage"></kendo-label>
-        <kendo-dropdownlist #cboContractStage valueField="Id" textField="Text" [valuePrimitive]="true" [defaultItem]="cboDefaultItem"
-          formControlName="ContractStageId" [data]="contractStage$ | async">
+        <kendo-dropdownlist #cboContractStage valueField="Id" textField="Text" [valuePrimitive]="true"
+          [defaultItem]="cboDefaultItem" formControlName="ContractStageId" [data]="contractStage$ | async">
         </kendo-dropdownlist>
         <kendo-formerror>Contract stage is required</kendo-formerror>
       </kendo-formfield>
     </div>
   </div>
-  
+
   <div class="row mt-3">
     <div class="col-md-6">
       <kendo-formfield>
         <kendo-label class="k-form fw-semibold" text="Product line" [for]="cboProductLine"></kendo-label>
-        <kendo-dropdownlist #cboProductLine valueField="Id" textField="Text" [valuePrimitive]="true" [defaultItem]="cboDefaultItem"
-          formControlName="ProductLineId" [data]="productLine$ | async">
+        <kendo-dropdownlist #cboProductLine valueField="Id" textField="Text" [valuePrimitive]="true"
+          [defaultItem]="cboDefaultItem" formControlName="ProductLineId" [data]="productLine$ | async">
         </kendo-dropdownlist>
         <kendo-formerror>Product line is required</kendo-formerror>
       </kendo-formfield>
@@ -35,8 +35,8 @@
     <div class="col-md-6">
       <kendo-formfield>
         <kendo-label class="k-form fw-semibold" text="Customer type" [for]="cboCustomerType"></kendo-label>
-        <kendo-dropdownlist #cboCustomerType valueField="Id" textField="Text" [valuePrimitive]="true" [defaultItem]="cboDefaultItem"
-          formControlName="CustomerTypeId" [data]="customerType$ | async">
+        <kendo-dropdownlist #cboCustomerType valueField="Id" textField="Text" [valuePrimitive]="true"
+          [defaultItem]="cboDefaultItem" formControlName="CustomerTypeId" [data]="customerType$ | async">
         </kendo-dropdownlist>
         <kendo-formerror>Customer type is required</kendo-formerror>
       </kendo-formfield>
@@ -47,8 +47,8 @@
     <div class="col-md-6">
       <kendo-formfield>
         <kendo-label class="k-form fw-semibold" text="Project manager" [for]="cboProjectManager"></kendo-label>
-        <kendo-dropdownlist #cboProjectManager valueField="Id" textField="Text" [valuePrimitive]="true" [defaultItem]="cboDefaultItem"
-          formControlName="ProjectManagerId" [data]="projectManager$ | async">
+        <kendo-dropdownlist #cboProjectManager valueField="Id" textField="Text" [valuePrimitive]="true"
+          [defaultItem]="cboDefaultItem" formControlName="ProjectManagerId" [data]="projectManager$ | async">
         </kendo-dropdownlist>
         <kendo-formerror>Project manager is required</kendo-formerror>
       </kendo-formfield>
@@ -56,33 +56,52 @@
 
     <div class="col-md-6">
       <kendo-formfield>
-        <kendo-label class="k-form fw-semibold" text="Customer type" [for]="cboCommercialProjectManager"></kendo-label>
-        <kendo-dropdownlist #cboCommercialProjectManager valueField="Id" textField="Text" [valuePrimitive]="true" [defaultItem]="cboDefaultItem"
-          formControlName="CommercialProjectManagerId" [data]="commercialProjectManager$ | async">
+        <kendo-label class="k-form fw-semibold" text="Commercial project manager" [for]="cboCommercialProjectManager"></kendo-label>
+        <kendo-dropdownlist #cboCommercialProjectManager valueField="Id" textField="Text" [valuePrimitive]="true"
+          [defaultItem]="cboDefaultItem" formControlName="CommercialProjectManagerId"
+          [data]="commercialProjectManager$ | async">
         </kendo-dropdownlist>
         <kendo-formerror>Commercial project manager is required</kendo-formerror>
       </kendo-formfield>
     </div>
   </div>
-  
+
   <div class="row mt-3">
     <div class="col-md-6">
       <kendo-formfield>
-        <kendo-label class="k-form fw-semibold" text="Preliminary acceptance certificate" [for]="txtPreliminaryAcceptanceCertificate"></kendo-label>
-        <kendo-datepicker #txtPreliminaryAcceptanceCertificate format="dd - MMMM - yyyy" formControlName="PreliminaryAcceptanceCertificate"
-          activeView="year" bottomView="year">
+        <kendo-label class="k-form fw-semibold" text="Preliminary acceptance certificate"
+          [for]="txtPreliminaryAcceptanceCertificate"></kendo-label>
+        <kendo-datepicker #txtPreliminaryAcceptanceCertificate format="dd - MMMM - yyyy"
+          formControlName="PreliminaryAcceptanceCertificate" activeView="year" bottomView="year">
         </kendo-datepicker>
       </kendo-formfield>
     </div>
-  
+
     <div class="col-md-6">
       <kendo-formfield>
-        <kendo-label class="k-form fw-semibold" text="Final acceptance certificate" [for]="txtFinalAcceptanceCertificate"></kendo-label>
-        <kendo-datepicker #txtFinalAcceptanceCertificate format="dd - MMMM - yyyy" formControlName="FinalAcceptanceCertificate"
-          activeView="year" bottomView="year">
+        <kendo-label class="k-form fw-semibold" text="Final acceptance certificate"
+          [for]="txtFinalAcceptanceCertificate"></kendo-label>
+        <kendo-datepicker #txtFinalAcceptanceCertificate format="dd - MMMM - yyyy"
+          formControlName="FinalAcceptanceCertificate" activeView="year" bottomView="year">
         </kendo-datepicker>
       </kendo-formfield>
     </div>
-  </div>  
-
   </div>
+
+  <div *ngIf="isEditMode">
+    <span class="k-form-separator mt-5"></span>
+
+    <div class="row mt-3">
+      <div class="col-md-6">
+        <kendo-formfield>
+          <kendo-label class="k-form fw-semibold" text="Valid from" [for]="txtValidFrom"></kendo-label>
+          <kendo-datepicker #txtValidFrom format="MMMM - yyyy" formControlName="ValidFrom" activeView="year"
+            bottomView="year">
+          </kendo-datepicker>
+        </kendo-formfield>
+        <kendo-formhint>Select the date from which these changes will become effective</kendo-formhint>
+      </div>
+    </div>
+  </div>
+
+</div>

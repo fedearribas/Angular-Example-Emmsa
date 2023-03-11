@@ -6,6 +6,7 @@ import { NotificationService } from '@progress/kendo-angular-notification';
 import { Subject } from 'rxjs';
 import { ProjectService } from '../project.service';
 import { Location } from '@angular/common';
+import { Project } from '../project';
 
 @Component({
   selector: 'app-project-form',
@@ -14,7 +15,7 @@ import { Location } from '@angular/common';
 })
 export class ProjectFormComponent implements OnInit {
   @ViewChild('stepper', { static: true })
-  public stepper!: StepperComponent;
+  stepper!: StepperComponent;
   projectForm!: FormGroup;
   currentStepIndex = 0;
   isLinear = true;
@@ -22,10 +23,9 @@ export class ProjectFormComponent implements OnInit {
   errorMessage!: string;
   title!: string;
   isEditMode = false;
-
   discardChangesDialogOpened = false;
-
   discardChangesSubject!: Subject<boolean>;
+  project!: Project;
 
   get isDirty(): boolean {
     return this.projectForm.touched;
@@ -41,11 +41,9 @@ export class ProjectFormComponent implements OnInit {
   ngOnInit(): void {
     this.title = 'New project';
 
-     this.steps = [
+    this.steps = [
       { label: "Main information" },
-      { label: "Additional information" },
-      { label: "Contract price", optional: true, disabled: true },
-      { label: "Attachements", optional: true, disabled: true }
+      { label: "Additional information" }
     ];
 
     const projectFrom = new Date();
@@ -68,7 +66,8 @@ export class ProjectFormComponent implements OnInit {
         ProjectManagerId: [null, Validators.required],
         CommercialProjectManagerId: [null, Validators.required],
         PreliminaryAcceptanceCertificate: [''],
-        FinalAcceptanceCertificate: ['']
+        FinalAcceptanceCertificate: [''],
+        ValidFrom: ['']
       })
     });
 
@@ -77,11 +76,16 @@ export class ProjectFormComponent implements OnInit {
       this.projectService.getProject(id).subscribe({
         next: project => {
           this.isEditMode = true;
+          this.project = project;
           this.title = `Editing project: ${project.Code} - ${project.Name}`;
           this.getFromGroup('mainInformation').patchValue(project);
           this.getFromGroup('additionalInformation').patchValue(project);
-          this.steps[2].disabled = false;
-          this.steps[3].disabled = false;
+
+          const date = new Date();
+          const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+          let validFromControl = this.getFromGroup('additionalInformation').controls['ValidFrom'];
+          validFromControl.setValidators([Validators.required]);
+          validFromControl.patchValue(firstDayOfMonth);
         },
         error: err => this.errorMessage = err
       });
@@ -90,7 +94,7 @@ export class ProjectFormComponent implements OnInit {
     const stepIndex = state.currentStepIndex;
     if (stepIndex)
       this.currentStepIndex = stepIndex;
-   
+
   }
 
   isFormGroupValid(name: string): boolean {
@@ -129,7 +133,7 @@ export class ProjectFormComponent implements OnInit {
 
     return formGroup;
   }
-  
+
   public submit() {
     if (!this.projectForm.valid) {
       this.projectForm.markAllAsTouched();
@@ -145,16 +149,32 @@ export class ProjectFormComponent implements OnInit {
       });
     }
     else {
-      const project = { ...this.projectForm?.get('mainInformation')?.value, ...this.projectForm?.get('additionalInformation')?.value };
-      this.projectService.createProject(project)
+
+      const project = { ...this.project, ...this.projectForm?.get('mainInformation')?.value, ...this.projectForm?.get('additionalInformation')?.value };
+      if (!this.isEditMode) {
+        this.projectService.createProject(project)
+          .subscribe({
+            next: id => {
+              this.onSaveComplete();
+              this.router.navigate(['/projects/contractPrice', id]);
+            },
+            error: err => this.errorMessage = err
+          });
+      }
+      else {
+        this.projectService.updateProject(project)
         .subscribe({
-          next: id => this.onSaveComplete(id),
+          next: () => {
+            this.onSaveComplete();
+            this.router.navigate(['/projects']);
+          },
           error: err => this.errorMessage = err
         });
+      }
     }
   }
 
-  onSaveComplete(id: number): void {
+  onSaveComplete(): void {
     this.projectForm.reset();
     this.notificationService.show({
       content: "Success!",
@@ -164,14 +184,14 @@ export class ProjectFormComponent implements OnInit {
       type: { style: "success", icon: true },
       hideAfter: 2000
     });
-    this.router.navigate(['/projects', id], { state: { currentStepIndex: 1 } });
+    //this.router.navigate(['/projects', id], { state: { currentStepIndex: 1 } });
   }
 
   closeDiscardDialog() {
     this.discardChangesDialogOpened = false;
     this.discardChangesSubject.next(false);
   }
-  
+
   discardChanges() {
     this.discardChangesDialogOpened = false;
     this.discardChangesSubject.next(true);

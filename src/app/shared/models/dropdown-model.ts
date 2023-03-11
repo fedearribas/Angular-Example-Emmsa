@@ -1,4 +1,4 @@
-export interface DropdownModel {
-  Id: number | null,
+export interface DropdownModel<T = number> {
+  Id: T | null,
   Text: string
 }
