@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanDeactivate } from '@angular/router';
 import { Subject } from 'rxjs';
+import { ProjectService } from '../project.service';
 import { ProjectFormComponent } from './project-form.component';
 
 @Injectable({
@@ -8,13 +9,15 @@ import { ProjectFormComponent } from './project-form.component';
 })
 export class ProjectFormGuard implements CanDeactivate<ProjectFormComponent> {
 
+  constructor(private projectService: ProjectService) {}
+
   canDeactivate(component: ProjectFormComponent,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot) {
 
     if (component.isDirty) {
-      component.discardChangesDialogOpened = true;
+      this.projectService.toggleProjectFormDiscardChangesDialog(true);
       const discardChangesSubject = new Subject<boolean>();
       component.discardChangesSubject = discardChangesSubject;
       return discardChangesSubject.asObservable();

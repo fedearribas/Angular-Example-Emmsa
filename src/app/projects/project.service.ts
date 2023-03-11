@@ -15,11 +15,22 @@ export class ProjectService {
     countryId: null,
     codeName: ''
   };
+
+  //-----------------------------------------------
+  // Subjects
+  //-----------------------------------------------
+
   private filtersSubject = new BehaviorSubject<ProjectFilters>(this.initialFilters);
   filters$ = this.filtersSubject.asObservable();
 
   private isLoadingGridSubject = new BehaviorSubject<boolean>(false);
   isLoadingGrid$ = this.isLoadingGridSubject.asObservable();
+
+  private projectFormDiscardChangesDialogOpenedSubject = new BehaviorSubject<boolean>(false);
+  projectFormDiscardChangesDialogOpened$ = this.projectFormDiscardChangesDialogOpenedSubject.asObservable();
+
+  //-----------------------------------------------
+  //-----------------------------------------------
 
   projects$ = this.filters$.pipe(
     // flat filters and project streams into one observable
@@ -61,6 +72,10 @@ export class ProjectService {
     this.filtersSubject.next(filters);
   }
 
+  toggleProjectFormDiscardChangesDialog(value: boolean) {
+    this.projectFormDiscardChangesDialogOpenedSubject.next(value);
+  }
+
   createProject(project: Project) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.projectUrl}/New`;
@@ -93,6 +108,25 @@ export class ProjectService {
           if (data.FinalAcceptanceCertificate)
             data.FinalAcceptanceCertificate = new Date(data.FinalAcceptanceCertificate);
         }),
+        catchError(this.handleError)
+      );
+  }
+
+  deleteProject(id: number) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.projectUrl}/Delete`;
+    return this.http.post(url, JSON.stringify(id), { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getDisableDeleteButton(id: number) {
+    const url = `${this.projectUrl}/DeleteButtonDisabled`;
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("id", id);
+    return this.http.get<boolean>(url, { params: queryParams })
+      .pipe(
         catchError(this.handleError)
       );
   }

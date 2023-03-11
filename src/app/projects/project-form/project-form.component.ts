@@ -1,19 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { Subject } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import { ProjectService } from '../project.service';
-import { Location } from '@angular/common';
 import { Project } from '../project';
 
 @Component({
   selector: 'app-project-form',
   templateUrl: './project-form.component.html',
-  styleUrls: ['./project-form.component.scss']
+  styleUrls: ['./project-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectFormComponent implements OnInit {
+export class ProjectFormComponent implements OnInit, OnDestroy {
   @ViewChild('stepper', { static: true })
   stepper!: StepperComponent;
   projectForm!: FormGroup;
@@ -23,9 +23,18 @@ export class ProjectFormComponent implements OnInit {
   errorMessage!: string;
   title!: string;
   isEditMode = false;
-  discardChangesDialogOpened = false;
-  discardChangesSubject!: Subject<boolean>;
   project!: Project;
+  showDeleteProjectDialog = false;
+  id: number = 0;
+
+  discardChangesDialogOpened$ = this.projectService.projectFormDiscardChangesDialogOpened$;
+  discardChangesSubject!: Subject<boolean>;
+  disableDeleteButton$!: Observable<boolean>;
+
+  projectSub!: Subscription;
+  createProjectSub!: Subscription;
+  updateProjectSub!: Subscription;
+  deleteProjectSub!: Subscription;
 
   get isDirty(): boolean {
     return this.projectForm.touched;
@@ -35,7 +44,6 @@ export class ProjectFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private location: Location,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
@@ -71,9 +79,9 @@ export class ProjectFormComponent implements OnInit {
       })
     });
 
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.projectService.getProject(id).subscribe({
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.id && this.id > 0) {
+      this.projectSub = this.projectService.getProject(this.id).subscribe({
         next: project => {
           this.isEditMode = true;
           this.project = project;
@@ -89,12 +97,12 @@ export class ProjectFormComponent implements OnInit {
         },
         error: err => this.errorMessage = err
       });
-    }
-    const state = <any>this.location.getState();
-    const stepIndex = state.currentStepIndex;
-    if (stepIndex)
-      this.currentStepIndex = stepIndex;
 
+      this.disableDeleteButton$ = this.projectService.getDisableDeleteButton(this.id);
+    }
+    else {
+      this.disableDeleteButton$ = of(true);
+    }
   }
 
   isFormGroupValid(name: string): boolean {
@@ -152,7 +160,7 @@ export class ProjectFormComponent implements OnInit {
 
       const project = { ...this.project, ...this.projectForm?.get('mainInformation')?.value, ...this.projectForm?.get('additionalInformation')?.value };
       if (!this.isEditMode) {
-        this.projectService.createProject(project)
+        this.createProjectSub = this.projectService.createProject(project)
           .subscribe({
             next: id => {
               this.onSaveComplete();
@@ -162,20 +170,34 @@ export class ProjectFormComponent implements OnInit {
           });
       }
       else {
-        this.projectService.updateProject(project)
-        .subscribe({
-          next: () => {
-            this.onSaveComplete();
-            this.router.navigate(['/projects']);
-          },
-          error: err => this.errorMessage = err
-        });
+        this.updateProjectSub = this.projectService.updateProject(project)
+          .subscribe({
+            next: () => {
+              this.onSaveComplete();
+              this.router.navigate(['/projects']);
+            },
+            error: err => this.errorMessage = err
+          });
       }
     }
   }
 
+  deleteProject() {
+    this.deleteProjectSub = this.projectService.deleteProject(this.id).subscribe({
+      next: () => {
+        this.showSuccessNotification();
+        this.router.navigate(['/projects']);
+      },
+      error: err => this.errorMessage = err
+    });
+  }
+
   onSaveComplete(): void {
     this.projectForm.reset();
+    this.showSuccessNotification();
+  }
+
+  showSuccessNotification() {
     this.notificationService.show({
       content: "Success!",
       cssClass: "button-notification",
@@ -184,17 +206,35 @@ export class ProjectFormComponent implements OnInit {
       type: { style: "success", icon: true },
       hideAfter: 2000
     });
-    //this.router.navigate(['/projects', id], { state: { currentStepIndex: 1 } });
   }
 
   closeDiscardDialog() {
-    this.discardChangesDialogOpened = false;
+    this.projectService.toggleProjectFormDiscardChangesDialog(false);
     this.discardChangesSubject.next(false);
   }
 
   discardChanges() {
-    this.discardChangesDialogOpened = false;
+    this.projectService.toggleProjectFormDiscardChangesDialog(false);
     this.discardChangesSubject.next(true);
+  }
+
+  openDeleteConfirm() {
+    this.showDeleteProjectDialog = true;
+  }
+
+  closeDeleteProjectDialog() {
+    this.showDeleteProjectDialog = false;
+  }
+
+  ngOnDestroy(): void {
+    if (this.projectSub)
+      this.projectSub.unsubscribe();
+    if (this.createProjectSub)
+      this.createProjectSub.unsubscribe();
+    if (this.updateProjectSub)
+      this.updateProjectSub.unsubscribe();
+    if (this.deleteProjectSub)
+      this.deleteProjectSub.unsubscribe();
   }
 
 }

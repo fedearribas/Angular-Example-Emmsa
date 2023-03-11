@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StepperComponent } from '@progress/kendo-angular-layout';
 import { Observable } from 'rxjs';
@@ -8,7 +8,8 @@ import { ProjectService } from '../../project.service';
 @Component({
   selector: 'app-project-contract-price',
   templateUrl: './project-contract-price.component.html',
-  styleUrls: ['./project-contract-price.component.scss']
+  styleUrls: ['./project-contract-price.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectContractPriceComponent implements OnInit {
 

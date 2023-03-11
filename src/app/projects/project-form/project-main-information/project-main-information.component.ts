@@ -1,11 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ComboService } from 'src/app/combo.service';
 
 @Component({
   selector: 'app-project-main-information',
   templateUrl: './project-main-information.component.html',
-  styleUrls: ['./project-main-information.component.scss']
+  styleUrls: ['./project-main-information.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectMainInformationComponent {
 

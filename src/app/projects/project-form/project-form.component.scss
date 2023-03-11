@@ -1,0 +1,18 @@
+@media only screen and (max-width: 540px) {
+
+  .step-navigation-container {
+    flex-direction: column;
+  }
+
+  .step-indicator {
+    margin-top: 0.5rem;
+  }
+
+  .button-container {
+    flex-direction: column;
+
+    button {
+      margin-top: 0.25rem;
+    }
+  }
+}

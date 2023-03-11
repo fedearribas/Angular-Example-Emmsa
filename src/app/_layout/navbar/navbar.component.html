@@ -10,9 +10,9 @@
     <div class="dropdown">
       <i #menuButton class="menu-button k-icon k-i-more-vertical ms-1 cursor-pointer" (click)="toggleMenu()"></i>
       <div #menuContent class="dropdown-content">
-        <div class="cursor-pointer" (click)="toggleTheme()">
-          <i [class]=themeIcon></i>
-          <span> {{themeText}}</span>
+        <div class="dropdown-menu-item cursor-pointer ps-1" (click)="toggleTheme()">
+          <i class="{{themeIcon$ | async}}"></i>
+          <span> {{themeText$ | async}}</span>
         </div>
         
       </div>

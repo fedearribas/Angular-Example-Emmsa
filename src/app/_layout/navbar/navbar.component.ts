@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { map } from 'rxjs';
 import { ThemeService } from 'src/app/theme.service';
 import { MainLayoutService } from '../main-layout.service';
 
@@ -9,12 +9,15 @@ import { MainLayoutService } from '../main-layout.service';
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavbarComponent implements OnInit, OnDestroy {
-
-  themeText = '';
-  themeIcon = '';
+export class NavbarComponent implements OnInit {
+  
   menuOpened = false;
-  isDarkModeSub!: Subscription;
+  themeText$ = this.themeService.isDarkTheme$.pipe(
+    map(isDark => isDark ? 'Dark mode' : 'Light mode')
+  );
+  themeIcon$ = this.themeService.isDarkTheme$.pipe(
+    map(isDark => isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun')
+  );
 
   @ViewChild('menuContent') menuContent!: ElementRef;
   @ViewChild('menuButton') menuButton!: ElementRef;
@@ -28,17 +31,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
       e.preventDefault();
       if (e.target && e.target !== this.menuContent.nativeElement && e.target !== this.menuButton.nativeElement)
         this.closeMenu();
-    });
-
-    this.isDarkModeSub = this.themeService.isDarkTheme$.subscribe(isDarkTheme => {
-      if (isDarkTheme) {
-        this.themeText = this.themeText = 'Light mode';
-        this.themeIcon = 'fa-solid fa-sun';
-      }
-      else {
-        this.themeText = this.themeText = 'Dark mode';
-        this.themeIcon = 'fa-solid fa-moon';
-      }
     });
   }
 
@@ -67,9 +59,4 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.menuContent.nativeElement, 'display', 'none');
     this.menuOpened = false;
   }
-
-  ngOnDestroy(): void {
-    this.isDarkModeSub.unsubscribe();
-  }
-
 }
