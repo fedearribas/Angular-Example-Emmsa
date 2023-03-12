@@ -4,7 +4,7 @@ import { Project, ProjectForGrid } from './project';
 import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { Constants } from '../constants';
 import { ProjectFilters } from './project-report/project-filters';
-import { ProjectContractPrice } from './project-form/project-contract-price/project-contract-price';
+import { ProjectContractPrice } from './project-detail/project-contract-price/project-contract-price';
 
 @Injectable({
   providedIn: 'root'

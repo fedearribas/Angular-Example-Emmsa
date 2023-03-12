@@ -1,0 +1,39 @@
+<div class="main-content">
+  <div class="report-toolbar">
+    <span class="report-title"> <i class="k-icon k-i-check"></i> Project</span>
+    <div class="right-section ms-auto">
+      <button kendoButton icon="arrow-chevron-left" routerLink="/projects">Back</button>
+    </div>
+  </div>
+
+  <app-project-main-data [project$]="project$" [expanded]="true"></app-project-main-data>
+
+  <kendo-card width="100%" class="mt-2">
+
+    <kendo-card-body>
+
+      <kendo-stepper #stepper [steps]="steps" stepType="full" [(currentStep)]="currentStepIndex" [linear]="isLinear">
+      </kendo-stepper>
+
+      <div class="container">
+
+        <app-project-contract-price *ngIf="currentStepIndex === 0" [projectId]="id"></app-project-contract-price>
+
+        <span class="k-form-separator mt-5"></span>
+        <div class="d-flex justify-content-between">
+          <span class="align-self-center">Step {{ currentStepIndex + 1 }} of {{steps.length}}</span>
+          <div class="mt-2">
+            <button kendoButton icon="arrow-chevron-left" (click)="prev()"
+              *ngIf="currentStepIndex !== 0">Previous</button>
+            <button kendoButton icon="arrow-chevron-right" themeColor="primary" class="ms-2" (click)="next()"
+              *ngIf="currentStepIndex < steps.length - 1">Next</button>
+          </div>
+        </div>
+
+
+      </div>
+
+    </kendo-card-body>
+  </kendo-card>
+
+</div>
