@@ -21,6 +21,7 @@ import { ProjectContractPriceComponent } from './project-detail/project-contract
 import { ProjectMainDataComponent } from './project-main-data/project-main-data.component';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { ProjectDetailComponent } from './project-detail/project-detail.component';
+import { ProjectContractPriceFormComponent } from './project-detail/project-contract-price/project-contract-price-form/project-contract-price-form.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ProjectDetailComponent } from './project-detail/project-detail.componen
     ProjectAdditionalInformationComponent,
     ProjectContractPriceComponent,
     ProjectMainDataComponent,
-    ProjectDetailComponent
+    ProjectDetailComponent,
+    ProjectContractPriceFormComponent
   ],
   imports: [
     ReactiveFormsModule,

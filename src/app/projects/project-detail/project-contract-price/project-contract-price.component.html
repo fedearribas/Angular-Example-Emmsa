@@ -1,5 +1,5 @@
 <div id="grdContractPrice">
-  <kendo-grid [data]="gridData$ | async" [group]="group" class="mt-3">
+  <kendo-grid [data]="gridData$ | async" [group]="group" class="mt-3" (add)="addHandler()">
 
     <ng-template kendoGridToolbarTemplate>
       <kendo-grid-spacer></kendo-grid-spacer>
@@ -34,3 +34,6 @@
     </kendo-grid-column>
   </kendo-grid>
 </div>
+
+<app-project-contract-price-form #form [projectId]="projectId" [model]="formItem" [isNew]="isNew" (saveCompleted)="onSaveCompleted()">
+</app-project-contract-price-form>

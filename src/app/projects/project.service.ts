@@ -4,7 +4,7 @@ import { Project, ProjectForGrid } from './project';
 import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { Constants } from '../constants';
 import { ProjectFilters } from './project-report/project-filters';
-import { ProjectContractPrice } from './project-detail/project-contract-price/project-contract-price';
+import { ProjectContractPrice, ProjectContractPriceForGrid } from './project-detail/project-contract-price/project-contract-price';
 
 @Injectable({
   providedIn: 'root'
@@ -146,11 +146,20 @@ export class ProjectService {
       );
   }
 
-  getContractPriceList(projectId: number): Observable<ProjectContractPrice[]> {
+  getContractPriceList(projectId: number): Observable<ProjectContractPriceForGrid[]> {
     const url = `${this.contractPriceUrl}/GetContractPriceByProject`;
     let queryParams = new HttpParams();
     queryParams = queryParams.append("projectId", projectId);
-    return this.http.get<ProjectContractPrice[]>(url, { params: queryParams })
+    return this.http.get<ProjectContractPriceForGrid[]>(url, { params: queryParams })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  createContractPrice(contractPrice: ProjectContractPrice) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.contractPriceUrl}/New`;
+    return this.http.post(url, JSON.stringify(contractPrice), { headers })
       .pipe(
         catchError(this.handleError)
       );

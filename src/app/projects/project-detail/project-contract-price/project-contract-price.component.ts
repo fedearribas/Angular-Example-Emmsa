@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { aggregateBy, AggregateDescriptor, groupBy, GroupDescriptor, GroupResult } from '@progress/kendo-data-query';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { ProjectService } from '../../project.service';
-import { ProjectContractPrice } from './project-contract-price';
+import { ProjectContractPrice, ProjectContractPriceForGrid } from './project-contract-price';
+import { ProjectContractPriceFormComponent } from './project-contract-price-form/project-contract-price-form.component';
 
 @Component({
   selector: 'app-project-contract-price',
@@ -10,10 +11,10 @@ import { ProjectContractPrice } from './project-contract-price';
   styleUrls: ['./project-contract-price.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectContractPriceComponent implements OnInit {
+export class ProjectContractPriceComponent implements OnInit, OnDestroy {
   @Input() projectId!: number;
 
-  private gridDataSubject = new Subject<ProjectContractPrice[] | GroupResult[]>;
+  private gridDataSubject = new Subject<ProjectContractPriceForGrid[] | GroupResult[]>;
   gridData$ = this.gridDataSubject.asObservable();
 
   aggregates: AggregateDescriptor[] = [
@@ -27,19 +28,46 @@ export class ProjectContractPriceComponent implements OnInit {
 
   totalSumFooter: any;
 
+  formItem!: ProjectContractPrice;
+  isNew!: boolean;
+  errorMessage!: string;
+
+  @ViewChild('form') formComponent!: ProjectContractPriceFormComponent;
+
+  getDataSub!: Subscription;
+
   constructor(private projectService: ProjectService) { }
 
   ngOnInit(): void {
-    this.projectService.getContractPriceList(this.projectId).subscribe(
+    this.getDataFromApi();
+  }
+
+  addHandler(): void {
+    this.formItem = this.getEmptyFormItem();
+    this.isNew = true;
+    this.formComponent.open();
+  }
+
+  onSaveCompleted() {
+    this.getDataSub.unsubscribe();
+    this.getDataFromApi();
+  }
+
+  private getDataFromApi() {
+    this.getDataSub = this.projectService.getContractPriceList(this.projectId).subscribe(
       data => {
-        this.sortData(data);
-        this.loadData(data);
+        this.sortGridData(data);
+        this.loadGridData(data);
         this.totalSumFooter = aggregateBy(data, this.aggregates);
       }
     );
   }
-  
-  private sortData(data: ProjectContractPrice[]) {
+
+  private loadGridData(data: ProjectContractPriceForGrid[]): void {
+    this.gridDataSubject.next(groupBy(data, this.group));
+  }
+
+  private sortGridData(data: ProjectContractPriceForGrid[]) {
     data.sort((a, b) => {
       let fa = a.ServiceTypeName.toLowerCase(),
         fb = b.ServiceTypeName.toLowerCase();
@@ -54,8 +82,23 @@ export class ProjectContractPriceComponent implements OnInit {
     });
   }
 
-  private loadData(data: ProjectContractPrice[]): void {
-    this.gridDataSubject.next(groupBy(data, this.group));
+  private getEmptyFormItem() {
+    const item: ProjectContractPrice = {
+      Id: 0,
+      ProjectId: this.projectId,
+      ServiceTypeId: null,
+      ApplyByWTG: false,
+      PeriodFrom: null,
+      PeriodTo: null,
+      CurrencyId: null,
+      Price: null
+    };
+
+    return item;
+  }
+
+  ngOnDestroy(): void {
+    this.getDataSub.unsubscribe();
   }
 
 }

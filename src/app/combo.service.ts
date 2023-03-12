@@ -96,6 +96,27 @@ export class ComboService {
       );
   }
 
+  getServiceType() {
+    const url = `${this.comboUrl}/GetServiceType`;
+
+    return this.http.get<DropDownListItem[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  getCurrencyForProject(projectId: number) {
+    const url = `${this.comboUrl}/GetCurrencyForProject`;
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("projectId", projectId);
+
+    return this.http.get<DropDownListItem<string>[]>(url, { params: queryParams })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   private handleError(err: any): Observable<never> {
     // in a real world app, we may send the server to some remote logging infrastructure
     // instead of just logging it to the console
