@@ -20,6 +20,12 @@ import { AppLayoutModule } from './_layout/app-layout.module';
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot([
+      {
+        path: 'projects',
+        loadChildren: () =>
+          import('./projects/project.module')
+            .then(m => m.ProjectModule)
+      },
       { path: '', component: HomeComponent },
       { path: '**', redirectTo: '', pathMatch: 'full' }
     ]),

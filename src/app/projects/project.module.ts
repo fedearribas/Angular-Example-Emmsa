@@ -42,17 +42,17 @@ import { ProjectContractPriceFormComponent } from './project-detail/project-cont
         component: ProjectReportComponent
       },
       {
-        path: 'projects/new', 
+        path: 'new', 
         component: ProjectFormComponent,
         canDeactivate: [ProjectFormGuard]
       },
       {
-        path: 'projects/:id',
+        path: ':id',
         component: ProjectFormComponent,
         canDeactivate: [ProjectFormGuard]
       },
       {
-        path: 'projects/view/:id',
+        path: 'view/:id',
         component: ProjectDetailComponent
       }
     ]),

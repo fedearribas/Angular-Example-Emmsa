@@ -164,7 +164,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           .subscribe({
             next: id => {
               this.onSaveComplete();
-              this.router.navigate(['/projects/contractPrice', id]);
+              this.router.navigate(['/projects/view', id]);
             },
             error: err => this.errorMessage = err
           });
