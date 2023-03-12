@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnI
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { Observable, Subscription } from 'rxjs';
-import { ComboService } from 'src/app/combo.service';
 import { ProjectService } from 'src/app/projects/project.service';
+import { ComboService } from 'src/app/shared/combo.service';
 import { DropDownListItem } from 'src/app/shared/models/dropdownlist-item';
 import { ProjectContractPrice } from '../project-contract-price';
 

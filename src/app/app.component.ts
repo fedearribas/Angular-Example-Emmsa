@@ -5,7 +5,7 @@ import { fadeAnimation } from './app.animation';
 import { MainLayoutService } from './_layout/main-layout.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { SidebarComponent } from './_layout/sidebar/sidebar.component';
-import { ThemeService } from './theme.service';
+import { ThemeService } from './_layout/theme.service';
 
 const expandedSidebarWidth = 250;
 const miniSidebarWidth = 50;

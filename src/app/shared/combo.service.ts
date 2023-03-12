@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Constants } from './constants';
-import { DropDownListItem } from './shared/models/dropdownlist-item';
+import { DropDownListItem } from './models/dropdownlist-item';
 
 @Injectable({
   providedIn: 'root'

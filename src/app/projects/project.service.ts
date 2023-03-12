@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Project, ProjectForGrid } from './project';
 import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, tap, throwError } from 'rxjs';
-import { Constants } from '../constants';
+import { Constants } from '../shared/constants';
 import { ProjectFilters } from './project-report/project-filters';
 import { ProjectContractPrice, ProjectContractPriceForGrid } from './project-detail/project-contract-price/project-contract-price';
 

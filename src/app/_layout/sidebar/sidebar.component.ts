@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, View
 import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { sidebarTextAnimation } from 'src/app/app.animation';
-import { MenuItem } from 'src/app/menuItem';
+import { MenuItem } from 'src/app/shared/models/menu-item';
 import { MainLayoutService } from '../main-layout.service';
 
 @Component({

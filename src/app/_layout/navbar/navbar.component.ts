@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { map } from 'rxjs';
 import { DropdownMenuItem } from 'src/app/shared/models/dropdown-menu-item';
-import { ThemeService } from 'src/app/theme.service';
+import { ThemeService } from 'src/app/_layout/theme.service';
 import { MainLayoutService } from '../main-layout.service';
 
 @Component({

@@ -1,7 +1,7 @@
 import { AfterContentChecked, ChangeDetectionStrategy, Component, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { DataStateChangeEvent, GridComponent, RowClassArgs } from '@progress/kendo-angular-grid';
-import { catchError, ignoreElements, of, Subscription, take } from 'rxjs';
-import { ComboService } from 'src/app/combo.service';
+import { catchError, ignoreElements, of, shareReplay, Subscription, take } from 'rxjs';
+import { ComboService } from 'src/app/shared/combo.service';
 import { ProjectForGrid } from '../project';
 import { ProjectService } from '../project.service';
 import { ProjectFilters } from './project-filters';
@@ -14,7 +14,7 @@ import { ProjectFilters } from './project-filters';
 })
 export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentChecked {
   cboDefaultItem = this.comboService.selectAllItemValue;
-  selectedCountry = this.cboDefaultItem;
+  selectedCountryId = this.cboDefaultItem.Id;
   name!: string;
   loading$ = this.projectService.isLoadingGrid$;
 
@@ -22,7 +22,7 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentCh
   filtersSub!: Subscription;
 
   countries$ = this.comboService.getCountries();
-  projects$ = this.projectService.projects$;
+  projects$ = this.projectService.projects$.pipe(shareReplay(1));
   projectsError$ = this.projects$.pipe(
     ignoreElements(),
     catchError((err: string) => of(err))
@@ -36,7 +36,7 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentCh
 
     this.filtersSub = this.projectService.filters$.subscribe(
       filters => {
-        this.selectedCountry.Id = filters.countryId;
+        this.selectedCountryId = filters.countryId;
         this.name = filters.codeName;
       });
   }
@@ -47,9 +47,10 @@ export class ProjectReportComponent implements OnInit, OnDestroy, AfterContentCh
 
   refresh() {
     const filters: ProjectFilters = {
-      countryId: this.selectedCountry?.Id,
+      countryId: this.selectedCountryId,
       codeName: this.name
     };
+    
     this.projectService.updateFilters(filters);
   }
 

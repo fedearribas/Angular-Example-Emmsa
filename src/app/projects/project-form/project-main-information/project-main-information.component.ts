@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ComboService } from 'src/app/combo.service';
+import { ComboService } from 'src/app/shared/combo.service';
 
 @Component({
   selector: 'app-project-main-information',

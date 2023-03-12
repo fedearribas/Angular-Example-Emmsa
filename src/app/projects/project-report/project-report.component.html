@@ -21,8 +21,8 @@
 
       <div class="col-md-3">
         <kendo-label class="k-form fw-semibold" text="Country" [for]="cboCountry"></kendo-label>
-        <kendo-dropdownlist #cboCountry valueField="Id" textField="Text" [defaultItem]="cboDefaultItem" [data]="countries$ | async"
-          [(ngModel)]="selectedCountry"> </kendo-dropdownlist>
+        <kendo-dropdownlist #cboCountry valueField="Id" textField="Text" [defaultItem]="cboDefaultItem" [data]="countries$ | async" [valuePrimitive]="true"
+          [(ngModel)]="selectedCountryId"> </kendo-dropdownlist>
       </div>
 
       <div class="col-md-3">
