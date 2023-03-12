@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NotificationService } from '@progress/kendo-angular-notification';
 import { aggregateBy, AggregateDescriptor, groupBy, GroupDescriptor, GroupResult } from '@progress/kendo-data-query';
 import { Subject, Subscription } from 'rxjs';
 import { ProjectService } from '../../project.service';
@@ -31,12 +32,18 @@ export class ProjectContractPriceComponent implements OnInit, OnDestroy {
   formItem!: ProjectContractPrice;
   isNew!: boolean;
   errorMessage!: string;
+  showDeleteDialog = false;
+  toDeleteId: number = 0;
 
   @ViewChild('form') formComponent!: ProjectContractPriceFormComponent;
 
   getDataSub!: Subscription;
+  getContractPriceForEditSub!: Subscription;
+  deleteSub!: Subscription;
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService,
+    private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.getDataFromApi();
@@ -45,10 +52,53 @@ export class ProjectContractPriceComponent implements OnInit, OnDestroy {
   addHandler(): void {
     this.formItem = this.getEmptyFormItem();
     this.isNew = true;
-    this.formComponent.open();
+    this.formComponent.openForm();
+  }
+
+  editHandler(id: number) {
+    this.getContractPriceForEditSub = this.projectService.getContractPrice(id).subscribe(
+      item => {
+        this.formItem = item;
+        this.isNew = false;
+        this.formComponent.openForm();
+        this.cdr.markForCheck();
+      }
+    )
+  }
+
+  deleteHandler(id: number) {
+    this.showDeleteDialog = true;
+    this.toDeleteId = id;
+  }
+
+  closeDeleteDialog() {
+    this.showDeleteDialog = false;
+  }
+
+  deleteContractPrice() {
+    this.deleteSub = this.projectService.deleteContractPrice(this.toDeleteId).subscribe(
+      () => {
+        this.showDeleteDialog = false;
+        this.toDeleteId = 0;
+        this.notificationService.show({
+          content: "Item deleted",
+          cssClass: "button-notification",
+          animation: { type: "slide", duration: 400 },
+          position: { horizontal: "center", vertical: "bottom" },
+          type: { style: "success", icon: true },
+          hideAfter: 2000
+        });
+        
+        this.reloadGrid();
+      }
+    );
   }
 
   onSaveCompleted() {
+    this.reloadGrid();
+  }
+
+  reloadGrid() {
     this.getDataSub.unsubscribe();
     this.getDataFromApi();
   }
@@ -99,6 +149,8 @@ export class ProjectContractPriceComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.getDataSub.unsubscribe();
+    this.getContractPriceForEditSub.unsubscribe();
+    this.deleteSub.unsubscribe();
   }
 
 }

@@ -6,6 +6,13 @@
       <button kendoGridAddCommand icon="plus" themeColor="primary">Add</button>
     </ng-template>
 
+    <kendo-grid-column>
+      <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+        <button kendoButton icon="track-changes" themeColor="primary" title="Edit" (click)="editHandler(dataItem.Id)"></button>
+        <button class="ms-1" kendoButton icon="delete" themeColor="error" title="Delete" (click)="deleteHandler(dataItem.Id)"></button>
+      </ng-template>
+    </kendo-grid-column>
+
     <kendo-grid-column [width]="200" field="ServiceTypeName" title="Service type" [hidden]="true"></kendo-grid-column>
     <kendo-grid-column [width]="200" field="CurrencyName" title="Currency" [hidden]="true"></kendo-grid-column>
     <kendo-grid-column [width]="200" field="ApplyByWTG" title="Apply by WTG">
@@ -37,3 +44,14 @@
 
 <app-project-contract-price-form #form [projectId]="projectId" [model]="formItem" [isNew]="isNew" (saveCompleted)="onSaveCompleted()">
 </app-project-contract-price-form>
+
+<kendo-dialog title="Please confirm" *ngIf="showDeleteDialog" (close)="closeDeleteDialog()"
+  [minWidth]="250" [width]="400">
+  <p class="m-3 text-center">
+    Are you sure you want to delete the contract price?
+  </p>
+  <kendo-dialog-actions>
+    <button kendoButton (click)="closeDeleteDialog()">No</button>
+    <button kendoButton (click)="deleteContractPrice()" themeColor="primary">Yes</button>
+  </kendo-dialog-actions>
+</kendo-dialog>

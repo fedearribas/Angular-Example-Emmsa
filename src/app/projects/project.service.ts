@@ -156,10 +156,42 @@ export class ProjectService {
       );
   }
 
+  getContractPrice(id: number): Observable<ProjectContractPrice> {
+    const url = `${this.contractPriceUrl}/GetContractPriceById`;
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("id", id);
+    return this.http.get<ProjectContractPrice>(url, { params: queryParams })
+      .pipe(
+        tap(data => {
+          data.PeriodFrom = new Date(data.PeriodFrom!);
+          data.PeriodTo = new Date(data.PeriodTo!);
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   createContractPrice(contractPrice: ProjectContractPrice) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const url = `${this.contractPriceUrl}/New`;
     return this.http.post(url, JSON.stringify(contractPrice), { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  editContractPrice(contractPrice: ProjectContractPrice) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.contractPriceUrl}/Edit`;
+    return this.http.post(url, JSON.stringify(contractPrice), { headers })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  deleteContractPrice(id: number) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const url = `${this.contractPriceUrl}/Delete`;
+    return this.http.post(url, JSON.stringify(id), { headers })
       .pipe(
         catchError(this.handleError)
       );
