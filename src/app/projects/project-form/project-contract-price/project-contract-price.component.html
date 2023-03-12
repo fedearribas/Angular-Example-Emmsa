@@ -19,6 +19,12 @@
 
         <div id="grdContractPrice">
           <kendo-grid [data]="gridData$ | async" [group]="group" class="mt-3">
+
+            <ng-template kendoGridToolbarTemplate>
+              <kendo-grid-spacer></kendo-grid-spacer>
+              <button kendoGridAddCommand icon="plus" themeColor="primary">Add</button>
+            </ng-template>
+
             <kendo-grid-column [width]="200" field="ServiceTypeName" title="Service type"
               [hidden]="true"></kendo-grid-column>
             <kendo-grid-column [width]="200" field="CurrencyName" title="Currency" [hidden]="true"></kendo-grid-column>
