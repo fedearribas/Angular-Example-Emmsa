@@ -118,8 +118,10 @@ export class ProjectContractPriceFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.createSub.unsubscribe();
-    this.editSub.unsubscribe();
+    if (this.createSub)
+      this.createSub.unsubscribe();
+    if (this.editSub)
+      this.editSub.unsubscribe();
   }
 
 }

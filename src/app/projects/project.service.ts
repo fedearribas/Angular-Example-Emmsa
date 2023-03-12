@@ -29,6 +29,9 @@ export class ProjectService {
   private isLoadingGridSubject = new BehaviorSubject<boolean>(false);
   isLoadingGrid$ = this.isLoadingGridSubject.asObservable();
 
+  private isLoadingContractPriceGridSubject = new BehaviorSubject<boolean>(false);
+  isLoadingContractPriceGrid$ = this.isLoadingContractPriceGridSubject.asObservable();
+
   private projectFormDiscardChangesDialogOpenedSubject = new BehaviorSubject<boolean>(false);
   projectFormDiscardChangesDialogOpened$ = this.projectFormDiscardChangesDialogOpenedSubject.asObservable();
 
@@ -150,8 +153,10 @@ export class ProjectService {
     const url = `${this.contractPriceUrl}/GetContractPriceByProject`;
     let queryParams = new HttpParams();
     queryParams = queryParams.append("projectId", projectId);
+    this.isLoadingContractPriceGridSubject.next(true);
     return this.http.get<ProjectContractPriceForGrid[]>(url, { params: queryParams })
       .pipe(
+        tap(() => this.isLoadingContractPriceGridSubject.next(false)),
         catchError(this.handleError)
       );
   }

@@ -1,80 +1,82 @@
-<kendo-dialog *ngIf="active" [width]="768" [height]="450" (close)="closeForm()">
-  <kendo-dialog-titlebar>
+<div id="contract-price-form-container">
+  <kendo-dialog *ngIf="active" [width]="768" [height]="450" (close)="closeForm()">
+    <kendo-dialog-titlebar>
       {{ isNew ? 'Add contract price' : 'Edit contract price' }}
-  </kendo-dialog-titlebar>
+    </kendo-dialog-titlebar>
 
-  <div class="alert alert-danger alert-dismissible fade show mt-2" *ngIf="errorMessage" role="alert">
-    <span>{{errorMessage}}</span>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-
-
-  <form novalidate class="k-form" [formGroup]="contractPriceForm">
-
-    <div class="row mt-3">
-      <div class="col-md-10">
-        <kendo-formfield>
-          <kendo-label class="k-form fw-semibold" text="Service type" [for]="cboServiceType"></kendo-label>
-          <kendo-dropdownlist #cboServiceType valueField="Id" textField="Text" [valuePrimitive]="true"
-            [defaultItem]="cboDefaultItem" formControlName="ServiceTypeId" [data]="serviceType$ | async">
-          </kendo-dropdownlist>
-          <kendo-formerror>Service type is required</kendo-formerror>
-        </kendo-formfield>
-      </div>
-
-      <div class="col-md-2">
-        <kendo-formfield>
-          <kendo-label class="k-form fw-semibold" text="Apply by WTG" [for]="switchApplyWTG"></kendo-label>
-          <kendo-switch #switchApplyWTG formControlName="ApplyByWTG"></kendo-switch>
-        </kendo-formfield>
-      </div>
+    <div class="alert alert-danger alert-dismissible fade show mt-2" *ngIf="errorMessage" role="alert">
+      <span>{{errorMessage}}</span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <kendo-formfield>
-          <kendo-label class="k-form fw-semibold" text="From" [for]="txtValidFrom"></kendo-label>
-          <kendo-datepicker #txtValidFrom format="MMMM - yyyy" formControlName="PeriodFrom" activeView="year"
-            bottomView="year">
-          </kendo-datepicker>
-          <kendo-formerror>Date from is required</kendo-formerror>
-        </kendo-formfield>
-      </div>
-      <div class="col-md-6">
-        <kendo-formfield>
-          <kendo-label class="k-form fw-semibold" text="To" [for]="txtValidTo"></kendo-label>
-          <kendo-datepicker #txtValidTo format="MMMM - yyyy" formControlName="PeriodTo" activeView="year"
-            bottomView="year">
-          </kendo-datepicker>
-          <kendo-formerror>Date to is required</kendo-formerror>
-        </kendo-formfield>
-      </div>
-    </div>
+    <form novalidate class="k-form" [formGroup]="contractPriceForm">
 
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <kendo-formfield>
-          <kendo-label class="k-form fw-semibold" text="Price" [for]="txtPrice"></kendo-label>
-          <kendo-numerictextbox #txtPrice [min]="0" formControlName="Price">
-          </kendo-numerictextbox>
-          <kendo-formerror>Price is required</kendo-formerror>
-        </kendo-formfield>
-      </div>
-      <div class="col-md-6">
-        <kendo-formfield>
-          <kendo-label class="k-form fw-semibold" text="Currency" [for]="cboCurrency"></kendo-label>
-          <kendo-dropdownlist #cboCurrency valueField="Id" textField="Text" [valuePrimitive]="true"
-            [defaultItem]="cboDefaultItem" formControlName="CurrencyId" [data]="currency$ | async">
-          </kendo-dropdownlist>
-          <kendo-formerror>Currency is required</kendo-formerror>
-        </kendo-formfield>
-      </div>
-    </div>
+      <div class="row mt-3">
+        <div class="col-md-10">
+          <kendo-formfield>
+            <kendo-label class="k-form fw-semibold" text="Service type" [for]="cboServiceType"></kendo-label>
+            <kendo-dropdownlist #cboServiceType valueField="Id" textField="Text" [valuePrimitive]="true"
+              [defaultItem]="cboDefaultItem" formControlName="ServiceTypeId" [data]="serviceType$ | async">
+            </kendo-dropdownlist>
+            <kendo-formerror>Service type is required</kendo-formerror>
+          </kendo-formfield>
+        </div>
 
-  </form>
+        <div class="col-md-2">
+          <kendo-formfield>
+            <kendo-label class="k-form fw-semibold" text="Apply by WTG" [for]="switchApplyWTG"></kendo-label>
+            <kendo-switch #switchApplyWTG formControlName="ApplyByWTG"></kendo-switch>
+          </kendo-formfield>
+        </div>
+      </div>
 
-  <kendo-dialog-actions>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <kendo-formfield>
+            <kendo-label class="k-form fw-semibold" text="From" [for]="txtValidFrom"></kendo-label>
+            <kendo-datepicker #txtValidFrom format="MMMM - yyyy" formControlName="PeriodFrom" activeView="year"
+              bottomView="year">
+            </kendo-datepicker>
+            <kendo-formerror>Date from is required</kendo-formerror>
+          </kendo-formfield>
+        </div>
+        <div class="col-md-6">
+          <kendo-formfield>
+            <kendo-label class="k-form fw-semibold" text="To" [for]="txtValidTo"></kendo-label>
+            <kendo-datepicker #txtValidTo format="MMMM - yyyy" formControlName="PeriodTo" activeView="year"
+              bottomView="year">
+            </kendo-datepicker>
+            <kendo-formerror>Date to is required</kendo-formerror>
+          </kendo-formfield>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <kendo-formfield>
+            <kendo-label class="k-form fw-semibold" text="Price" [for]="txtPrice"></kendo-label>
+            <kendo-numerictextbox #txtPrice [min]="0" formControlName="Price">
+            </kendo-numerictextbox>
+            <kendo-formerror>Price is required</kendo-formerror>
+          </kendo-formfield>
+        </div>
+        <div class="col-md-6">
+          <kendo-formfield>
+            <kendo-label class="k-form fw-semibold" text="Currency" [for]="cboCurrency"></kendo-label>
+            <kendo-dropdownlist #cboCurrency valueField="Id" textField="Text" [valuePrimitive]="true"
+              [defaultItem]="cboDefaultItem" formControlName="CurrencyId" [data]="currency$ | async">
+            </kendo-dropdownlist>
+            <kendo-formerror>Currency is required</kendo-formerror>
+          </kendo-formfield>
+        </div>
+      </div>
+
+    </form>
+
+    <kendo-dialog-actions>
       <button kendoButton (click)="onCancel($event)">Cancel</button>
-      <button kendoButton themeColor="primary" [disabled]="!contractPriceForm.valid" (click)="onSave($event)">Save</button>
-  </kendo-dialog-actions>
-</kendo-dialog>
+      <button kendoButton themeColor="primary" [disabled]="!contractPriceForm.valid"
+        (click)="onSave($event)">Save</button>
+    </kendo-dialog-actions>
+  </kendo-dialog>
+</div>

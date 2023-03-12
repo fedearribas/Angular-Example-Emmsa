@@ -34,6 +34,7 @@ export class ProjectContractPriceComponent implements OnInit, OnDestroy {
   errorMessage!: string;
   showDeleteDialog = false;
   toDeleteId: number = 0;
+  loading$ = this.projectService.isLoadingContractPriceGrid$;
 
   @ViewChild('form') formComponent!: ProjectContractPriceFormComponent;
 
@@ -88,7 +89,7 @@ export class ProjectContractPriceComponent implements OnInit, OnDestroy {
           type: { style: "success", icon: true },
           hideAfter: 2000
         });
-        
+
         this.reloadGrid();
       }
     );
@@ -148,9 +149,12 @@ export class ProjectContractPriceComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getDataSub.unsubscribe();
-    this.getContractPriceForEditSub.unsubscribe();
-    this.deleteSub.unsubscribe();
+    if (this.getDataSub)
+      this.getDataSub.unsubscribe();
+    if (this.getContractPriceForEditSub)
+      this.getContractPriceForEditSub.unsubscribe();
+    if (this.deleteSub)
+      this.deleteSub.unsubscribe();
   }
 
 }

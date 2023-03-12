@@ -1,5 +1,5 @@
 <div id="grdContractPrice">
-  <kendo-grid [data]="gridData$ | async" [group]="group" class="mt-3" (add)="addHandler()">
+  <kendo-grid [data]="gridData$ | async" [group]="group" class="mt-3" (add)="addHandler()" [loading]="(loading$ | async)!">
 
     <ng-template kendoGridToolbarTemplate>
       <kendo-grid-spacer></kendo-grid-spacer>
@@ -39,6 +39,14 @@
         </span>
       </ng-template>
     </kendo-grid-column>
+
+    <ng-template kendoGridLoadingTemplate>
+      <div class="k-loading-color"></div>
+      <div class="loading-container">
+        <kendo-loader type="converging-spinner" size="large"></kendo-loader>
+      </div>
+    </ng-template>
+
   </kendo-grid>
 </div>
 
